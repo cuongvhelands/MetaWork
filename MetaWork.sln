@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaWork.Project", "MetaWor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSendMail", "AutoSendMail\AutoSendMail.csproj", "{B0DA25CE-6414-4CC3-93FD-19FFEA01634E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRManager", "SignRManager\SignRManager.csproj", "{1D5BC0CD-3DAA-4563-9CE7-E919BEFA5D03}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaWork.Html", "MetaWork.Html\MetaWork.Html.csproj", "{74903939-4117-482B-9357-FC09D03B32E5}"
 EndProject
 Global
@@ -37,10 +35,6 @@ Global
 		{B0DA25CE-6414-4CC3-93FD-19FFEA01634E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0DA25CE-6414-4CC3-93FD-19FFEA01634E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0DA25CE-6414-4CC3-93FD-19FFEA01634E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D5BC0CD-3DAA-4563-9CE7-E919BEFA5D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D5BC0CD-3DAA-4563-9CE7-E919BEFA5D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D5BC0CD-3DAA-4563-9CE7-E919BEFA5D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D5BC0CD-3DAA-4563-9CE7-E919BEFA5D03}.Release|Any CPU.Build.0 = Release|Any CPU
 		{74903939-4117-482B-9357-FC09D03B32E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74903939-4117-482B-9357-FC09D03B32E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74903939-4117-482B-9357-FC09D03B32E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
