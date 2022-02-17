@@ -742,3 +742,4 @@ C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.csproj.CoreCompileInputs.c
 C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.dll
 C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.pdb
 C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.csproj.CopyComplete
+C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.csproj.AssemblyReference.cache
