@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Jodit Test Document</title>
+    @*<link rel="stylesheet" href="./app.css" />*@
+    <link rel="stylesheet" href="~/Assets/jodit-3.2.34/jodit.css" />
+    <script src="~/Assets/jodit-3.2.34/jodit.min.js"></script>
+</head>
+<body>
+    <style>			
+			.jodit_inline {
+				border-style: groove!important;
+                border:1px;
+			}
+			
+    </style>
+    <div id="box">
+        <h1>Jodit Test Document</h1>
+        <textarea class="editor">			
+			</textarea>
+    </div>
+    <script>
+        var editors = [].slice.call(document.querySelectorAll('.editor'));
+        editors.forEach(function (div) {           
+            var editor = new Jodit(div, {
+                preset: 'inline'
+            });                 
+        });
+    </script>
+</body>
+</html>

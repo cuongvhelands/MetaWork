@@ -1,0 +1,567 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Universal.Common.Net.Http</name>
+    </assembly>
+    <members>
+        <member name="T:Universal.Common.Net.Http.Extensions.HttpRequestMessageExtensions">
+            <summary>
+            Extension methods for the <see cref="T:System.Net.Http.HttpRequestMessage"/> class.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.HttpRequestMessageExtensions.ToProtocolString(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Converts a <see cref="T:System.Net.Http.HttpRequestMessage"/> to its string representation for encoding onto a stream.
+            </summary>
+            <param name="HttpRequestMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Net.Http.Extensions.HttpResponseMessageExtensions">
+            <summary>
+            Extensions for the <see cref="T:System.Net.Http.HttpResponseMessage"/> class.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.HttpResponseMessageExtensions.ToProtocolString(System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Converts a <see cref="T:System.Net.Http.HttpResponseMessage"/> into its string representation for encoding onto a stream.
+            </summary>
+            <param name="HttpResponseMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Net.Http.Extensions.StreamExtensions">
+            <summary>
+            Extension methods for the <see cref="T:System.IO.Stream"/> class.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.ReadAsByteArrayAsync(System.IO.Stream)">
+            <summary>
+            Reads a <see cref="T:System.IO.Stream"/>'s contents as a byte array.
+            </summary>
+            <param name="Stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.ReadAsStringAsync(System.IO.Stream)">
+            <summary>
+            Reads a <see cref="T:System.IO.Stream"/>'s contents as a UTF-8 encoded string.
+            </summary>
+            <param name="Stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.SendAsync(System.IO.Stream,System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Sends the given <see cref="T:System.Net.Http.HttpRequestMessage"/> on the given stream, interpreting incoming bytes as part of the <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+            <param name="Stream"></param>
+            <param name="httpRequestMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.WriteHttpRequestMessageAsync(System.IO.Stream,System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Writes the bytes of a <see cref="T:System.Net.Http.HttpRequestMessage"/> into the contents of the <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="Stream"></param>
+            <param name="httpRequestMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.WriteHttpResponseMessageAsync(System.IO.Stream,System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Writes the bytes of a <see cref="T:System.Net.Http.HttpResponseMessage"/> into the contents of the <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="Stream"></param>
+            <param name="httpResponseMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.ReadHttpRequestMessageAsync(System.IO.Stream)">
+            <summary>
+            Reads the contents of the given <see cref="T:System.IO.Stream"/> as a <see cref="T:System.Net.Http.HttpRequestMessage"/>.
+            </summary>
+            <param name="Stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.ReadHttpRequestProtocolStringAsync(System.IO.Stream)">
+            <summary>
+            Reads a string representing a HTTP request from a <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="Stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.ReadHttpResponseMessageAsync(System.IO.Stream)">
+            <summary>
+            Reads a <see cref="T:System.Net.Http.HttpResponseMessage"/> from a <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="Stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StreamExtensions.ReadHttpResponseProtocolStringAsync(System.IO.Stream)">
+            <summary>
+            Reads a string representing a HTTP response from a <see cref="T:System.IO.Stream"/>.
+            </summary>
+            <param name="Stream"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Net.Http.Extensions.StringExtensions">
+            <summary>
+            Extension methods for strings.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StringExtensions.RemoveNonAsciiCharacters(System.String)">
+            <summary>
+            Returns a string with non-ASCII characters removed.
+            </summary>
+            <param name="string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StringExtensions.ReplaceNonAsciiCharacters(System.String,System.Char)">
+            <summary>
+            Returns a string with non-ASCII characters replaced by a specified character.
+            </summary>
+            <param name="string"></param>
+            <param name="replacement"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.Extensions.StringExtensions.ToHttpHeaderSafeString(System.String)">
+            <summary>
+            Returns a string safe to use in HTTP headers by replacing ASCII characters with an underscore.
+            </summary>
+            <param name="string"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Net.Http.FileStreamContent">
+            <summary>
+            Provides HTTP content based on a file stream, with additional headers as appropriate.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.FileStreamContent.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of a <see cref="T:Universal.Common.Net.Http.FileStreamContent"/> with the given path.
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.FileStreamContent.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of a <see cref="T:Universal.Common.Net.Http.FileStreamContent"/> with the given path and content type.
+            </summary>
+            <param name="path"></param>
+            <param name="contentType"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.FileStreamContent.#ctor(System.IO.FileStream)">
+            <summary>
+            Initializes a new instance of a <see cref="T:Universal.Common.Net.Http.FileStreamContent"/> with the given <see cref="T:System.IO.FileStream"/>.
+            </summary>
+            <param name="fileStream"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.FileStreamContent.#ctor(System.IO.FileStream,System.String)">
+            <summary>
+            Initializes a new instance of a <see cref="T:Universal.Common.Net.Http.FileStreamContent"/> with the given <see cref="T:System.IO.FileStream"/> and content type.
+            </summary>
+            <param name="fileStream"></param>
+            <param name="contentType"></param>
+        </member>
+        <member name="T:Universal.Common.Net.Http.FormUrlEncodedStringContent">
+            <summary>
+            Workaround class for URL length limit in the original <see cref="T:System.Net.Http.FormUrlEncodedContent"/>.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.FormUrlEncodedStringContent.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            Initializes a new <see cref="T:System.Net.Http.FormUrlEncodedContent"/>.
+            </summary>
+            <param name="nameValueCollection"></param>
+        </member>
+        <member name="T:Universal.Common.Net.Http.HttpException">
+            <summary>
+            Represents errors that occur during HTTP operations.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException"/> class.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException"/> class with a specified error.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException"/> class with a specified error and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException"/> class with a specified error and a status code from the failed HTTP operation.
+            </summary>
+            <param name="statusCode"></param>
+            <param name="reason"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException.#ctor(System.Int32,System.String,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException"/> class with a specified status code, reason, and content.
+            </summary>
+            <param name="statusCode"></param>
+            <param name="reason"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException.#ctor(System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException"/> class with a specified status code, reason, and content from a <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+            <param name="httpResponseMessage"></param>
+        </member>
+        <member name="T:Universal.Common.Net.Http.HttpException`1">
+            <summary>
+            Represents errors that occur during HTTP operations.
+            </summary>
+        </member>
+        <member name="P:Universal.Common.Net.Http.HttpException`1.StatusCode">
+            <summary>
+            Gets a value indicating the HTTP status code associated with the failed operation.
+            </summary>
+        </member>
+        <member name="P:Universal.Common.Net.Http.HttpException`1.Reason">
+            <summary>
+            Gets a string indicating the general reason for the failed HTTP call.
+            </summary>
+        </member>
+        <member name="P:Universal.Common.Net.Http.HttpException`1.Content">
+            <summary>
+            Gets the content of the exception, usually generated from the body of the response.
+            </summary>
+        </member>
+        <member name="P:Universal.Common.Net.Http.HttpException`1.Message">
+            <summary>
+            Gets a message that describes the current exception.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException`1"/> class.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException`1.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException`1"/> class with a specified error.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException`1.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException`1"/> class with a specified error and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException`1.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException`1"/> class with a specified error and a status code from the failed HTTP operation.
+            </summary>
+            <param name="statusCode"></param>
+            <param name="reason"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpException`1.#ctor(System.Int32,System.String,`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.HttpException`1"/> class with a specified status code, reason, and content.
+            </summary>
+            <param name="statusCode"></param>
+            <param name="reason"></param>
+            <param name="content"></param>
+        </member>
+        <member name="T:Universal.Common.Net.Http.HttpServiceClient">
+            <summary>
+            Represents a class that interacts with an external HTTP service.
+            </summary>
+        </member>
+        <member name="F:Universal.Common.Net.Http.HttpServiceClient.mHttpClient">
+            <summary>
+            A single <see cref="T:System.Net.Http.HttpClient"/> whose lifespan is equal to the lifespan of the <see cref="T:Universal.Common.Net.Http.HttpServiceClient"/>.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.CreateHttpClient">
+            <summary>
+            Override this method to customize the <see cref="T:System.Net.Http.HttpClient"/> used by all requests.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PreProcessHttpRequestMessageAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Override this method to add modifications to the outgoing <see cref="T:System.Net.Http.HttpRequestMessage"/> before call-specific modifications.
+            </summary>
+            <param name="httpRequestMessage"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PostProcessHttpRequestMessageAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Override this method to add modifications to the outgoing <see cref="T:System.Net.Http.HttpRequestMessage"/> after call-specific modifications.
+            </summary>
+            <param name="httpRequestMessage"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.HandleNonSuccessCodeAsync(System.Net.Http.HttpResponseMessage,System.Threading.CancellationToken)">
+            <summary>
+            Override this method to provide a default handler when <see cref="P:System.Net.Http.HttpResponseMessage.IsSuccessStatusCode"/> returns false.
+            </summary>
+            <param name="httpResponseMessage"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.GetAsync(System.Uri)">
+            <summary>
+            Executes a GET HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.GetAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Executes a GET HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PostAsync(System.Uri)">
+            <summary>
+            Executes a POST HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PostAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Executes a POST HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PostAsync(System.Uri,System.Net.Http.HttpContent)">
+            <summary>
+            Executes a POST HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PostAsync(System.Uri,System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+            <summary>
+            Executes a POST HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PutAsync(System.Uri)">
+            <summary>
+            Executes a PUT HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PutAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Executes a PUT HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PutAsync(System.Uri,System.Net.Http.HttpContent)">
+            <summary>
+            Executes a PUT HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PutAsync(System.Uri,System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+            <summary>
+            Executes a PUT HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PatchAsync(System.Uri)">
+            <summary>
+            Executes a PATCH HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PatchAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Executes a PATCH HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PatchAsync(System.Uri,System.Net.Http.HttpContent)">
+            <summary>
+            Executes a PATCH HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.PatchAsync(System.Uri,System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+            <summary>
+            Executes a PATCH HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.DeleteAsync(System.Uri)">
+            <summary>
+            Executes a DELETE HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.DeleteAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Executes a DELETE HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.DeleteAsync(System.Uri,System.Net.Http.HttpContent)">
+            <summary>
+            Executes a DELETE HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.DeleteAsync(System.Uri,System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+            <summary>
+            Executes a DELETE HTTP request with the given parameters.
+            </summary>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.ExecuteAsync(System.Net.Http.HttpMethod,System.Uri)">
+            <summary>
+            Executes a HTTP request with the given parameters.
+            </summary>
+            <param name="method"></param>
+            <param name="requestUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.ExecuteAsync(System.Net.Http.HttpMethod,System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Executes a HTTP request with the given parameters.
+            </summary>
+            <param name="method"></param>
+            <param name="requestUri"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.ExecuteAsync(System.Net.Http.HttpMethod,System.Uri,System.Net.Http.HttpContent)">
+            <summary>
+            Executes a HTTP request with the given parameters.
+            </summary>
+            <param name="method"></param>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.ExecuteAsync(System.Net.Http.HttpMethod,System.Uri,System.Net.Http.HttpContent,System.Threading.CancellationToken)">
+            <summary>
+            Executes a HTTP request with the given parameters.
+            </summary>
+            <param name="method"></param>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.ExecuteAsync(System.Net.Http.HttpMethod,System.Uri,System.Action{System.Net.Http.HttpRequestMessage})">
+            <summary>
+            Executes a HTTP request with the given parameters.
+            </summary>
+            <param name="method"></param>
+            <param name="requestUri"></param>
+            <param name="httpRequestMessageModifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.ExecuteAsync(System.Net.Http.HttpMethod,System.Uri,System.Action{System.Net.Http.HttpRequestMessage},System.Threading.CancellationToken)">
+            <summary>
+            Executes a HTTP request with the given parameters.
+            </summary>
+            <param name="method"></param>
+            <param name="requestUri"></param>
+            <param name="httpRequestMessageModifier"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.ExecuteAsync(System.Net.Http.HttpMethod,System.Uri,System.Net.Http.HttpContent,System.Action{System.Net.Http.HttpRequestMessage})">
+            <summary>
+            Executes a HTTP request with the given parameters.
+            </summary>
+            <param name="method"></param>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <param name="httpRequestMessageModifier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Net.Http.HttpServiceClient.ExecuteAsync(System.Net.Http.HttpMethod,System.Uri,System.Net.Http.HttpContent,System.Action{System.Net.Http.HttpRequestMessage},System.Threading.CancellationToken)">
+            <summary>
+            Executes a HTTP request with the given parameters.
+            </summary>
+            <param name="method"></param>
+            <param name="requestUri"></param>
+            <param name="content"></param>
+            <param name="cancellationToken"></param>
+            <param name="httpRequestMessageModifier"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Net.Http.JsonContent">
+            <summary>
+            Provides HTTP content based on a JSON UTF-8 string.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.JsonContent.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:Universal.Common.Net.Http.JsonContent"/> class.
+            </summary>
+            <param name="content"></param>
+        </member>
+        <member name="T:Universal.Common.Net.Http.RetryHandler">
+            <summary>
+            <see cref="T:System.Net.Http.HttpClientHandler"/> that enables automatic retrying of failed HTTP attempts.
+            </summary>
+        </member>
+        <member name="E:Universal.Common.Net.Http.RetryHandler.OnRetry">
+            <summary>
+            Invoked on retry. If a non-success status code was the reason for the retry it will be wrapped in a <see cref="T:Universal.Common.Net.Http.HttpException"/>.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Net.Http.RetryHandler.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.RetryHandler"/> class.
+            </summary>
+            <param name="maxRetries">Number of times to retry.</param>
+            <param name="retryOnExceptions">Retry on exceptions in addition to HTTP non-success status codes.</param>
+        </member>
+        <member name="M:Universal.Common.Net.Http.RetryHandler.#ctor(System.Net.Http.HttpClientHandler,System.Int32,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Universal.Common.Net.Http.RetryHandler"/> class.
+            </summary>
+            <param name="innerHandler"></param>
+            <param name="maxRetries">Number of times to try.</param>
+            <param name="retryOnExceptions">Retry on exceptions in addition to HTTP non-success status codes.</param>
+        </member>
+    </members>
+</doc>

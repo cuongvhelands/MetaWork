@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Index</h2>
+<script>
+         $.ajax({
+            url: "/api/Login/GetUserBy/0387777322/123456",
+            type: "GET",
+            async: false,
+            success: function (data) {
+                var b = data;
+                console.writeln(b);
+            },
+            error: function (xhr, status) {
+                alert('Error load data!')
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+</script>

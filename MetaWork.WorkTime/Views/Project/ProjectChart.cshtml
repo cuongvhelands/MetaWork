@@ -1,0 +1,396 @@
+﻿@using MetaWork.Data.ViewModel
+@model DuAnViewModel
+@{
+    ViewBag.Title = "ProjectChart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var width = (500 + (Model.TotalWeek * 70)) + "px";
+}
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<div class="container">
+    <div id="addShipModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-60">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Thêm mới ship-able</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn dự án</label>
+                                    <select id="cboDuAn" class="form-control">
+                                        <option value="@Model.DuAnId"> @Model.TenDuAn </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Giai đoạn dự án</label>
+                                    @*<input id="cboGiaiDoanDuAn" class="form-control" style="width:100%" />*@
+                                    <select id="cboGiaiDoanDuAn" class="form-control">
+                                        <option id="0"> Chọn giai đoạn </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn Người</label><span class="text-muted">(tùy chọn)</span>                                    
+                                    <select id="cboNguoiDung" class="form-control">
+                                        <option id="0"> Chọn người </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label class="control-label">Tên shipable</label>
+                                    <input style="width:100%" id="txtTenShipable" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Mã</label>
+                                    <input style="width:100%" id="txtMaShipable" disabled class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Mô tả</label>
+                            <textarea class="form-control" rows="5" id="txtGhiChu"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn tuần</label>
+                                    <select id="cboWeek" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Độ ưu tiên</label>
+                                    <select id="cboDoUuTien" class="form-control"></select>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Deadline</label><span class="text-muted">(tùy chọn)</span>
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                        <input type='text' id="txtDeadLine" class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Trạng thái</label>
+                                    <select id="cboTrangThai" class="form-control">
+                                        <option value="0">Chọn trạng thái</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label"></label>
+                                    <select id="cboTrangThai2" class="form-control m-t-5">
+                                        <option value="0">Chọn trạng thái</option>
+                                    </select>
+                                    <label class="control-label m-t-15" id="lblTrangThaiPlan"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" id="divXuLy">
+                                <br />
+                                <input class="m-t-15" id="chkXuLyINW" type="checkbox"> <label for="chkXuLyINW"> Xử lý trong tuần tiếp theo</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="divDelete">
+                        <button type="button" id="btnDelete" class="btn btn-warning pull-left">Xóa</button>
+                    </div>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                    <button type="button" id="btnSubmit" class="btn btn-primary waves-effect waves-light">Lưu</button>
+
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    <div id="CommentModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-60">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Thông tin Shipable</h4>
+                </div>
+                <div class="modal-body" id="modalCMBDY">
+                    
+                </div>
+                <div class="modal-footer">                   
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<input type="hidden" id="tuanHTM" value="@ViewBag.TuanHienTai" />
+<input type="hidden" id="yearM" value="@ViewBag.Nam" />
+<input type="hidden" id="duAnIdM" value="@Model.DuAnId" />
+<input type="hidden" id="maM" value="@ViewBag.Ma" />
+<input type="hidden" id="giaiDoanM" value="@Model.GiaiDoanDuAnId" />
+<style>
+ .testlayer,.overlayCM0, .overlayCM1 {
+ position: absolute;
+}
+
+.popUpCM{
+ cursor: pointer;
+}
+th, td { min-width: 70px; }
+.cotTen{
+    min-width: 200px;
+}
+</style>
+<div  class="container">
+    <div class="row m-b-20">
+        <div class="col-sm-4">
+            <h4 class="page-title">RoadMap dự án</h4>
+        </div>
+        <div class="col-sm-4">
+            <select id="ddlGiaiDoan" class="form-control">
+                
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <div class="btn-group pull-right">
+                <a onclick="openAddShipModal()" class="btn btn-inverse dropdown-toggle waves-effect waves-light"><span class="m-r-5"><i class="fa fa-plus-square"></i></span>Thêm mới Ship Able </a>
+            </div>
+        </div>
+    </div>
+    <div id="dba">
+        <div id="abd" class="testlayer" style="overflow-x: scroll;width:100%;max-height:700px">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th class="cotTen">
+                            @Model.MaDuAn<br />
+                            @Model.TenDuAn<br>
+                            (@Model.StrTimeSpent)
+
+                        </th>
+                        <th style="width:30px"> <img src="~/Assets/images/Avatar/@Model.AvatarNguoiQuanLy" alt="user-img" class="img-circle" height="25" title="@Model.HoTenNguoiQuanLy" width="25"></th>
+                        <th style="width:100px"> <span class="label @Model.MaMauTrangThaiDuAn"><i class="fas fa-circle m-r-2"></i> @Model.TenTrangThaiDuAn</span></th>
+                        <th style="width:100px">
+                            @if (Model.NgayBatDau != null)
+                            {<span>@Model.NgayBatDau.Value.ToString("dd/MM/yyyy")</span>}
+                        </th>
+                        @if (Model.Tuans.Count > 0)
+                        {
+                            foreach (var item in Model.Tuans)
+                            {
+                                <th id="@item.week-@item.year" width="70px">Tuần @item.week</th>
+                            }
+                        }
+                        else
+                        {
+                            <th></th>
+                        }
+                        <th class="no-border"></th>
+                    </tr>
+                    @if (Model.GiaiDoanDuAns != null && Model.GiaiDoanDuAns.Count > 0)
+                    {
+                        foreach (var giaiDoan in Model.GiaiDoanDuAns)
+                        {
+                            <tr>
+                                <td colspan="4">
+                                    <div class="projectHeader">
+                                        <div class="label label-table @giaiDoan.MaMau" title="Giai đoạn hiện tại">@giaiDoan.TenLoaiGiaiDoan </div>
+                                    </div><strong>@giaiDoan.TenGiaiDoan (@giaiDoan.Shipables.Count)</strong>
+                                    <div id="icon-@giaiDoan.GiaiDoanDuAnId" class="pull-right"><a id="linksCollap-@giaiDoan.GiaiDoanDuAnId" class="collapeGD collapedShip"><i class="fas fa-angle-double-up"></i></a></div>
+                                </td>
+                                @if (Model.Tuans.Count > 0)
+                                {
+                                    foreach (var item in Model.Tuans)
+                                    {
+                                        <th></th>
+                                    }
+                                }
+                                else
+                                {
+                                    <th></th>
+                                }
+                                <td class="no-border"></td>
+                            </tr>
+                            if (giaiDoan.Shipables != null && giaiDoan.Shipables.Count > 0)
+                            {
+                                foreach (var ship in giaiDoan.Shipables)
+                                {
+                                    <tr class="collapeByGD-@giaiDoan.GiaiDoanDuAnId collapse in">
+                                        <td class="cotTen"><a class="links EditShipable" id="@ship.CongViecId">&nbsp;&nbsp;&nbsp; @ship.TenCongViec (@ship.CountCongViecCon)</a> </td>
+                                        <td>
+                                            @if (@ship.NguoiXuLyId != null)
+                                            {
+                                                <img src="~/Assets/images/Avatar/@ship.AvatarNguoiXuLy" alt="user-img" class="img-circle" height="25" title="@ship.HoTen" width="25">
+                                            }
+                                        </td>
+                                        <td class="ship-able-status p-t-20">
+                                            <div class="label label-table label-@ship.MaMau">@ship.TenTrangThai</div>
+                                        </td>
+
+                                        <td>
+                                            @if (ship.NgayTao != null)
+                                            {
+                                                <span> @ship.NgayTao.Value.ToString("dd/MM/yyyy")</span>
+                                            }
+                                        </td>
+                                        @if (Model.Tuans.Count > 0)
+                                        {
+                                            var checkstart = false;
+                                            var intStart = 1;
+                                            var tuanMax = 1;
+                                            var ngayMax = 1;
+                                            foreach (var item in Model.Tuans)
+                                            {
+                                                if (item.week == ship.Tuan && item.year == ship.Nam)
+                                                {
+                                                    checkstart = true;
+                                                }
+                                                if (checkstart)
+                                                {
+                                                    if (item.week == ship.Tuan)
+                                                    {
+                                                        var over = false;
+                                                        tuanMax = ship.SoTuanDuKien;
+                                                        ngayMax = ship.SoNgayDuKien;
+                                                        if (tuanMax < ship.TuanDaChay)
+                                                        {
+                                                            over = true;
+                                                            tuanMax = ship.TuanDaChay;
+                                                            ngayMax = ship.SoNgayDaChay;
+                                                        }
+                                                        var margin = 0;
+                                                        if (ship.NgayTao.Value.DayOfWeek != DayOfWeek.Monday)
+                                                        {
+                                                            var ngay = ship.NgayTao.Value;
+                                                            do
+                                                            {
+                                                                margin += 10;
+                                                                ngay = ngay.AddDays(-1);
+
+                                                            } while (
+                                                           ngay.DayOfWeek != DayOfWeek.Monday
+                                                            );
+                                                        }
+                                                        var strwidth = ((tuanMax * 70) - (margin + 10)) + "px";
+                                                        string strMargin = margin + "px";
+                                                        if (tuanMax > 1)
+                                                        {
+                                                            <td colspan="@tuanMax" id="@ship.CongViecId" class="popUpCM" title="Comment">
+
+
+                                                                @if (over)
+                                                                {
+                                                                    //int per = (ship.SoNgayDuKien * 100) / ngayMax;
+                                                                    var overpx = (ship.TuanDaChay - ship.SoTuanDuKien) * 70;
+                                                                    var totalpx = (ship.SoNgayDaChay - 1) * 10;
+                                                                    int per = ((totalpx - overpx) * 100) / totalpx;
+                                                                    var c = 100 - per;
+                                                                    <div class="progress overlayCM0" style="margin-left:@strMargin; width:@strwidth; margin-top:5px">
+                                                                        <div class="progress-bar " role="progressbar" style="width: @per%"></div>
+                                                                        <div class="progress-bar bg-danger " role="progressbar" style="width: @c%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    </div>
+
+                                                                    if (ship.MarginLeftComments != null && ship.MarginLeftComments.Count > 0)
+                                                                    {
+                                                                        foreach (var marginL in ship.MarginLeftComments)
+                                                                        {
+                                                                            <a class="overlayCM1" style="margin-left:@marginL;color:darkblue"><i class="fas fa-i-cursor"></i></a>
+                                                                        }
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    int per = (ship.SoNgayDaChay * 100) / ngayMax;
+                                                                    <div class="progress overlayCM0" style="margin-left:@strMargin; width:@strwidth; margin-top:5px">
+                                                                        <div class="progress-bar" role="progressbar" style="width: @per%"></div>
+                                                                    </div>
+                                                                    if (ship.MarginLeftComments != null && ship.MarginLeftComments.Count > 0)
+                                                                    {
+                                                                        foreach (var marginL in ship.MarginLeftComments)
+                                                                        {
+                                                                            <a class="overlayCM1" style="margin-left:@marginL;color:darkblue"><i class="fas fa-i-cursor"></i></a>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td id="@ship.CongViecId" class="popUpCM" title="Comment">
+                                                                <div class="progress overlayCM0" style="margin-left:@strMargin; width:@strwidth; margin-top:5p">
+                                                                    <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+                                                                </div>
+                                                                @if (ship.MarginLeftComments != null && ship.MarginLeftComments.Count > 0)
+                                                                {
+                                                                    foreach (var marginL in ship.MarginLeftComments)
+                                                                    {
+                                                                        <a class="overlayCM1" style="margin-left:@marginL;color:darkblue"><i class="fas fa-i-cursor"></i></a>
+                                                                    }
+                                                                }
+                                                            </td>
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if (intStart > tuanMax)
+                                                        {
+                                                            checkstart = false;
+                                                            <td></td>
+                                                        }
+                                                    }
+                                                    intStart++;
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                        <td class="no-border"></td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+ 
+  
+</div>
+
+<script src="~/Assets/js/Modul/ProjectChart.js"></script>

@@ -1,0 +1,428 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Headers · Bootstrap v5.1</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+    <!-- Bootstrap core CSS -->
+    <link href="~/Assets/HTML/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/library/fontawesome-pro-5.15.2-web/css/all.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/Assets/HTML/css/header.css" rel="stylesheet" />
+    <link href="~/Assets/HTML/css/content.css" rel="stylesheet" />
+    <link href="~/Assets/HTML/css/sidebar.css" rel="stylesheet" />
+    <link href="~/Assets/HTML/css/custom.css" rel="stylesheet" />
+    <link href="~/Assets/HTML/css/chatbox.css" rel="stylesheet" />
+    <link href="~/Assets/jodit-3.2.34/jodit.min.css" rel="stylesheet" />
+    <script src="~/Assets/js/jquery.min.js"></script>
+    <script src="~/Assets/jodit-3.2.34/jodit.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <style>
+
+
+        .bored1px {
+            border-style: groove !important;
+            border: 1px;
+        }
+        .select2 {
+            border: 1px groove;
+            border-color: black;
+            border-radius: 5px;
+            padding: 5px;
+        }
+    </style>
+    <main>
+        @*<div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create new meeting</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="d-flex mb-4">
+                                <div class="form-icon">
+                                </div>
+                                <div class="form-group flex-grow-1" style="padding-left:5px">
+                                    <input class="title" placeholder="Name of meeting" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex mb-3">
+                                <div class="form-icon text-right pe-3 my-auto">
+                                    <i class="fal fa-clock text-muted"></i>
+                                </div>
+                                <div class="form-group flex-grow-1">
+                                    <div class="d-flex">
+                                        <div style="width:70%">
+                                            <input class="form-control datepickr" placeholder="Date" />
+                                        </div>
+                                        <div style="width:30%" class="d-flex text-center">
+                                            <div style="width:40%">
+                                                <input class="form-control timepickr" placeholder="From" />
+                                            </div>
+                                            <div class="my-auto mx-auto" style="width:20%">
+                                                <i class="far fa-minus"></i>
+                                            </div>
+                                            <div style="width:40%">
+                                                <input class="form-control timepickr" style="text-align:center" placeholder="to" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <div class="form-icon text-right pe-3 my-auto">
+                                    <i class="fal fa-users text-muted"></i>
+                                </div>
+                                <div class="form-group flex-grow-1">
+                                    <select id="Select">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="form-icon text-right pe-3 my-auto">
+                                    <i class="fal fa-align-right text-muted"></i>
+                                </div>
+                                <div class="form-group flex-grow-1">
+                                    <textarea class="description-meet" rows="1" placeholder="Add description or attachments"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Back</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        <div class="modal fade" id="ModalAddChannel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="titleAddChannel">Add Channel</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <div class="form-group">
+                                                <label class="control-label">Tiêu đề</label>
+                                                <input type="text" id="txtTieuDeChannelAdd" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <div class="form-group">
+                                                <label class="control-label">Người tham gia</label>
+                                                <select id="selectAddChannel" class="select2User">
+                                                </select>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <table id="tblNguoiThamGia" class="table table-bordered">
+                                                <tbody id="tdyNguoiThamGia">
+                                                    <tr>
+                                                        <td><strong>Họ tên</strong> </td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                            <div class="col-sm-10">
+                                                <div class="form-group">
+                                                    <label class="control-label">Calendar Id</label><span class="text-muted"> (option) </span>
+                                                    <input type="text" id="txtCalendarIdAddChannel" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <div class="form-group">
+                                                    <label class="control-label">Embed Calendar</label><span class="text-muted"> (option) </span>
+                                                    <input type="text" id="txtEmbedCalendarAddChannel" class="form-control" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                                    <button type="button" id="btnSubmitAddChannel" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                                </div>
+                            </div>
+                        </div>
+        </div>
+
+        <h1 class="visually-hidden">Headers examples</h1>
+        <header class="border-bottom">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <div style="width:20%" class="ps-4 py-3">
+                    <div class="d-flex">
+                        <a href="#" id="collapse-button" class="align-items-center mr-4 mb-lg-0 text-dark text-decoration-none" style="font-size:30px">
+                            <i class="far fa-bars"></i>
+                        </a>
+                    </div>
+                </div>
+                <div style="width:75%" class="py-3">
+                    <div class="input-group ps-0" style="width:60%">
+                        @*<span class="input-group-text"><i class="far fa-search"></i></span>*@
+                        <input type="text" class="form-control" placeholder="Search">
+                        <button class="btn btn-outline-secondary btn-input" type="button"><i class="far fa-sliders-v"></i></button>                        
+                    </div>
+                </div>
+                <div class="dropdown text-end pe-4 py-3" style="width:5%">
+                    <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="d-flex main-content">
+            <div class="sidebar bg-white active">
+                @RenderPage("~/Views/Shared/_LeftBarWorkTime.cshtml")
+            </div>
+
+            <div class="content shadow flex-grow-1">
+                <div class="p-4">
+                    @RenderBody()
+                </div>
+            </div>
+            <div class="menubar">
+                <ul class="applist">
+                    <li class="py-3">
+                        <a href="#">
+                            <i class="fad fa-comments text-danger"></i>
+                        </a>
+                    </li>
+                    <li class="py-3">
+                        <a href="#">
+                            <i class="fad fa-calendar-star text-warning"></i>
+                        </a>
+                    </li>
+                    <li class="py-3">
+                        <a href="#">
+                            <i class="fad fa-check-circle text-success"></i>
+                        </a>
+                    </li>
+                    <li class="py-3">
+                        <a href="#">
+                            <i class="fad fa-user-cog"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+    <script src="~/Assets/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Assets/js/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <!--Reference the autogenerated SignalR hub script. -->
+    <script src="~/signalr/hubs"></script>
+
+
+    <script src="~/Assets/js/Modul/global.js"></script>
+    <script src="~/Assets/js/Modul/OauthService.js"></script>
+    <script src="~/Assets/js/Modul/MetaWorkService.js"></script>
+    <script src="~/Assets/js/Modul/MetaWork.js"></script>
+    <script src="~/Assets/js/Modul/LayoutLeftBar.js"></script>
+</body>
+</html>
+<script>
+    $("#collapse-button").click(function () {
+        var classList = $('.main-content').attr('class').split(/\s+/);
+        $.each(classList, function (index, item) {
+            if (item === 'collapse') {
+                $(".main-content").removeClass('collapse');
+            }
+            else {
+                $(".main-content").addClass('collapse');
+            }
+        });
+
+    });
+    $("#collapse-1").click(function () {
+        var classList = $('#box-1').attr('class').split(/\s+/);
+        $.each(classList, function (index, item) {
+            if (item === 'h350') {
+                $("#box-1").removeClass('h350');
+            }
+            else {
+                $("#box-1").addClass('h350');
+                $("#content-1").animate({ scrollTop: $('#content-1').prop("scrollHeight") }, 500);
+            }
+        });
+    });
+    $("#btnAddChannel").click(function () {
+        $("#titleAddChannel").text("Add channel");     
+        $("#ModalAddChannel").modal("show");
+        $("#selectAddChannel").val("").trigger('change');
+        $("#tdyNguoiThamGia").html('<tr><td> Họ Tên </td><td></td></tr>');
+        $("#tblNguoiThamGia").hide();
+        nguoiThamGias = [];
+        isAddNewChannel = true;
+    })       
+    $("#btnSubmitAddChannel").click(function () {
+        var title = $("#txtTieuDeChannelAdd").val();       
+        var calendarId = $("#txtCalendarIdAddChannel").val();
+        var embedCalendar = $("#txtEmbedCalendarAddChannel").val();
+        var data = { title: title, userIds: nguoiThamGias, calendarId: calendarId, embedCalendar: embedCalendar }
+        if (phongChatId && phongChatId > 0 && !isAddNewChannel) {
+            data.phongChatId = phongChatId;
+            $.ajax({
+                url: '/MetaWork/UpdateChannel',
+                data: data,
+                context: document.body,
+                type: "POST",
+                dataType: "html",
+                async: false,
+                success: function (result) {
+                    var obj = JSON.parse(result);
+                    if (obj.Status == true) {
+                        location.reload();
+                    } else {
+                        alert(obj.Message);
+                    }
+                    
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        } else {
+            $.ajax({
+                url: '/MetaWork/AddChannel',
+                data: data,
+                context: document.body,
+                type: "POST",
+                dataType: "html",
+                async: false,
+                success: function (result) {
+                    var obj = JSON.parse(result);
+                    if (obj.Status == true) {
+                        location.reload();
+                    } else {
+                        alert(obj.Message);
+                    }
+                   
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        }
+     
+    })
+    var isAddNewChannel = false;
+    // Addchannel
+    
+    var dataUserSelect2 = [];
+    var nguoiThamGias = [];
+    $.ajax({
+        url: '/MetaWork/GetUserForSelect2',
+        context: document.body,
+        type: "GET",
+        dataType: "html",
+        async: false,
+        success: function (result) {
+            if (result!="")
+            dataUserSelect2 = JSON.parse(result);
+        },
+        error: function (err) {          
+        }
+    });
+    $(".select2User").select2({
+        placeholder: "Thêm người vào channel",
+        dropdownParent: $('#ModalAddChannel'),
+        data: dataUserSelect2,
+        allowClear: true
+    })
+    $(".select2User").each(function () {
+        $(this).siblings(".select2User-container").css('border', '5px solid red');
+    });
+    function checkIsExist(array, valuecheck) {
+        var check = false;
+        $.each(array, function (index, value){
+            if (valuecheck == value) {
+                check = true;
+            }
+        })
+        return check;
+    }
+    $('#ModalAddChannel').on('hidden.bs.modal', function () {
+        nguoiThamGias = [];
+        isAddNewChannel = false;
+    })
+    $("#selectAddChannel").change(function () {
+        var value = $("#selectAddChannel").val();
+        if (value && value != "") {
+            if (nguoiThamGias.length == 0) $("#tblNguoiThamGia").show();
+            if (!checkIsExist(nguoiThamGias, value)) {
+                nguoiThamGias.push(value);
+                var text = $("#selectAddChannel option:selected").text();
+                $("#tdyNguoiThamGia").append('<tr id="trNguoiThamGia' + value + '"><td>' + text + ' </td><td><a class="btn btn-link btnXoaNguoiThamGia" id="' + value + '">Xóa</a></td></tr>')
+            } else {
+                alert("Người dùng này đã tham gia channel.");
+            }
+            $("#selectAddChannel").val("").trigger('change');
+        }        
+    })
+    $(document).on("click", ".btnXoaNguoiThamGia", function () {
+        var id = this.id;
+        var str = "Bạn có muốn xóa người tham gia này không?";
+        var currentId = $("#nguoiDungIdM").val();
+        if (id == currentId) str = "Bạn chắc chắn muốn rời khỏi channel này không?";
+        if (confirm(str)) {
+            if (phongChatId && phongChatId > 0) {
+                $.ajax({
+                    url: '/MetaWork/DeleteNguoiThamGia?phongChatId=' + phongChatId + "&&nguoiDungId=" + id,
+                    context: document.body,
+                    type: "DELETE",
+                    dataType: "html",
+                    async: false,
+                    success: function (result) {
+                        if (result != true || result == "True") {
+                            if (id == currentId) location.href = "/Metawork/index";
+                            else {
+                                nguoiThamGias = jQuery.grep(nguoiThamGias, function (value) {
+                                    return value != id;
+                                });
+                                $("#trNguoiThamGia" + id).remove();
+                            }
+                        }
+                    },
+                    error: function (err) {
+                    }
+                });
+                
+            } else {
+                nguoiThamGias = jQuery.grep(nguoiThamGias, function (value) {
+                    return value != id;
+                });
+                $("#trNguoiThamGia" + id).remove();
+            }
+            if (nguoiThamGias.length == 0) $("#tblNguoiThamGia").hide();
+        }
+    })
+</script>

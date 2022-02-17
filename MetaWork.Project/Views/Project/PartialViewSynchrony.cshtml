@@ -1,0 +1,108 @@
+﻿@using MetaWork.Data.ViewModel
+@model TableGiaiDoanDuAnCodaViewModel
+
+
+<table class="table table-bordered" >
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th width="70px">Parent</th>
+            <th>Project name</th>
+            <th>Slack_Name</th>
+            <th>Type</th>
+            <th>Team Lead</th>
+            <th>Status</th>
+            <th>CostH</th>
+            <th>Cost tiền?</th>
+            <th>Budget</th>
+            <th>Risk</th>
+            <th width="15px">Document</th>
+            <th width="15px">Note</th>
+        </tr>
+    </thead>
+    <tbody id="tbdyTableCoda">
+        @if (Model.lst != null && Model.lst.Count > 0)
+        {
+            foreach (var row in Model.lst)
+            {
+
+
+        <tr id="tr-@row.Ma">
+            <td>
+                @if (row.isInsert || row.isUpdate)
+                {
+                    <input class="chkChange" id="chk-@row.Ma" checked type="checkbox"> <label for="@row.Ma"> &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                }
+
+
+
+            </td>
+            <td>
+                @if (row.isInsert)
+                {
+                    <p> Thêm mới</p>
+                }
+                else if (row.isUpdate)
+                {
+                    <p> Cập nhật</p>
+                }
+            </td>
+            <td>
+                @row.Parent
+            </td>
+            <td>
+                @row.ProjectName
+            </td>
+            <td>
+                @row.Slack_Name
+            </td>
+            <td>
+                @row.Type
+            </td>
+            <td>
+                @row.TeamLead
+            </td>
+            <td>
+                @row.Status
+            </td>
+            <td>
+                @row.CostH
+            </td>
+            <td>
+                @row.CostTien
+            </td>
+            <td>
+                @row.Budget
+            </td>
+            <td>
+                @row.Risk
+            </td>
+            <td>
+                @Html.Raw(row.Document)
+            </td>
+            <td>
+                @row.Note
+            </td>
+        </tr>
+            }
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(Model.message))
+            {
+                <tr>
+                    <td colspan="13"> Tài liệu không có dữ liệu </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="13"> @Model.message</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<input type="text" value="@Model.message" hidden/>
+

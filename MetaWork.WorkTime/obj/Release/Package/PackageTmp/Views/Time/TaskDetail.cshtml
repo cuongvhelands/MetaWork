@@ -1,0 +1,400 @@
+﻿@using MetaWork.Data.ViewModel
+@model CongViecViewModel
+@{
+    ViewBag.Title = "TaskDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/RobinHerbots/jquery.inputmask@5.0.0-beta.87/dist/jquery.inputmask.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<script src="~/Assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+<link href="~/Assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" />
+<style>
+    img.iconStartTime {
+        display: none;
+    }
+
+    span.showStartTime {
+        display: inline-block;
+    }
+
+    tr:hover > td > img.iconStartTime {
+        display: inline-block;
+    }
+
+    tr:hover > td > span.showStartTime {
+        display: none;
+    }
+</style>
+<input type="hidden" id="taskIdM" value="@Model.CongViecId" />
+<input type="hidden" id="duAnIdM" value="@Model.DuAnId" />
+<input type="hidden" id="quyenM" value="@ViewBag.Quyen" />
+<input type="hidden" id="nowM" value="@ViewBag.Now" />
+<input type="hidden" id="currentStartId" value="@Model.CongViecIsStartId" />
+<div id="addToDoModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-60">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleToDoModal">Thêm mới ToDo</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label">Tên ToDo</label>
+                                <input class="form-control" id="txtTenToDo" />
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Loại công việc</label>
+                                <select id="cboLoaiCongViec" class="form-control">
+                                    <option value="0"> Chọn loại công việc </option>
+                                    @if (Model.LoaiCongViecs != null && Model.LoaiCongViecs.Count > 0)
+                                    {
+                                        foreach (var item in Model.LoaiCongViecs)
+                                        {
+                                            <option disabled class="p-b-10 p-t-25" value="@item.LoaiCongViecId"><strong style="color:#808080">@item.TenLoaiCongViec </strong> </option>
+                                            if (item.LoaiCongViecs != null && item.LoaiCongViecs.Count > 0)
+                                            {
+                                                foreach (var item2 in item.LoaiCongViecs)
+                                                {
+                                <option value="@item2.LoaiCongViecId">&nbsp;&nbsp;&nbsp;&nbsp; @item2.TenLoaiCongViec </option>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label">Chọn người xử lý</label>
+                                <select id="cboNguoiDung" class="form-control">
+                                    @if (Model.NguoiDungs != null && Model.NguoiDungs.Count > 0)
+                                    {
+                                        foreach (var item in Model.NguoiDungs)
+                                        {
+                                            <option value="@item.NguoiDungId"> @item.HoTen </option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">Mô tả</label>
+                            <textarea class="form-control" rows="5" id="txtGhiChu"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                <button type="button" id="btnSubmitToDo" class="btn btn-primary waves-effect waves-light">Lưu</button>
+
+            </div>
+        </div>
+
+    </div><!-- /.modal-content -->
+</div>
+@if ((int)ViewBag.Quyen != 1)
+{
+    <div id="addTimeEntryModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-60">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="titleTimeEntryModal">Thêm mới TimeEntry</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">Tên TimeEntry</label>
+                                    <input class="form-control" id="txtTenTimeEntry" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Loại công việc</label>
+                                    <select id="cboLoaiCongViec2" class="form-control">
+                                        <option value="0"> Chọn loại công việc </option>
+                                        @if (Model.LoaiCongViecs != null && Model.LoaiCongViecs.Count > 0)
+                                        {
+                                            foreach (var item in Model.LoaiCongViecs)
+                                            {
+                                                <option disabled class="p-b-10 p-t-25" value="@item.LoaiCongViecId"><strong style="color:#808080">@item.TenLoaiCongViec </strong> </option>
+                                                if (item.LoaiCongViecs != null && item.LoaiCongViecs.Count > 0)
+                                                {
+                                                    foreach (var item2 in item.LoaiCongViecs)
+                                                    {
+                                                        <option value="@item2.LoaiCongViecId">&nbsp;&nbsp;&nbsp;&nbsp; @item2.TenLoaiCongViec </option>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Từ</label>
+                                    <input type="time" id="txtTimeFrom" class="form-control" />
+                                    @*<select id="cboTime" class="form-control">
+                                            @if (Model.Times != null && Model.Times.Count > 0)
+                                            {
+                                                foreach (var item in Model.Times)
+                                                {
+                                                    <option value="@item.Value"> @item.Summary </option>
+                                                }
+                                            }
+                                        </select>*@
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Đến</label>
+                                    <input type="time" id="txtTimeTo" class="form-control" />
+                                </div>
+                            </div>
+                            @if ((int)ViewBag.Quyen == 3)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Chọn ngày làm</label>
+                                        <input type='text' id="txtDate" class="form-control" />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label">Mô tả</label>
+                                <textarea class="form-control" rows="5" id="txtGhiChu2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                    <button type="button" id="btnSubmitTimeEntry" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div>
+}
+<div class="container">
+    <h4 class="">Chi tiết công việc</h4>
+    <div class="todo-info m-b-30">
+        <table class="table border" width="100%">
+            <thead>
+                <tr>
+                    <th width="60%"></th>
+                    <th width="10%"></th>
+                    <th width="10%" class="text-right">DEADLINE</th>
+                    <th width="10%" class="text-right">TRẠNG THÁI</th>
+                    <th width="10%" class="text-right">GIỜ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="text-mute font-11"><i class="fal fa-folder-open m-r-5"></i> @Model.TenDuAn > @Model.TenKhoaCha</span><br />
+                        <a href="#" class="font-w-500 font-13 text-inverse">@Model.TenCongViec</a>
+                    </td>
+                    <td>
+                        <img src="~/Assets/images/Avatar/@Model.AvatarNguoiXuLy" width="30" height="30" class="m-r-5 m-l-15" title="Người xử lý: @Model.HoTenNguoiXuLy" />
+                        @if (Model.NguoiHoTroId != null)
+                        {
+                            <img src="~/Assets/images/Avatar/@Model.AvatarNguoiHoTro" title="Người hỗ trợ: @Model.HoTenNguoiHoTro" width="40" height="40" class="m-r-5" />
+                        }
+                    </td>
+                    <td class="text-right"><span class="font-w-500">@String.Format("{0:dd/MM}", Model.NgayDuKienHoanThanh)</span> </td>
+                    <td class="text-right"><span class="label label-@Model.MaMau">@Model.TenTrangThai</span></td>
+                    <td class="text-right"><span class="font-w-500">@Model.StrThoiGianLamViec</span> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="m-t-30 m-b-30">
+        @if (Model.TrangThaiCongViecId!=(int)EnumTrangThaiCongViecType.congViecDone)
+        {
+            <button id="btnAddToDo" class="btn btn-warning waves-effect waves-light"><i class="far fa-stopwatch m-r-5"></i> Thêm công việc</button>
+            if ((int)ViewBag.Quyen != 1)
+            {
+                <button id="btnAddTimeEntry" class="btn btn-info waves-effect waves-light"><i class="far fa-history m-r-5"></i> Báo cáo công việc</button>
+            }
+        }
+    </div>
+    <div class="todo-of-task">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="3%"></th>
+                    <th width="35%"></th>
+                    <th width="3%"></th>
+                    <th><span class="text-mute font-11">NGÀY TẠO</span></th>
+                    <th></th>
+                    <th><span class="text-mute font-11">THỜI GIAN BẮT ĐẦU</span></th>
+                    <th><span class="text-mute font-11">THỜI GIAN KẾT THÚC</span></th>
+                    <th><span class="text-mute font-11">GIỜ</span></th>
+                    <th width="3%"></th>
+                    <th width="3%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ToDoInDays != null && Model.ToDoInDays.Count > 0)
+                {
+                    foreach (var item2 in Model.ToDoInDays)
+                    {
+                        foreach (var item in item2.CongViecs)
+                        {
+                            <tr>
+                                <td class="tdStart-@item.CongViecId" id="@String.Format("{0:dd/MM/yyyy}", item2.Day)">
+                                    @if (item.LoaiTimer == 1)
+                                    {
+                                        if (item.CongViecId != Model.CongViecIsStartId)
+                                        {
+                                            if (item.NguoiXuLyId == (Guid)ViewBag.NguoiDungId && (item.XacNhanHoanThanh == null || item.XacNhanHoanThanh == false) &&Model.TrangThaiCongViecId!=(int)EnumTrangThaiCongViecType.congViecDone)
+                                            {
+                                                <span class="showStartTime"></span>
+                                                <img src="~/Assets/images/todo-icon/start-time.svg" class="iconStartTime" />
+                                            }  
+                                        }
+                                        else
+                                        {
+                                            if (item.NguoiXuLyId == (Guid)ViewBag.NguoiDungId && (item.XacNhanHoanThanh == null || item.XacNhanHoanThanh == false))
+                                            {
+                                                <img src="~/Assets/images/todo-icon/stop-time.svg" class="iconPauseTime" />
+
+                                            }                                           
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (item.PheDuyet != null && item.PheDuyet.Value)
+                                        {
+                                            <img src="~/Assets/images/todo-icon/approved.svg" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Assets/images/todo-icon/not-approved.svg" />
+                                        }
+                                    }
+                                </td>
+                                <td>
+
+                                    @if (item.LoaiTimer == 1)
+                                    {
+                                        if (item.NguoiXuLyId == (Guid)ViewBag.NguoiDungId && (item.XacNhanHoanThanh == null || item.XacNhanHoanThanh == false))
+                                        {
+                                            <p class="editToDo" id="@item.CongViecId"><strong>@item.TenLoaiCongViec</strong> <br />  @item.TenCongViec </p>
+                                        }
+                                        else
+                                        {
+                                            <strong>@item.TenLoaiCongViec</strong> <br /> @item.TenCongViec
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (item.NguoiXuLyId == (Guid)ViewBag.NguoiDungId && (item.XacNhanHoanThanh == null || item.XacNhanHoanThanh == false))
+                                        {
+                                            <p class="editTimeEntry" id="@item.CongViecId">  <strong>@item.TenLoaiCongViec</strong> <br />  @item.TenCongViec</p>
+                                        }
+                                        else
+                                        {
+                                            <strong>@item.TenLoaiCongViec</strong> <br /> @item.TenCongViec
+                                        }
+
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (item.LoaiTimer == 1)
+                                    {
+                                        <img src="~/Assets/images/todo-icon/time-log.svg" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Assets/images/todo-icon/time-entry.svg" />
+                                    }
+                                </td>
+                                <td>@String.Format("{0:dd/MM/yyyy}", item.NgayTao.Value)</td>
+                                <td>
+                                    <img src="~/Assets/images/Avatar/@item.Avatar" title="@item.HoTen" width="30" height="30" class="img-circle" />
+                                </td>
+                                <td>
+                                    @if (item.ThoiGianBatDau != null)
+                                    {
+                                        <span>@item.ThoiGianBatDau.Value.Hour</span><span>h</span><span>@item.ThoiGianBatDau.Value.Minute</span><span>m - </span><span> @String.Format("{0:dd/MM/yyyy}", item.ThoiGianBatDau)</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.ThoiGianKetThuc != null)
+                                    {
+                                        <span>@item.ThoiGianKetThuc.Value.Hour</span><span>h</span><span>@item.ThoiGianKetThuc.Value.Minute</span><span>m - </span><span> @String.Format("{0:dd/MM/yyyy}", item.ThoiGianKetThuc)</span>
+                                    }
+                                </td>
+                                <td>@item.StrThoiGianLamViec</td>
+                                <td>
+                                    @if (item.PheDuyet != null && item.PheDuyet == true)
+                                    {
+                                        <img src="~/Assets/images/Icons/check-time.svg" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Assets/images/Icons/not-check-time.svg" />
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.NguoiXuLyId == (Guid)ViewBag.NguoiDungId || (int)ViewBag.Quyen == 3)
+                                    {
+                                        if (item.LoaiTimer == 1)
+                                        {
+                                            <a class="deleteRowToDo" id="@item.CongViecId-@item.ThoiGianLamViecId" title="Xóa todo"><i class="fal fa-trash-alt"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a class="deleteRowTimer" id="@item.CongViecId" title="Xóa timeEntry"><i class="fal fa-trash-alt"></i></a>
+                                        }
+
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+                @*<tr>
+                        <td colspan="6" class="text-right" id="totalTimeDone"> Done: @Model.StrTimeDone </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-right" id="totalTime"> Total: @Model.StrTotalTime </td>
+                    </tr>*@
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/Assets/js/Modul/TaskDetail.js"></script>

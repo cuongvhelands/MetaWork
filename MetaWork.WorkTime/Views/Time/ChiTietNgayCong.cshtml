@@ -1,0 +1,82 @@
+﻿@using MetaWork.Data.ViewModel
+@model ThoiGianLamViecTrongNgayViewModel
+@{
+    ViewBag.Title = "ChiTietNgayCong";   
+}
+<p class="text-primary font-13"><span class="font-w-500">@Model.StrNgayLamViec</span> của <span class="font-w-500">@Model.HoTen</span> </p>
+<div class="m-t-20">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th width="35%"><span class="text-mute font-13">CÔNG VIỆC</span> </th>
+                <th><span class="text-mute font-13">DỰ ÁN</span></th>
+                <th><span class="text-mute font-13">GIỜ</span></th>
+                <th width="10%" class="text-center"><span class="text-mute font-13">TRẠNG THÁI</span></th>
+                <th><span class="text-mute font-13">START / STOP</span></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ThoiGianLamViecs.Count > 0)
+            {
+                foreach (var item in Model.ThoiGianLamViecs)
+                {
+                    if (item.ThoiGianLamViecId == 0 && item.LoaiTimer == 36)
+                    {
+                        <tr>
+                            <td class="font-w-500">@Html.Raw(item.TenCongViec)</td>
+                            <td class="font-w-500"> Lấy từ Activity bên CRM</td>
+                            <td class="font-w-500 vertical-middle"> 
+                                <span class="m-t-10">@item.StrTongThoiGian</span>
+                            </td>
+                            <td class="font-w-500 text-center">                               
+                                    <img src="~/Assets/images/todo-icon/approved.svg" /> 
+                            </td>
+                            <td class="font-w-500"></td>
+                            <td class="text-center">                             
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr id="trCT-@item.ThoiGianLamViecId">
+                            <td class="font-w-500">@item.TenCongViec</td>
+                            <td class="font-w-500">@item.TenDuAn</td>
+                            <td class="font-w-500 vertical-middle">
+                                @if (item.LoaiTimer == 2)
+                                {
+                                    <img src="~/Assets/images/todo-icon/time-entry.svg" class="m-r-5" />
+                                }
+                                else
+                                {
+                                    <img src="~/Assets/images/todo-icon/time-log.svg" class="m-r-5" />
+                                }
+
+                                <span class="m-t-10">@item.StrTongThoiGian</span>
+                            </td>
+                            <td class="font-w-500 text-center">
+                                @if (item.PheDuyet == true)
+                                {
+                                    <img src="~/Assets/images/todo-icon/approved.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Assets/images/todo-icon/not-approved.svg" />
+                                }
+
+                            </td>
+                            <td class="font-w-500">@item.StrThoiGianBatDau  -  @item.StrThoiGianKetThuc</td>
+                            <td class="text-center">
+                                <a id="@item.ThoiGianLamViecId" class="links text-inverse deleteChiTietNgayCong"><i class="fal fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+
+                }
+            }
+
+
+        </tbody>
+    </table>
+</div>
+

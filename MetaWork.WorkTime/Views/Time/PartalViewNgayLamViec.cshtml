@@ -1,0 +1,44 @@
+﻿@using MetaWork.Data.ViewModel
+@model ThoiGianLamViecTrongNgayViewModel
+
+@if (Model!=null&&Model.ThoiGianLamViecs!=null&&Model.ThoiGianLamViecs.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th> Giờ</th>
+                <th> Dự án</th>
+                <th> Công việc</th>
+                <th>Trạng thái</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.ThoiGianLamViecs)
+            {
+            <tr id="trOffTimeCT-@item.ThoiGianLamViecId">
+                <td class="font-w-500">@item.StrThoiGianBatDau  -  @item.StrThoiGianKetThuc</td>
+                <td class="font-w-500">@item.TenDuAn</td>
+                <td class="font-w-500">@item.TenCongViec</td>
+                <td class="font-w-500 text-center">
+                    @if (item.PheDuyet == true)
+                    {
+                        <img src="~/Assets/images/todo-icon/approved.svg" />
+                    }
+                    else
+                    {
+                        <img src="~/Assets/images/todo-icon/not-approved.svg" />
+                    }
+
+                </td>
+
+                <td class="text-center">
+                    <a id="@item.ThoiGianLamViecId" class="links text-inverse deleteChiTietNgayCong"><i class="fal fa-trash-alt"></i></a>
+                </td>
+            </tr>
+            }
+            
+        </tbody>
+    </table>
+}

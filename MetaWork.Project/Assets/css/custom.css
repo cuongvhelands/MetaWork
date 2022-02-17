@@ -1,0 +1,917 @@
+﻿.m-l-20 {
+    margin-left: 20px !important;
+}
+
+.btn-8-15 {
+    padding: 8px 15px;
+}
+
+.border-r {
+    border-right: 1px solid #ddd;
+}
+
+.card-custom .member-info {
+    padding-left: 0px !important;
+    padding-bottom: 0px !important;
+    position: relative;
+}
+
+    .card-custom .member-info .numberInfo {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        font-size: 13px;
+    }
+
+.card-box {
+    cursor: pointer;
+}
+
+#infowindow {
+    min-height: 100px;
+}
+
+    #infowindow span {
+        font-size: 13px
+    }
+
+.explication {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+    .explication span {
+        margin-left: 10px;
+        font-size: 13px;
+    }
+
+.chartCustom canvas {
+    width: 100%;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+    margin-right: 50px;
+}
+
+.profile-detail .form-group {
+    text-align: left;
+}
+
+.pagination {
+    float: right;
+}
+
+.btn-dropdown-custom {
+    padding: 0px 10px !important;
+}
+
+.list-ship {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.row-span-colunm {
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+.td-vertical-middle {
+    vertical-align: middle !important;
+}
+
+.form-group .control-label {
+    font-weight: 300;
+}
+
+.modal-60 {
+    width: 60% !important;
+}
+.modal-85 {
+    width: 85% !important;
+}
+.card-500 {
+    height: 600px !important;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.table-100 {
+    height: 100%;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    background-color: rgba(31, 46, 84, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+}
+
+.btn-0-10 {
+    padding: 0px 10px !important;
+}
+
+.line {
+    border-bottom: 1px solid #ddd;
+}
+
+.task {
+    position: relative;
+}
+
+    .task .status-label {
+        position: absolute;
+        top: 15px;
+        right: 10px;
+    }
+
+.bg-grey {
+    background-color: #f5f5f5;
+}
+
+.w-300 {
+    width: 300px !important;
+}
+
+.m-t-3 {
+    margin-top: 3px;
+}
+
+.btn_close_sidebar {
+    position: absolute;
+    top: 5px;
+    right: 0px;
+    font-size: x-large;
+    color: #4F4F4F !important;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+}
+
+    .btn_close_sidebar:hover {
+        background-color: #eaeaea;
+    }
+/*.text-week {
+    width: 80px;
+    margin-left: -60px;
+    padding-bottom: 48px;
+    transition: 0.5s;
+}*/
+@media only screen and (max-width: 1000px) {
+    .btn_close_sidebar {
+        visibility: hidden;
+    }
+}
+
+.rotate-90 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.w-5 {
+    width: 5%;
+}
+
+.w-95 {
+    width: 95%;
+}
+
+.taskList .task-primary {
+    border-left-color: #5d9cec !important;
+}
+
+.time-stamp {
+    font-size: 12px;
+}
+
+.taskList li .label-table {
+    width: 60px !important;
+}
+
+.todoCode {
+    color: #00BCD4;
+}
+
+.card-name {
+    font-weight: bold;
+    color: #1F2E54;
+    font-size: 14px !important;
+    line-height: 15px !important
+}
+
+.card-p-10 {
+    padding: 10px !important;
+}
+
+.font-11 {
+    font-size: 11px !important;
+}
+
+.font-12 {
+    font-size: 12px !important;
+}
+
+.font-14 {
+    font-size: 14px !important;
+}
+
+.font-5 {
+    font-size: 5px !important;
+}
+
+.font-20 {
+    font-size: 20px !important
+}
+
+.weight-300 {
+    font-weight: 500 !important;
+}
+
+.taskList li {
+    position: relative;
+}
+
+.taskList .taskItem {
+    min-height: 155px;
+}
+
+.min-h-100 {
+    min-height: 100px !important;
+}
+
+.deadline-task {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.taskList li .userList {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+}
+
+    .taskList li .userList ul {
+        list-style: none;
+    }
+
+        .taskList li .userList ul li {
+            background-color: #fff;
+            border-left-width: unset;
+            padding: unset;
+            margin-bottom: unset;
+            float: right;
+            margin-left: -10px;
+            border-radius: 50%;
+            height: 25px;
+            width: 25px;
+            border: none;
+        }
+
+            .taskList li .userList ul li img {
+                object-fit: contain;
+                height: 25px;
+                width: 25px;
+                border-radius: 50%;
+                border: 2px solid #fff;
+            }
+
+.m-r-2 {
+    margin-right: 2px !important;
+}
+
+.p-15 {
+    padding: 15px;
+}
+
+.p-10 {
+    padding: 10px;
+}
+
+.p-b-40 {
+    padding-bottom: 40px !important
+}
+
+.label-ship-info i {
+    width: 20px;
+}
+
+.bg-user {
+    background-color: rgba(255, 152, 0, 0.15);
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.font-w-300 {
+    font-weight: 300 !important;
+}
+
+.font-w-500 {
+    font-weight: 500 !important;
+}
+
+.label {
+    font-weight: 300;
+}
+
+.no-border {
+    border: none !important
+}
+
+.color-sub {
+    margin-bottom: 0px !important;
+    color: rgba(31, 46, 84, 0.5) !important;
+}
+
+.row .div-20 {
+    width: 16%;
+    float: left
+}
+
+.row .div-80 {
+    width: 84%;
+    float: left;
+}
+
+.bootstrap-select .btn-default {
+    border: 1px solid #eaeaea !important;
+    background-color: #ffffff !important;
+    color: #4c5667 !important;
+    height: 38px;
+}
+
+.bootstrap-select .dropdown-toggle.btn-default {
+    border: 1px solid #eaeaea !important;
+    background-color: #ffffff !important;
+    color: #4c5667 !important;
+    height: 38px;
+}
+
+.table-label-color {
+    color: rgba(31, 46, 84, 0.65) !important;
+}
+
+.bg-now {
+    background-color: #D1E8EA
+}
+
+li.bg-late {
+    background-color: rgba(156, 39, 176, 0.25) !important;
+}
+
+.label-secondary {
+    background-color: #6c757d !important
+}
+
+.text-medium {
+    color: #3F51B5;
+}
+
+.page-title {
+    color: #1F2E54;
+}
+
+.header-title a {
+    color: rgba(31, 46, 84, 0.65) !important;
+}
+
+.header-title {
+    position: relative;
+}
+
+    .header-title .week-time-value {
+        font-size: 12px;
+        text-transform: none !important;
+        font-weight: 500 !important;
+        color: rgba(31, 46, 84, 0.5);
+        display: block;
+    }
+
+.switch {
+    list-style: none;
+    padding: 5px;
+    background: #E0E0E0;
+    border-radius: 20px;
+    height: 40px;
+}
+
+    .switch li {
+        float: left;
+        padding: 5px 15px;
+        transition: 1s;
+        border-radius: 20px;
+    }
+
+    .switch .active {
+        background-color: #fff;
+        border-radius: 20px;
+    }
+
+    .switch li a {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        color: #4F4F4F;
+    }
+
+.tdDuAn .label {
+    min-width: 80px !important;
+}
+
+.projectHeader div {
+    float: left;
+}
+
+    .projectHeader div:first-child {
+        margin-right: 5px;
+    }
+
+.list-project tr:first-child {
+    border-top: none;
+}
+
+.list-project .label-default {
+    background-color: #2196F3
+}
+
+.list-project .label-warning {
+    background-color: #673AB7;
+}
+
+.list-project .label-info {
+    background-color: #F44336;
+}
+
+.list-project .label-primary {
+    background-color: #219653;
+}
+
+.list-project .label-success {
+    background-color: #FF5722
+}
+
+.project-status .label-default {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    background-color: transparent;
+    color: #2196F3
+}
+
+.project-status .label-warning {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    background-color: transparent;
+    color: #673AB7;
+}
+
+.project-status .label-info {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    background-color: transparent;
+    color: #F44336;
+}
+
+.project-status .label-primary {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    background-color: transparent;
+    color: #219653;
+}
+
+.project-status .label-success {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    background-color: transparent;
+    color: #FF5722
+}
+
+.project-chart-icon {
+    color: #FF8E1D;
+}
+
+.projectUserList ul {
+    list-style: none;
+}
+
+    .projectUserList ul li {
+        float: left;
+        margin-left: -10px;
+        border: 2px solid #fff;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+
+        .projectUserList ul li:first-child {
+            margin-left: unset;
+        }
+
+.p-t-20 {
+    padding-top: 20px !important
+}
+
+.p-t-15 {
+    padding-top: 15px !important;
+}
+
+.table-project > tbody > tr:first-child > td {
+    border-top: none !important
+}
+
+.ship-able-table > tbody > tr:first-child > th {
+    border-top: none !important
+}
+
+.ship-able-status div {
+    float: left;
+    width: 90px !important;
+}
+
+.bg-ship-able-week-now {
+    background: #F6FAF1
+}
+
+.bg-ship-able-week-now-2 {
+    background: #FDF2F2;
+}
+
+.ship-able-name {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 14px;
+    color: #4F4F4F;
+}
+
+.project-code-in-ship-able {
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #828282;
+}
+
+.shadow-right {
+    box-shadow: 0px -1px 0px #ECEEEF;
+}
+
+.btn-link-grey {
+    color: #4F4F4F;
+}
+
+.text-mute {
+    color: #9E9E9E;
+}
+
+.text-left {
+    text-align: left !important
+}
+
+.summaryWeek .taskList li {
+    min-height: 100px !important
+}
+
+.dropdown-menu-s-lg {
+    min-width: 400px;
+    min-height: 700px;
+}
+
+.log-time {
+    top: 50px;
+    position: absolute;
+    width: 450px;
+    height: 700px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    right: -500px;
+    transition: right 0.5s;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+    .log-time.open {
+        right: 100px;
+    }
+
+.task-on-dropdown {
+    position: relative;
+    list-style: none;
+}
+
+    .task-on-dropdown .task-item {
+        height: 50px;
+        padding: 5px 15px;
+        vertical-align: middle !important;
+    }
+
+        .task-on-dropdown .task-item:hover {
+            background: #F5F5F5;
+        }
+
+.task-name {
+    color: #1F2E54;
+}
+
+.task-run {
+    background-color: #fff6f7 !important;
+}
+
+.task-on-dropdown .task-item .leftItem {
+    float: left;
+    width: 70%;
+}
+
+.task-on-dropdown .task-item .rightItem {
+    float: left;
+    width: 30%;
+    position: relative;
+}
+
+    .task-on-dropdown .task-item .rightItem span {
+        position: absolute;
+        right: 0px;
+        top: 10px;
+    }
+
+.p-l-10 {
+    padding-left: 10px !important;
+}
+
+.table-todo tbody tr td:first-child {
+    padding-left: 30px;
+}
+
+.table-todo tr td {
+    border-top: none !important
+}
+
+.action-table div {
+    float: left;
+    position: absolute;
+    right: 15px;
+}
+
+.dropdown-submenu ul li a {
+    font-size: 11px;
+}
+
+.timer {
+    background-color: aliceblue;
+    width: auto;
+    min-width: 50px;
+    border-radius: 15px;
+    height: 30px;
+    margin-top: 10px;
+    padding: 5px 15px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+
+    .timer * {
+        cursor: pointer;
+    }
+
+    .timer span {
+        margin: auto;
+    }
+
+.timer-run {
+    font-size: small !important;
+    margin-right: 5px !important;
+    color: red;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+    animation-name: example;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes example {
+    from {
+        color: #f05050;
+    }
+
+    to {
+        color: aliceblue;
+    }
+}
+
+/* Standard syntax */
+@keyframes example {
+    from {
+        color: #f05050;
+    }
+
+    to {
+        color: aliceblue;
+    }
+}
+/* Absolute Center Spinner */
+.loading {
+    position: relative;
+}
+
+#overlay {
+    background: #ffffff;
+    color: #666666;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 5000;
+    top: 0;
+    left: 0;
+    float: left;
+    text-align: center;
+    padding-top: 50%;
+    opacity: .80;
+}
+
+.spinner {
+    margin: 0 auto;
+    height: 64px;
+    width: 64px;
+    animation: rotate 0.8s infinite linear;
+    border: 5px solid firebrick;
+    border-right-color: transparent;
+    border-radius: 50%;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.sub-task td {
+    border-top: none !important;
+    padding-top: 2px !important;
+    padding-bottom: 3px !important;
+}
+
+.todo-info table tbody tr td {
+    border: 1px solid #ddd !important;
+    vertical-align: middle !important;
+}
+
+.todo-of-task table tbody tr .button {
+    cursor: pointer;
+}
+
+.todo-of-task table tbody tr td {
+    vertical-align: middle !important;
+}
+
+.todo-of-task table tbody tr:hover td {
+    background-color: #F2F2F2 !important;
+}
+
+.iconStartTime, .iconPauseTime {
+    cursor: pointer;
+}
+
+.links {
+    cursor: pointer;
+    color: #4F4F4F;
+}
+
+.modal.center {
+    text-align: center;
+    padding: 0 !important;
+}
+
+    .modal.center:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -4px;
+    }
+
+.modal.center .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+.content-left div{
+    float:left;
+}
+.grogressBg1 {
+    background-color: cornflowerblue;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg2 {
+    background-color: orange;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg3 {
+    background-color: royalblue;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg4 {
+    background-color: bisque;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg5 {
+    background-color: red;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg6 {
+    background-color: aqua;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg7 {
+    background-color: darkolivegreen;
+    border-right: ridge;
+}
+.grogressBg8 {
+    background-color: gold;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg9 {
+    background-color: fuchsia;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg10 {
+    background-color: deepskyblue;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg11 {
+    background-color: lawngreen;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg12 {
+    background-color: darksalmon;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg13 {
+    background-color: lawngreen;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg14 {
+    background-color: #f3ac32;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg15 {
+    background-color: #b8b8b8;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg16 {
+    background-color: #bb6e36;
+    border-right: solid;
+    border-color: black;
+}
+.grogressBg17 {
+    background-color: #D1E8EA;
+    border-right: solid;
+    border-color: black;
+}
+.progress-bar {
+    line-height: 20px;
+}
+.progress{
+    height:20px;
+}
+
+.bgcProcess {
+    background-color: #D1E8EA;
+}
+.divScroll {
+    max-height: 600px;
+    overflow: scroll;
+}

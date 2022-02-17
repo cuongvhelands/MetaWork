@@ -1,0 +1,198 @@
+﻿@using MetaWork.Data.ViewModel
+@model PointViewModel
+@{
+    ViewBag.Title = "Point";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.917/styles/kendo.default-v2.min.css" />
+<script src="https://kendo.cdn.telerik.com/2019.3.917/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2019.3.917/js/kendo.all.min.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="page-title">Thống kê điểm point đạt được</h4>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/home/index">Bảng tổng quan</a>
+                </li>
+                <li class="active">
+                    Thống kê point
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-sm-2">
+            @{
+                var lastYear = Model.Year - 1;
+                var nextYear = Model.Year + 1;
+            }
+            <select id="ddlYear" class="form-control">
+                <option value="@lastYear"> Năm @lastYear</option>
+                <option value="@Model.Year" selected> Năm @Model.Year</option>
+                <option value="@nextYear"> Năm @nextYear</option>
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <select id="ddlMonth" class="form-control">
+                @for (int i = 1; i < 13; i++)
+                {
+                    if (i == Model.Month)
+                    {
+                        <option value="@i" selected> Tháng @i</option>
+                    }
+                    else
+                    {
+                        <option value="@i"> Tháng @i</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <select id="ddlWeek" class="form-control">
+                <option value="0"> Tất cả các tuần</option>
+                @for (int i = 1; i < Model.NumberWeek; i++)
+                {
+                    if (i == Model.Week)
+                    {
+                        <option value="@i" selected> Tuần @i</option>
+                    }
+                    else
+                    {
+                        <option value="@i"> Tuần @i</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <div class="custom-control custom-radio">
+                <input type="radio" class="radioCt custom-control-input" value="0" id="User" checked name="defaultExampleRadios">
+                <label class="custom-control-label" for="User">Theo người dùng</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="custom-control custom-radio">
+                <input type="radio" class="radioCt custom-control-input" value="1" id="Department" name="defaultExampleRadios">
+                <label class="custom-control-label" for="Department">Theo nhóm</label>
+
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <button id="btnSearchPoint" type="button" class="btn btn-default waves-effect waves-light">
+                <span class="btn-label">
+                    <i class="fal fa-filter"></i>
+                </span>Lọc
+            </button>
+        </div>
+    </div>
+    <div class="demo-section k-content wide">
+        <div id="chart"></div>
+    </div>
+</div>
+<script>
+    function createChart() {
+        var week = $("#ddlWeek").val();
+        var radioValue = $("input[name='defaultExampleRadios']:checked").val();
+        var check = true;
+        if (radioValue == "0") {
+            check = false;
+        }
+        var year = $("#ddlYear").val();
+        var month = $("#ddlMonth").val();
+        $.ajax({
+            url: "/Report/GetPointBy?phongBan=" + check + "&&year=" + year + "&&month=" + month + "&&week=" + week,
+            type: "GET",
+            async: false,
+            success: function (data) {
+                var result = JSON.parse(data);
+                $("#chart").kendoChart({
+                    title: {
+                        text: result.Title
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    seriesDefaults: {
+                        type: "bar"
+                    },
+                    series: [{
+                        data: result.Value,
+                        labels: {
+                            visible: true,
+                            template: "#: value #"
+                        },
+                    }],
+                    valueAxis: {
+                        max: result.Max,
+                        line: {
+                            visible: false
+                        },
+                        minorGridLines: {
+                            visible: true
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    categoryAxis: {
+                        categories: result.HoTenNguoiDungs,
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        template: "Số point : #= value #"
+                    }
+                });
+            },
+            error: function (xhr, status) {
+                alert('Error load data!')
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+
+    }
+
+    $(document).ready(createChart);
+    $(document).bind("kendo:skinChange", createChart);
+    $(document).on("click", "#btnSearchPoint", function () {
+        
+        createChart();
+        $(document).bind("kendo:skinChange", createChart);
+    })
+    $(document).on('change', "#ddlYear", function () {
+        ResetcboWeek();
+    })
+      $(document).on('change', "#ddlMonth", function () {
+        ResetcboWeek();
+    })
+    function ResetcboWeek() {
+       var year = $("#ddlYear").val();
+        var month = $("#ddlMonth").val();
+          $.ajax({
+        url: "/Report/GetNumberWeekOfMonth?year="+year+"&&month="+month,
+        context: document.body,
+        type: "GET",
+        dataType: "html",
+        async: false,
+        success: function (data) {
+            var numberWeek = parseInt(data);
+            var str ='<option value="0"> Tất cả các tuần</option>'
+            for (i = 1; i <= numberWeek; i++) {
+                str+='<option value="'+i+'"> Tuần '+i+'</option>'
+            }
+            $("#ddlWeek").html(str);
+        },
+        error: function (xhr, status) {
+
+        },
+        complete: function (xhr, status) {
+            //$('#showresults').slideDown('slow')
+        }
+    });
+    }
+</script>

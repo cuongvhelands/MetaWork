@@ -1,0 +1,401 @@
+﻿@using MetaWork.Data.ViewModel
+@model NguoiDungViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<h4 class="page-title">Bảng chấm công</h4>
+<input type="hidden" id="nguoiDungIdM" value="@Model.NguoiDungId" />
+<input type="hidden" id="hqM"value="@ViewBag.HQ" />
+<input type="hidden" id="quyenM" value="@ViewBag.Quyen" />
+<input type="hidden" id="nguoiTaoIdM" value="@ViewBag.UserId" />
+<div id="addOffTimeModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-85">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleTimeEntryModal">Đăng ký thời gian làm việc</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="radioCt custom-control-input" value="0" id="RegTime" name="defaultExampleRadios" checked>
+
+                            <label class="custom-control-label" for="RegTime">Off Time/Ra ngoài</label>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="radioCt custom-control-input" value="1" id="Metting" name="defaultExampleRadios">
+                            <label class="custom-control-label" for="Metting">Meeting</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="radioCt custom-control-input" value="2" id="CongTac" name="defaultExampleRadios">
+                            <label class="custom-control-label" for="CongTac">Công tác</label>
+                        </div>
+                    </div>
+
+                </div>
+                <hr/>
+                @*off time*@
+                <div id="divOffTime">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label> Dự án</label>
+                            <select id="cboDuAn" class="form-control">
+                                <option value="0">Chọn Dự án</option>
+                                @if (Model.DuAns != null && Model.DuAns.Count > 0)
+                                {
+                                    foreach (var item in Model.DuAns)
+                                    {
+                                        <option value="@item.DuAnId">@item.TenDuAn</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label> Dự án thành phần</label>
+                            <select id="cboGiaiDoanDuAnDT" class="form-control">
+                                <option id="0"> Chọn dự án thành phần </option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label> Ship able</label>
+                            <select id="cboShip" class="form-control">
+                                <option value="0">Chọn Ship able</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Công việc</label>
+                            <select id="cboTask" class="form-control">
+                                <option value="0">Chọn công việc</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Ngày</label>
+                                <input type='text' id="txtNgayLamViec" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Từ</label>
+                                <input type="time" id="txtTimeFrom" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Đến</label>
+                                <input type="time" id="txtTimeTo" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tableTime"></div>
+                </div>
+                <div id="divMetting">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>Link Coda meeting </label>
+                                <input id="txtLinkDBDMCVDATP" class="form-control" value="@ViewBag.DocIdDefault" />
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <button type="button" id="btnDBCodaMeeting" class="btn btn-primary waves-effect waves-light">Đồng bộ</button>
+                        </div>
+                        </div>
+                    <div hidden>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label> Dự án</label>
+                                <select id="cboDuAnMetting" class="form-control">
+                                    <option value="0">Chọn Dự án</option>
+                                    @if (Model.DuAns != null && Model.DuAns.Count > 0)
+                                    {
+                                        foreach (var item in Model.DuAns)
+                                        {
+                                            <option value="@item.DuAnId">@item.TenDuAn</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label> Dự án thành phần</label>
+                                <select id="cboGiaiDoanDuAnDTMetting" class="form-control">
+                                    <option id="0"> Chọn dự án thành phần </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Ngày</label>
+                                    <input type='text' id="txtNgayLamViecMetting" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Từ</label>
+                                    <input type="time" id="txtTimeFromMetting" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Đến</label>
+                                    <input type="time" id="txtTimeToMetting" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tableTimeMeeting">
+
+                    </div>
+                     
+                    </div>
+                <div id="divCongTac">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label> Dự án</label>
+                            <select id="cboDuAnCongTac" class="form-control">
+                                <option value="0">Chọn Dự án</option>
+                                @if (Model.DuAns != null && Model.DuAns.Count > 0)
+                                {
+                                    foreach (var item in Model.DuAns)
+                                    {
+                                        <option value="@item.DuAnId">@item.TenDuAn</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label> Dự án thành phần</label>
+                            <select id="cboGiaiDoanDuAnDTCongTac" class="form-control">
+                                <option id="0"> Chọn dự án thành phần </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Ngày đi</label>
+                                <input type='text' id="txtNgayLamViecCongTacFrom" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Ngày về</label>
+                                <input type='text' id="txtNgayLamViecCongTacTo" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                    <button type="button" id="btnSubmitAddOffTime" class="btn btn-primary waves-effect waves-light">Đăng ký</button>
+                </div>
+            </div>
+
+    </div><!-- /.modal-content -->
+</div>
+<div id="addNghiPhepModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-60">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleTimeEntryModal">Đăng ký nghỉ phép</h4>
+            </div>
+            <div class="modal-body">  
+                <div class="row" id="rowDayType">
+                    <div class="col-sm-4">
+                        <select id="cboLoaiNgay" class="form-control">
+                            <option value="0">Chọn Loại ngày đăng ký</option>
+                            @if (Model.DayTypes != null && Model.DayTypes.Count > 0)
+                            {
+                                foreach (var item in Model.DayTypes)
+                                {
+                                    <option value="@item.DayTypeId">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type='text' id="txtNgayNghiPhep" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblSoNgayNghi">Số ngày nghỉ phép: @ViewBag.CountStaffDay / 11 </label>
+                    </div>
+                </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Mô tả</label>
+                                <textarea class="form-control" rows="5" id="txtGhiChuNghiPhep"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                <button type="button" id="btnSubmitAddNghiPhep" class="btn btn-primary waves-effect waves-light">Đăng ký</button>
+            </div>
+        </div>
+
+    </div><!-- /.modal-content -->
+</div>
+    <div id="ModalDetailDay" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-60">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="titleTimeEntryModal">Chi tiết ngày công</h4>
+                </div>
+                <div class="modal-body" id="tbyDetailDay">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div>
+
+    <div class="row m-t-20">
+        <div class="col-sm-2">
+            <select id="dllMonth" class="form-control">
+                <option value="0">Tháng trước</option>
+                @if (Model.Month == 1)
+                {
+                    <option value="1" selected>Tháng này</option>
+                }
+                else
+                {
+                    <option value="1">Tháng này</option>
+                }
+            </select>
+        </div>
+        <div class="col-sm-2">
+            @if ((int)ViewBag.Quyen == 3)
+            {
+                <input id="cboNguoiDung" style="width:100%" />
+            }
+
+        </div>
+        <div class="col-sm-4">
+            <button id="btnSearch" type="button" class="btn btn-default waves-effect waves-light">
+                <span class="btn-label">
+                    <i class="fal fa-filter"></i>
+                </span>Lọc
+            </button>
+        </div>
+        <div class="col-sm-4 text-right">
+            <button id="btnModalAdd" type="button" class="btn btn-warning waves-effect waves-light">
+                <span class="btn-label">
+                    <i class="far fa-history"></i>
+                </span>Đăng ký Offtime
+            </button>
+            <button id="btnModalNghiPhep" type="button" class="btn btn-info waves-effect waves-light">
+                <span class="btn-label">
+                    <i class="far fa-calendar-alt"></i>
+                </span>Đăng ký nghỉ phép
+            </button>
+        </div>
+    </div>
+    <div class="row m-t-20">
+        <div class="col-sm-2">
+            <span>Tổng số giờ công: <strong class="text-primary">@ViewBag.StrTotalTime</strong> </span>
+        </div>
+        <div class="col-sm-10">
+            <span>Tổng số giờ cần có: <strong class="text-primary">@ViewBag.StrTotalTimeNeed</strong> </span>
+            <span class="m-l-20">đạt tỷ lệ: <strong class="text-primary">@ViewBag.Percel</strong> </span>
+        </div>
+    </div>
+    <div class="m-t-20">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="text-mute">NGÀY</span>
+                    </th>
+                    <th>
+                        <span class="text-mute">COMPUTER TIME</span>
+                    </th>
+                    <th>
+                        <span class="text-mute">GIỜ CẦN CÓ</span>
+                    </th>
+                    <th>
+                        <span class="text-mute">LÀ NGÀY</span>
+                    </th>
+                    <th>
+                        <span class="text-mute">OFFLINE TIME</span>
+                    </th>
+                    <th>
+                        <span class="text-mute">GIỜ CÔNG</span>
+                    </th>
+                    <th width="5%">
+                        <span class="text-mute"></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.LichLamViecCaNhans != null && Model.LichLamViecCaNhans.Count > 0)
+                {
+                    foreach (var item in Model.LichLamViecCaNhans)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    var dayinWeek = (int)item.Day.Value.DayOfWeek + 1;
+
+                                    if (dayinWeek == 1)
+                                    {
+                                        <span class="font-w-500">Chủ nhật | @String.Format("{0:dd/MM/yyyy}", item.Day)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="font-w-500">Thứ @dayinWeek | @String.Format("{0:dd/MM/yyyy}", item.Day)</span>
+                                    }
+                                }
+
+
+                            </td>
+                            <td><span class="font-w-500">@item.StrTongThoiGianInWork</span></td>
+                            <td class="text-purple"><span class="font-w-500">@item.StrTongThoiGianNeed</span> </td>
+                            <td><span class="font-w-500">@item.DayType.Name</span></td>
+                            <td><span class="font-w-500">@item.StrTongThoiGianOff</span></td>
+                            <td class="text-purple"><span class="font-w-500">@item.StrTongThoiGian</span></td>
+                            <td class="text-center">
+                                <a class="links editRowTb" id="@String.Format("{0:dd/MM/yyyy}", item.Day)"><i class="fal fa-edit"></i></a>
+                                @*@if ((int)ViewBag.Quyen == 3)
+                                    {
+                                        <a class="links AddRowTb" id="@String.Format("{0:dd/MM/yyyy}", item.Day)"> <i class="fas fa-plus"></i></a>
+                                    }*@
+
+
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <script src="~/Assets/js/Modul/ReportUser.js" defer></script>

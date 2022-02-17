@@ -1,0 +1,119 @@
+﻿@using MetaWork.Data;
+@using MetaWork.Data.Provider;
+@using MetaWork.WorkTime.Models;
+@using MetaWork.Data.ViewModel;
+@{
+    NguoiDung userLoged = new NguoiDung();
+    List<PhongChatViewModel> lstpc = new List<PhongChatViewModel>();
+    if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+    {
+        string username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+        NguoiDungProvider nguoiDungP = new NguoiDungProvider();
+        userLoged = nguoiDungP.GetUserByUsername(username);
+        PhongChatModel pcM = new PhongChatModel();
+        lstpc = pcM.GetsByNguoiDungId(userLoged.NguoiDungId);
+    }
+    else
+    {
+        userLoged = null;
+    }
+}
+<a id="btnAddChannel" class="btn btn-default">Add channel</a>
+<div class="py-2 px-3 collapse-content">
+    <a class="" data-bs-toggle="collapse" href="#space" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <i class="far fa-chevron-down me-2"></i><span>Space</span>
+    </a>   
+</div>
+<div class="collapse show" id="space">
+    <ul class="list-user" id="LstChannelLB">
+        @if (lstpc != null && lstpc.Count > 0)
+        {
+            foreach (var pc in lstpc)
+            {
+                <li class="px-3 py-2">
+                    <a href="/MetaWork/PartialViewChannelChat?channelId=@pc.PhongChatId">
+                        <div class="d-flex">
+                            <div class="avartar">
+                                <img src="~/Assets/HTML/images/group/group.png" />
+                                <div class="status">
+                                    <i class="fas fa-circle text-success"></i>
+                                </div>
+                            </div>
+                            <div class="info">
+                                <p class="mb-0">@pc.TenVietTat</p>
+                                <small class="text-muted">@pc.TenPhongChat</small>
+                            </div>
+                            <div class="timestamp">
+                                @*<span class="text-muted"> 12:00</span><br />*@
+                                @if (pc.Count > 0)
+                                {
+                                    <span class="badge rounded-pill bg-danger">@pc.Count</span>
+                                }
+
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            }
+        }
+
+    </ul>
+</div>
+<div class="px-3 py-2 collapse-content">
+    <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <i class="far fa-chevron-down me-2"></i><span>Direct chat</span>
+    </a>
+</div>
+<div class="collapse show" id="collapseExample">
+    <ul class="list-user">
+        <li class="px-3 py-2 active">
+            <a href="#">
+                <div class="d-flex">
+                    <div class="avartar">
+                        <img src="~/Assets/HTML/images/user/user.png" />
+                        <div class="status">
+                            <i class="fas fa-circle text-success"></i>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p class="mb-0">Viet Anh ng</p>
+                        <small class="text-muted">You: Ối dồi ôi</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="px-3 py-2">
+            <a href="#">
+                <div class="d-flex">
+                    <div class="avartar">
+                        <img src="~/Assets/HTML/images/user/user.png" />
+                        <div class="status">
+                            <i class="fas fa-circle text-success"></i>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p class="mb-0">Viet Anh ng</p>
+                        <small class="text-muted">You: Ối dồi ôi</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="px-3 py-2">
+            <a href="#">
+                <div class="d-flex">
+                    <div class="avartar">
+                        <img src="~/Assets/HTML/images/user/user.png" />
+                        <div class="status">
+                            <i class="fas fa-circle text-success"></i>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p class="mb-0">Viet Anh ng</p>
+                        <small class="text-muted">You: Ối dồi ôi</small>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+</div>

@@ -1,0 +1,81 @@
+﻿@using MetaWork.Data.ViewModel
+@model DuAnIndexViewModel
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            @if (Model.TypeGroup != 0)
+            {
+                <th>Team Lead</th>
+            }
+            <th>Tên Dự án</th>
+            @if (Model.TypeGroup == 0)
+            {
+                <th>Team Lead</th>
+            }
+            <th>Thời gian tạo</th>
+        </tr>
+    </thead>
+    <tbody id="tbdyTableCoda">
+        @if (Model.TypeGroup == 0)
+        {
+            if (Model.DuAns != null && Model.DuAns.Count > 0)
+            {
+                foreach (var duAn in Model.DuAns)
+                {
+                    <tr>
+                        <td>
+                            <p class="clsDuAnTP" id="@duAn.DuAnId">@duAn.TenDuAn</p> 
+                        </td>
+                        <td>
+                            <img src="/Assets/images/Avatar/@duAn.AvatarNguoiQuanLy" alt="user-img" class="img-circle m-r-5" title="@duAn.HoTenNguoiQuanLy" height="25" width="25"> @duAn.HoTenNguoiQuanLy
+                        </td>
+                        <td>@duAn.NgayTao.Value.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr> <td colspan="4"><h4 class="text-center"> Không có dữ liệu dự án thành phần.</h4></td></tr>
+            }
+        }
+        else
+        {
+            if (Model.NguoiDungs != null && Model.NguoiDungs.Count > 0)
+            {
+                foreach (var nd in Model.NguoiDungs)
+                {
+                    var index = 0;
+                    foreach (var duAn in nd.DuAns)
+                    {
+    <tr>
+        @if (index == 0)
+        {
+            <td rowspan="@nd.DuAns.Count">
+                <img src="/Assets/images/Avatar/@duAn.AvatarNguoiQuanLy" alt="user-img" class="img-circle m-r-5" title="@duAn.HoTenNguoiQuanLy" height="25" width="25"> @duAn.HoTenNguoiQuanLy
+            </td>
+        }
+    <td>
+        <p class="clsDuAnTP" id="@duAn.DuAnId">@duAn.TenDuAn</p>
+    </td>
+
+        <td>@duAn.NgayTao.Value.ToString("dd/MM/yyyy")</td>
+    </tr>
+                        index++;
+                    }
+
+                }
+            }
+            else
+            {
+                <tr> <td colspan="4"><h4 class="text-center"> Không có dữ liệu dự án thành phần.</h4></td></tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
+

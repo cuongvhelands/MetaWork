@@ -1,0 +1,412 @@
+﻿@using MetaWork.Data.ViewModel
+@model DuAnViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/RobinHerbots/jquery.inputmask@5.0.0-beta.87/dist/jquery.inputmask.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<input type="hidden" id="khachHangIdM" value="@Model.KhachHangId" />
+<input type="hidden" id="loaiCongViecIdsM" value="@Model.strLoaiCongViecIds" />
+<input type="hidden" id="duAnIdM" value="@Model.DuAnId" />
+<input type="hidden" id="trangThaiDuAnIdM" value="@Model.TrangThaiDuAnId" />
+<input type="hidden" id="loaiNganSachIdM" value="@Model.LoaiNganSachId" />
+<div id="addLoaiCongViecModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Thêm loại công việc</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">Tên Loại công việc</label>
+                            <input type="text" class="form-control" id="txtTenLoaiCongViec" placeholder="Tên loại công việc..">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="field-2" class="control-label">Mã</label>
+                            <input type="text" class="form-control" id="txtMaLoaiCongViec" placeholder="Mã..">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Đóng</button>
+                <button type="button" id="btnInsetLoaiCongViec" class="btn btn-info waves-effect waves-light">Lưu lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="add-phase-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="txtTitle">Thêm mới giai đoạn</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label">Loại giai đoạn</label>
+                            <select class="form-control" id="cboLoaiGiaiDoan">
+                                <option value="0"> Chọn loại giai đoạn</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label"></label><br />
+                            <input class="m-t-15" id="chkDangThucHien" type="checkbox"> <label for="chkDangThucHien">Đang thực hiện</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label">Tên giai đoạn</label>
+                            <input type="text" class="form-control" id="txtTenGiaiDoanDuAn" placeholder="Tên giai đoạn..">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">Từ</label>
+                            <div class='input-group date' id='datetimepicker2'>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                <input type='text' id="txtFromDateGiaiDoanDuAn" class="form-control" />
+
+                            </div>
+                            @*<input type="text" class="form-control" id="txtFromDateGiaiDoanDuAn" placeholder="Từ thời gian">*@
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-2" class="control-label">Đến</label>
+                            <div class='input-group date' id='datetimepicker3'>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                <input type='text' id="txtToDateGiaiDoanDuAn" class="form-control" />
+
+                            </div>
+                            @*<input type="text" class="form-control" id="txtToDateGiaiDoanDuAn" placeholder="Đến thời gian">*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label for="field-7" class="control-label">Mô tả</label>
+                            @*<textarea id="txtMoTaGiaiDoanDuAn"></textarea>*@
+                            <textarea class="form-control" rows="5" id="txtMoTaGiaiDoanDuAn"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-3" class="control-label">Hạng mục công việc</label>
+                        <table class="table table-striped">
+                            @*<thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Tên hạng mục</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>*@
+                            <tbody id="tbdyHangMuc">
+                                <tr id="LastRow">
+                                    <td></td>
+                                    <td> <input class="form-control" id="LastInput" type="text"></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Đóng</button>
+                <button type="button" id="btnAddPhase" class="btn btn-info waves-effect waves-light">Lưu lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="now" value="@ViewBag.Now" />
+<input type="hidden" id="tongNganSachM" value="@Model.TongNganSach" />
+<div class="container">
+    <div class="row m-b-20">
+        <div class="col-sm-12">
+            <div class="pull-right m-t-15">
+                <a href="#" class="btn btn-link m-r-15 font-w-500" id="btnNotUpdateDuAn"><i class="far fa-sign-out m-r-5"></i>Thoát </a>
+                <a href="#" class="btn btn-primary waves-effect waves-light" id="btnUpdateDuAn"><span class="m-r-5"><i class="fa fa-save"></i></span> Lưu lại </a>
+            </div>
+            <h4 class="page-title">Chỉnh sửa dự án</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="card-box">
+                <h4 class="m-b-20 m-t-0 header-title"><b>Thông tin chung</b></h4>
+                <div class="form-group">
+                    <label class="control-label">Khách hàng</label>
+                    <input id="cboKhachHang" style="width:100%" />
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label class="control-label">Tên dự án</label>
+                            <input class="form-control" id="txtTenDuAn" value="@Model.TenDuAn" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <br />
+                        @if (Model.QuanTam)
+                        {
+                            <input class="m-t-15" id="chkQuanTam" checked type="checkbox"> <label for="chkQuanTam"> Quan tâm</label>
+                        }
+                        else
+                        {
+                            <input class="m-t-15" id="chkQuanTam" type="checkbox"> <label for="chkQuanTam"> Quan tâm</label>
+                        }
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Mã dự án</label>
+                            <input class="form-control" id="txtMaDuAn" value="@Model.MaDuAn" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Bắt đầu</label> <span class="text-muted">(tùy chọn)</span>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                @if (Model.NgayBatDau != null)
+                                {
+                                    <input type='text' id="txtFromTimeDuAn" class="form-control" value="@String.Format("{0:dd/MM/yyyy}", Model.NgayBatDau)" />
+                                }
+                                else
+                                {
+
+                                    <input type='text' id="txtFromTimeDuAn" class="form-control" />
+                                }
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Trạng thái</label>
+                            <input id="cboTrangThai" style="width:100%" />
+                        </div>
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <label class="control-label">Thời gian</label><br />
+                    </div>
+                    <form class="form-inline m-b-15">
+                        <div class="form-group">
+                            <label class="m-r-15">Từ</label>
+                            <input type="text" id="txtFrom" class="form-control m-r-15" placeholder="Jane Doe">
+                        </div>
+                        <div class="form-group">
+                            <label class="m-r-15">Đến</label>
+                            <input type="text" id="txtTo" class="form-control m-r-15" placeholder="Jane Doe">
+                        </div>
+                    </form>*@
+                <div class="form-group">
+                    <label class="control-label">Mô tả dự án</label>
+                    <textarea id="txtGhiChu">@Html.Raw(Model.MoTa)</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <label class="control-label">Loại công việc</label>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <select id="loaiCongViecList" multiple="multiple" data-placeholder="Chọn loại công việc..."></select>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" onclick="openAddLoaiCongViecModal()" class="btn btn-block btn-instagram btn-flat"><span><i class="fa fa-plus"></i></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-box">
+                <h4 class="m-t-0 m-b-30 header-title"><b>Ngân sách dự án</b></h4>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label class="control-label">Loại ngân sách</label>
+                            <input id="cboLoaiNganSach" style="width:100%" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" value="@Model.TongNganSach">Giá trị</label>
+                            <input type="text" class="form-control text-right" id="txtTongNhanSach" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false">
+
+                        </div>
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <label class="control-label">Phân quyền</label><br />
+                        <div class="form-group">
+                            <div class="checkbox checkbox-primary">
+                                <input id="chkPQ1" type="checkbox">
+                                <label for="chkPQ1">
+                                    Xem report
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox checkbox-primary">
+                                <input id="chkPQ2" type="checkbox">
+                                <label for="chkPQ2">
+                                    Close
+                                </label>
+                            </div>
+                        </div>
+                    </div>*@
+
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="card-box">
+                <h4 class="m-t-0 m-b-30 header-title"><b>Giai đoạn dự án</b></h4>
+
+                <div class="">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th width="60%">Giai đoạn</th>
+                                <th>Thời gian</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbdyPhase">
+                            @if (Model.GiaiDoanDuAns != null && Model.GiaiDoanDuAns.Count > 0)
+                            {
+                                foreach (var item in Model.GiaiDoanDuAns)
+                                {
+                                    <tr id="trPhase-@item.GiaiDoanDuAnId">
+                                        <td>
+                                            @if (item.TrangThaiHienTai)
+                                            {
+                                                <span id="tdTTHT-@item.GiaiDoanDuAnId" class="text-warning clTTHT"><i class="fas fa-star"></i></span>
+                                            }
+                                            else
+                                            {
+                                                <span id="tdTTHT-@item.GiaiDoanDuAnId" class="clTTHT"><i class="fas fa-star"></i></span>
+                                            }
+                                        </td>
+                                        <th scope="row" class="ship-able-status">
+                                            <div class="label label-table @item.MaMau m-r-5">@item.TenLoaiGiaiDoan</div><span class="font-13 font-w-500">@item.TenGiaiDoan</span>
+                                        </th>
+                                        <td>
+                                            @if (item.ThoiGianBatDau != null)
+                                            {
+                                                <span class="font-13 font-w-500">@item.ThoiGianBatDau.Value.Day/@item.ThoiGianBatDau.Value.Month</span>
+                                            }
+                                            @if (item.ThoiGianKetThuc != null)
+                                            {
+                                                <span class="font-13 font-w-500"> - </span><span class="font-13 font-w-500">@String.Format("{0:dd/MM/yyyy}", item.ThoiGianKetThuc)</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <span class="font-13 font-w-500">
+                                                <i class="fas fa-check-square m-r-5" style="color:#3F51B5"></i>@item.CountHangMucChecked/@item.HangMucCongViecs.Count
+                                            </span>
+                                        </td>
+                                        <td class="action">
+                                            <a href="#" id="@item.GiaiDoanDuAnId" class="on-default btn-link-grey edit-row m-r-10 editRowPhase"><i class="fal fa-edit"></i></a>
+                                            <a href="#" id="@item.GiaiDoanDuAnId" class="on-default btn-link-grey remove-row removeRowPhase"><i class="fal fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <button onclick="openAddNewPhase()" class="btn btn-link waves-effect waves-light">Thêm giai đoạn </button>
+                    </div>
+                    <!-- end: page -->
+                </div>
+
+            </div>
+            <div class="card-box">
+                <h4 class="m-t-0 m-b-30 header-title"><b>Thành viên</b></h4>
+                <div class="row m-b-30">
+                    <div class="col-sm-6">
+                        <input id="cboNguoiDung" style="width:100%" />
+                    </div>
+                </div>
+                <table class="table">
+                    <tbody id="tblAccess">
+                        <tr>
+                            <th style="width:40%" class="text-mute">Tên người dùng</th>
+                            <th class="text-mute">Quyền</th>
+                            <th class="text-mute">Ngày tham gia</th>
+                            <th width="5%" class="text-mute"></th>
+                        </tr>
+                        @if (Model.LienKetNguoiDungDuAn != null && Model.LienKetNguoiDungDuAn.Count > 0)
+                        {
+                            foreach (var item in Model.LienKetNguoiDungDuAn)
+                            {
+                                <tr id="trTableAccess-@item.NguoiDungId.ToString()">
+                                    <td class="p-t-20">
+                                        <img src="~/Assets/images/Avatar/@item.Avatar" class="m-r-5" />
+                                        <span class="font-13 font-w-500 text-inverse">@item.HoTen</span>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox checkbox-primary">
+                                            @if (item.LaQuanLy == true)
+                                            {
+                                                <input class="chkPermission" id="chkPQNDA-@item.NguoiDungId.ToString()" type="checkbox" checked><label for="chkPQNDA-@item.NguoiDungId.ToString()" class="font-13 font-w-500">Quyền quản trị</label>
+                                            }
+                                            else
+                                            {
+                                                <input class="chkPermission" id="chkPQNDA-@item.NguoiDungId.ToString()" type="checkbox"><label for="chkPQNDA-@item.NguoiDungId.ToString()" class="font-13 font-w-500">Quyền quản trị</label>
+                                            }
+
+                                        </div>
+                                    </td>
+                                    <td>@String.Format("{0:dd/MM/yyyy}", item.NgayThamGia)</td>
+                                    <td><a class="btn-link-grey deleteAccess" id="@item.NguoiDungId.ToString()"><i class="fal fa-trash-alt"></i></a></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Assets/js/Modul/EditDuAn.js" defer></script>

@@ -1,0 +1,497 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Universal.Common.Serialization</name>
+    </assembly>
+    <members>
+        <member name="T:Universal.Common.Serialization.BinarySerializable">
+            <summary>
+            Represents an object that can be serialized to a byte array.
+            Deriving classes need to be declared with <see cref="T:System.SerializableAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Serialization.BinarySerializable.ToByteArray">
+            <summary>
+            Returns the byte array representation of the object.
+            Throws an exception if the class is not declared with  <see cref="T:System.SerializableAttribute"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Serialization.BinarySerializable`1">
+            <summary>
+            Represents an object that can be serialized to a byte array.
+            Deriving classes need to be declared with <see cref="T:System.SerializableAttribute"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Universal.Common.Serialization.BinarySerializable`1.FromByteArray(System.Byte[])">
+            <summary>
+            Deserializes the object graph byte array into an instance of the object.
+            </summary>
+            <param name="byteArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.BinarySerializable`1.FromByteArray``1(System.Byte[])">
+            <summary>
+            Deserializes the object graph byte array into an instance of the object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="byteArray"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Serialization.JsonSerializable">
+            <summary>
+            Represents an object that can be serialized to a JSON string representation.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString``1(System.Boolean)">
+            <summary>
+            Serializes this object to a JSON string by considering the fields it implements as part of the generic type definitions passed to this method.
+            All properties are serialized according to their interface defition as well. 
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString``2(System.Boolean)">
+            <summary>
+            Serializes this object to a JSON string by considering the fields it implements as part of the generic type definitions passed to this method.
+            All properties are serialized according to their interface defition as well. 
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString``3(System.Boolean)">
+            <summary>
+            Serializes this object to a JSON string by considering the fields it implements as part of the generic type definitions passed to this method.
+            All properties are serialized according to their interface defition as well. 
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <typeparam name="T3"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString``4(System.Boolean)">
+            <summary>
+            Serializes this object to a JSON string by considering the fields it implements as part of the generic type definitions passed to this method.
+            All properties are serialized according to their interface defition as well. 
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <typeparam name="T3"></typeparam>
+            <typeparam name="T4"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString``5(System.Boolean)">
+            <summary>
+            Serializes this object to a JSON string by considering the fields it implements as part of the generic type definitions passed to this method.
+            All properties are serialized according to their interface defition as well. 
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <typeparam name="T3"></typeparam>
+            <typeparam name="T4"></typeparam>
+            <typeparam name="T5"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString``6(System.Boolean)">
+            <summary>
+            Serializes this object to a JSON string by considering the fields it implements as part of the generic type definitions passed to this method.
+            All properties are serialized according to their interface defition as well. 
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <typeparam name="T3"></typeparam>
+            <typeparam name="T4"></typeparam>
+            <typeparam name="T5"></typeparam>
+            <typeparam name="T6"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString``7(System.Boolean)">
+            <summary>
+            Serializes this object to a JSON string by considering the fields it implements as part of the generic type definitions passed to this method.
+            All properties are serialized according to their interface defition as well. 
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <typeparam name="T3"></typeparam>
+            <typeparam name="T4"></typeparam>
+            <typeparam name="T5"></typeparam>
+            <typeparam name="T6"></typeparam>
+            <typeparam name="T7"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString``8(System.Boolean)">
+            <summary>
+            Serializes this object to a JSON string by considering the fields it implements as part of the generic type definitions passed to this method.
+            All properties are serialized according to their interface defition as well. 
+            </summary>
+            <typeparam name="T1"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <typeparam name="T3"></typeparam>
+            <typeparam name="T4"></typeparam>
+            <typeparam name="T5"></typeparam>
+            <typeparam name="T6"></typeparam>
+            <typeparam name="T7"></typeparam>
+            <typeparam name="T8"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString(Newtonsoft.Json.Formatting)">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <param name="formatting"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString(Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString(Newtonsoft.Json.JsonConverter[])">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <param name="converters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString(Newtonsoft.Json.Formatting,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <param name="formatting"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString(Newtonsoft.Json.Formatting,Newtonsoft.Json.JsonConverter[])">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <param name="formatting"></param>
+            <param name="converters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString(System.Type,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <param name="type"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable.ToString(System.Type,Newtonsoft.Json.Formatting,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <param name="type"></param>
+            <param name="formatting"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Serialization.IBinarySerializable">
+            <summary>
+            Represents an object that can be serialized to a byte array.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Serialization.IBinarySerializable.ToByteArray">
+            <summary>
+            Returns the byte array representation of the object.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Serialization.IJsonSerializable">
+            <summary>
+            Represents an object that can be serialized as JSON.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Serialization.IJsonSerializable.ToJson">
+            <summary>
+            Serializes this object to a JSON string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.InterfaceJsonConverter.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:Universal.Common.Serialization.InterfaceJsonConverter"/> class with same behavior as
+            </summary>
+        </member>
+        <member name="T:Universal.Common.Serialization.IXmlSerializable">
+            <summary>
+            Represents an object that can be serialized as XML.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Serialization.IXmlSerializable.ToXml">
+            <summary>
+            Serializes this object to an XML string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Serialization.JsonCollectionSerializable`2">
+            <summary>
+            Represents an object that can be represented as a JSON array.
+            </summary>
+            <typeparam name="TSelf"></typeparam>
+            <typeparam name="TItem"></typeparam>
+        </member>
+        <member name="P:Universal.Common.Serialization.JsonCollectionSerializable`2.Collection">
+            <summary>
+            The collection used to implement the <see cref="T:System.Collections.Generic.ICollection`1"/> interface. Must be initialized in the constructor.
+            </summary>
+        </member>
+        <member name="P:Universal.Common.Serialization.JsonCollectionSerializable`2.Count">
+            <inheritdoc />
+        </member>
+        <member name="P:Universal.Common.Serialization.JsonCollectionSerializable`2.IsReadOnly">
+            <inheritdoc />
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonCollectionSerializable`2.Add(`1)">
+            <inheritdoc />
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonCollectionSerializable`2.Clear">
+            <inheritdoc />
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonCollectionSerializable`2.Contains(`1)">
+            <inheritdoc />
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonCollectionSerializable`2.CopyTo(`1[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonCollectionSerializable`2.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonCollectionSerializable`2.Remove(`1)">
+            <inheritdoc />
+        </member>
+        <member name="T:Universal.Common.Serialization.JsonSerializable`1">
+            <summary>
+            Represents an object that can be serialized and deserialized to and from a JSON string representation.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable`1.FromString(System.String)">
+            <summary>
+            Deserializes the JSON to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable`1.FromString``1(System.String)">
+            <summary>
+            Deserializes the JSON to an instance of this object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable`1.FromString(System.String,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Deserializes the JSON to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable`1.FromString``1(System.String,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Deserializes the JSON to an instance of this object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="string"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable`1.FromString(System.String,Newtonsoft.Json.JsonConverter[])">
+            <summary>
+            Deserializes the JSON to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <param name="converters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.JsonSerializable`1.FromString``1(System.String,Newtonsoft.Json.JsonConverter[])">
+            <summary>
+            Deserializes the JSON to an instance of this object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="string"></param>
+            <param name="converters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Serialization.MailAddressJsonConverter">
+            <summary>
+            Converts a <see cref="T:System.Net.Mail.MailAddress"/> to and from JSON.
+            Able to deserialize the default output from <see cref="M:Newtonsoft.Json.JsonConvert.SerializeObject(System.Object)"/>.
+            </summary>
+        </member>
+        <member name="T:Universal.Common.Serialization.XmlConvert">
+            <summary>
+            Provides methods for converting between XML and .NET types.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlConvert.DeserializeObject``1(System.String)">
+            <summary>
+            Deserializes an XML object or fragment into an object of type <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Serialization.XmlSerializable">
+            <summary>
+            Represents an object that can be serialized to an XML string representation.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable.ToString">
+            <summary>
+            Serializes this object to an XML string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable.ToString(System.Xml.Serialization.XmlSerializer,System.IO.StringWriter,System.Xml.XmlWriterSettings)">
+            <summary>
+            Serializes this object to an XML string.
+            </summary>
+            <param name="xmlSerializer"></param>
+            <param name="stringWriter"></param>
+            <param name="xmlWriterSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable.Universal#Common#Serialization#IXmlSerializable#ToXml">
+            <summary>
+            Serializes this object to an XML string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Serialization.XmlSerializable`1">
+            <summary>
+            Represents an object that can be serialized to an XML string representation.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString(System.String)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString``1(System.String)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString(System.String,System.Xml.Serialization.XmlSerializer,System.IO.TextReader)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="textReader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString``1(System.String,System.Xml.Serialization.XmlSerializer,System.IO.TextReader)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="textReader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString(System.String,System.Xml.Serialization.XmlSerializer,System.Xml.XmlReader)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="xmlReader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString``1(System.String,System.Xml.Serialization.XmlSerializer,System.Xml.XmlReader)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="xmlReader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString(System.String,System.Xml.Serialization.XmlSerializer,System.Xml.XmlReader,System.String)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="xmlReader"></param>
+            <param name="encodingStyle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString``1(System.String,System.Xml.Serialization.XmlSerializer,System.Xml.XmlReader,System.String)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="xmlReader"></param>
+            <param name="encodingStyle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString(System.String,System.Xml.Serialization.XmlSerializer,System.Xml.XmlReader,System.Xml.Serialization.XmlDeserializationEvents)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="xmlReader"></param>
+            <param name="xmlDeserializationEvents"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString``1(System.String,System.Xml.Serialization.XmlSerializer,System.Xml.XmlReader,System.Xml.Serialization.XmlDeserializationEvents)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <typeparam name="X"></typeparam>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="xmlReader"></param>
+            <param name="xmlDeserializationEvents"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString(System.String,System.Xml.Serialization.XmlSerializer,System.Xml.XmlReader,System.String,System.Xml.Serialization.XmlDeserializationEvents)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="xmlReader"></param>
+            <param name="encodingStyle"></param>
+            <param name="xmlDeserializationEvents"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Serialization.XmlSerializable`1.FromString``1(System.String,System.Xml.Serialization.XmlSerializer,System.Xml.XmlReader,System.String,System.Xml.Serialization.XmlDeserializationEvents)">
+            <summary>
+            Deserializes the XML to an instance of this object.
+            </summary>
+            <param name="string"></param>
+            <param name="xmlSerializer"></param>
+            <param name="xmlReader"></param>
+            <param name="encodingStyle"></param>
+            <param name="xmlDeserializationEvents"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

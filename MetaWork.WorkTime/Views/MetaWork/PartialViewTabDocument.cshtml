@@ -1,0 +1,52 @@
+﻿@using MetaWork.Data.ViewModel;
+@model List<FileViewModel>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Document</th>
+            <th width="20%">Posted by</th>
+            <th width="15%">Date posted</th>
+            <th width="10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var file in Model)
+            {
+
+
+                <tr>
+                    <td>                       
+
+                        <a href="#" class="text-decoration-none">
+                            <i class="fas fa-link text-primary me-2"></i>
+                            <span class="text-dark"> <b>@file.FileName</b></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" class="text-decoration-none">
+                            <i class="fas fa-user-circle text-primary me-2"></i>
+                            <span class="text-dark"> @file.HoTen</span>
+                        </a>
+                    </td>
+                    <td>@file.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td class="text-right">
+                        @if (file.FileType == 1)
+                        {
+                            <a href="@file.FilePath" download target="_blank"><i class="fas fa-download"></i></a>
+                        }
+                        else
+                        {
+                            <a href="@file.FilePath" target="_blank"><i class="fas fa-link"></i></a>
+                        }
+                        &nbsp;&nbsp;
+                        <a href="#" class="deleteDocumentTab m-l-5" id="@file.FileId"><i class="fas fa-trash-alt"></i></a>
+                        @*<a href="#"><i class="fal fa-comment-alt"></i></a>*@
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>

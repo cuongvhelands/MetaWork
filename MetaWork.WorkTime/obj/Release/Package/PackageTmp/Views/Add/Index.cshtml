@@ -1,0 +1,360 @@
+﻿@using MetaWork.Data.ViewModel
+@model QuanLyCongViecViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Thống kê người dùng";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+<link href="~/Assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<script src="~/Assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+<link href="~/Assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" />
+<div class="div-80 p-t-10">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Phòng ban</label>
+                <select class="form-control selectpicker" id="SelectPhongBan">
+                    <option value="0"> Tất cả phòng ban</option>
+                    @if (Model.PhongBans != null && Model.PhongBans.Count > 0)
+                    {
+                        foreach (var item in Model.PhongBans)
+                        {
+                            if (item.PhongBanId == Model.PhongBanId)
+                            {
+                                <option value="@item.PhongBanId" selected>@item.TenPhongBan</option>
+                            }
+                            else
+                            {
+                                <option value="@item.PhongBanId">@item.TenPhongBan</option>
+                            }
+
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Người dùng</label>
+                <select id="SelectNguoiDung" data-placeholder="Chọn thuộc tính hiển thị..."></select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label class="control-label">Thời gian: </label>
+            <select style="width:100%" id="ddlTime" class="form-control">
+                @if (Model.TimeTypes != null && Model.TimeTypes.Count > 0)
+                {
+                    foreach (var item in Model.TimeTypes)
+                    {
+                        if (item.Type == Model.Type)
+                        {
+                            <option value="@item.Type" selected> @item.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Type"> @item.Name</option>
+                        }
+                    }
+                }
+
+            </select>
+        </div>
+        <div class="col-sm-2" id="divTu">
+            <div class="form-group">
+                <label class="control-label">Từ</label>
+                <div class='input-group date' id='datetimepicker1'>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    <input type='text' id="txtFromDate" class="form-control" value="@Model.StrStartDate" />
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2" id="divDen">
+            <div class="form-group">
+                <label class="control-label">Đến</label>
+                <div class='input-group date' id='datetimepicker2'>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    <input type='text' id="txtToDate" class="form-control" value="@Model.StrEndDate" />
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1 text-right">
+            <br />
+            <button id="btnSearch" class="btn btn-default dropdown-toggle waves-effect waves-light m-t-5"><span class="m-r-5"><i class="fal fa-filter"></i></span>Lọc</button>
+        </div>
+    </div>
+</div>
+<table class="table table-project" id="tbyAddTodo">
+    <thead>
+        <tr>
+            <th width="15%">@Model.TextHeader</th>
+            <th></th>
+            <th>Thời gian sử dụng</th>
+            <th width="10%">Trạng thái</th>
+            <th width="8%"></th>
+        </tr>
+    </thead>
+    <tbody class="list-project">
+        @if (Model.NgayLamCongViecs != null && Model.NgayLamCongViecs.Count > 0)
+        {
+            foreach (var item in Model.NgayLamCongViecs)
+            {
+                var strngayLamViec = item.NgayLamViec.ToString("dd-MM-yyyy");
+                var rowspan = 1;
+                if (item.ToDos != null && item.ToDos.Count() > 1)
+                {
+                    rowspan = item.ToDos.Count();
+                }
+                if (item.ToDos != null && item.ToDos.Count() > 0)
+                {
+                    int i = 0;
+
+                    foreach (var todo in item.ToDos)
+                    {
+                        var id = "trNgayLamviec-" + strngayLamViec;
+                        if (i > 0) { id = "trToDo-" + todo.CongViecId; }
+                        <tr id="@id">
+                            @if (i == 0)
+                            {
+                            <td id="tdrowSpan-@strngayLamViec" rowspan="@rowspan">
+                                @item.DisPlayNgayLamViec<br />
+                                @item.NgayLamViec.ToString("dd/MM/yyyy")<br />
+                                @if (item.NgayLamViec>= DateTime.Now.AddDays(-1))
+                                {
+                                    <a class="btn btn-link tdBtnAddToDo" id="tdBtnAddToDo-@strngayLamViec">Thêm mới</a>
+                                }
+
+                            </td>
+                            }
+                            <td>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img src="~/Assets/images/Avatar/@todo.AvatarNguoiXuLy" alt="user-img" class="img-circle m-r-5" height="20" title="@todo.HoTenNguoiXuLy" width="20"> @todo.HoTenNguoiXuLy
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span class="text-mute font-11 font-w-300"><i class="fal fa-folder-open m-r-5"></i>@todo.TenDuAn > @todo.TenShipable >@todo.TenKhoaCha</span>
+                                            <p href="#" class="font-w-500 font-13 text-inverse">@todo.TenCongViec</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @Html.Raw(todo.StrTotalTime)                            
+
+                            </td>
+                            @if (todo.NguoiXuLyId != Model.UserId && Model.Quyen != 3)
+                            {
+                                <td>                                  
+                                        <label class="label label-@todo.MaMauTrangThaiCongViec">Done</label>                                 
+                                </td>
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>                                  
+                                    <select id="ddlTTTodo-@todo.CongViecId" class="form-control ddlTTCV">
+                                        @if (todo.TrangThaiCongViecs != null && todo.TrangThaiCongViecs.Count > 0)
+                                        {
+                                            foreach (var tt in todo.TrangThaiCongViecs)
+                                            {
+                                                if (tt.TrangThaiCongViecId == todo.TrangThaiCongViecId)
+                                                {
+                                                    <option value="@tt.TrangThaiCongViecId" selected>@tt.TenTrangThai</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tt.TrangThaiCongViecId">@tt.TenTrangThai</option>
+                                                }
+
+                                            }
+                                        }
+
+                                    </select>                                    
+                                </td>
+                                <td>
+                                    <a class="btn btn-link linkDetailToDo" id="linkDetailToDo-@todo.CongViecId-@strngayLamViec">Chi tiết</a> | <a class="btn btn-link linkDeleteToDo" id="@todo.CongViecId">Xóa</a>
+                                </td>
+                            }
+
+                        </tr>
+                        i++;
+                    }
+    <tr id="trAddnewToDo-@strngayLamViec" hidden>
+        <td colspan="5">
+            <div id="divAddNew-@strngayLamViec">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input class="form-control" id="txtTenToDo-@strngayLamViec" placeholder="Tên công việc" />
+                        <label class="text-danger" id="errorTenToDo-@strngayLamViec"></label>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control ddlDuAnT" id="ddlDuAn-@strngayLamViec">
+                            <option value="0"> Chọn dự án</option>
+                            @if (Model.DuAns != null && Model.DuAns.Count > 0)
+                            {
+                                foreach (var duAn in Model.DuAns)
+                                {
+                                    <option value="@duAn.DuAnId">@duAn.TenDuAn</option>
+                                }
+                            }
+                        </select>
+                        <label class="text-danger" id="errordllDuAn-@strngayLamViec"></label>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control ddlDuAnTPT" id="ddlDuAnTPT-@strngayLamViec">
+                            <option value="0"> Chọn dự án thành phần</option>                           
+                        </select>
+                        <label class="text-danger" id="errorddlDuAnTPT-@strngayLamViec"></label>
+                    </div>
+                    @if (Model.Quyen == 3)
+                    {
+                        <div class="col-md-2">
+                            <select class="form-control ddlNguoiXuLy" id="ddlNguoiXuLy-@strngayLamViec">
+                                <option value="0"> Chọn người xử lý</option>
+                                @if (Model.NguoiDungAll != null && Model.NguoiDungAll.Count > 0)
+                                {
+                                    foreach (var nguoiDung in Model.NguoiDungAll)
+                                    {
+                                        if (nguoiDung.NguoiDungId == Model.UserId)
+                                        {
+                                            <option value="@nguoiDung.NguoiDungId" selected>@nguoiDung.HoTen</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@nguoiDung.NguoiDungId">@nguoiDung.HoTen</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                            <label class="text-danger" id="errordllNguoiXuLy-@strngayLamViec"></label>
+                        </div>
+                    }
+
+                    <div class="col-md-2">
+                        <button class="btn btn-primary pull-right btnSubmitTD" id="@strngayLamViec">Lưu  </button>
+                        <button class="btn btn-link pull-right btnHuyTD" id="@strngayLamViec">Hủy  </button>
+                    </div>
+
+                </div>
+            </div>
+        </td>
+        
+    </tr>
+                }
+                else
+                {
+    <tr id="trNgayLamviec-@strngayLamViec">
+        <td id="tdrowSpan-@strngayLamViec">
+            @item.DisPlayNgayLamViec<br />
+            @item.NgayLamViec.ToString("dd/MM/yyyy")
+        </td>
+        <td id="tdAddnewToDo-@strngayLamViec" colspan="4">
+            @if (item.NgayLamViec >= DateTime.Now.AddDays(-1))
+            {
+                <a class="btn btn-link btnAddNewToDo" id="btnAddNewToDo-@strngayLamViec">Thêm mới</a>
+            }
+
+            <div id="divAddNew-@strngayLamViec" hidden>
+                <div class="row">
+                    <div class="col-md-3">
+                        <input class="form-control" id="txtTenToDo-@strngayLamViec" placeholder="Tên công việc" />
+                        <label class="text-danger" id="errorTenToDo-@strngayLamViec"></label>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control ddlDuAnT" id="ddlDuAn-@strngayLamViec">
+                            <option value="0"> Chọn dự án</option>
+                            @if (Model.DuAns != null && Model.DuAns.Count > 0)
+                            {
+                                foreach (var duAn in Model.DuAns)
+                                {
+                                    <option value="@duAn.DuAnId">@duAn.TenDuAn</option>
+                                }
+                            }
+                        </select>
+                        <label class="text-danger" id="errordllDuAn-@strngayLamViec"></label>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control ddlDuAnTPT" id="ddlDuAnTPT-@strngayLamViec">
+                            <option value="0"> Chọn dự án thành phần</option>
+                        </select>
+                        <label class="text-danger" id="errorddlDuAnTPT-@strngayLamViec"></label>
+                    </div>
+                    @if (Model.Quyen == 3)
+                    {
+                        <div class="col-md-2">
+                            <select class="form-control ddlNguoiXuLy" id="ddlNguoiXuLy-@strngayLamViec">
+                                <option value="0"> Chọn người xử lý</option>
+                                @if (Model.NguoiDungAll != null && Model.NguoiDungAll.Count > 0)
+                                {
+                                    foreach (var nguoiDung in Model.NguoiDungAll)
+                                    {
+                                        if (nguoiDung.NguoiDungId == Model.UserId)
+                                        {
+                                            <option value="@nguoiDung.NguoiDungId" selected>@nguoiDung.HoTen</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@nguoiDung.NguoiDungId">@nguoiDung.HoTen</option>
+                                        }
+
+                                    }
+                                }
+                            </select>
+                            <label class="text-danger" id="errordllNguoiXuLy-@strngayLamViec"></label>
+                        </div>
+                    }
+                    <div class="col-md-2">
+                        <button class="btn btn-primary pull-right btnSubmitTD" id="@strngayLamViec">Lưu  </button>
+                        <button class="btn btn-link pull-right btnHuyTD2" id="@strngayLamViec">Hủy  </button>
+                    </div>
+                </div>
+            </div>
+        </td>
+        
+    </tr>
+                }
+            }
+
+        }
+    </tbody>
+</table>
+
+<div id="ModalDetailToDo" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-60">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleTimeEntryModal">Chi tiết công việc</h4>
+            </div>
+            <div class="modal-body" id="tbyDetailToDo">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary pull-right" id="subMitPopTime">Approve Time</button>
+                <button type="button" class="btn btn-info pull-right" id="subMitPopCV">Cập nhật</button>
+                <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+            </div>
+        </div>
+
+    </div><!-- /.modal-content -->
+</div>
+<input type="hidden" value="@Model.Quyen" id="quyenM" />
+<input type="hidden" value="@Model.UserId" id="nguoiDungIdM" />
+<input type="hidden" value="@Model.StrNguoiDungId" id="strNguoiDungIdM" />
+<input type="hidden" value="@Model.PhongBanId" id="phongBanIdM" />
+<input type="hidden" value="@Model.StrStartDate" id="strStartDateM" />
+<input type="hidden" value="@Model.StrEndDate" id="strEndDateM" />
+<input type="hidden" value="@Model.Type" id="typeM" />
+<script src="~/Assets/js/Modul/Add.js"></script>

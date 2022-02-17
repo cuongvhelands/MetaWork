@@ -1,0 +1,84 @@
+﻿@using MetaWork.Data.ViewModel;
+@model PhongChatViewModel
+
+
+@if (Model != null && Model.Messages != null && Model.Messages.Count > 0)
+    {
+        var now = DateTime.Now.ToString("dd/MM/yyyy");
+        foreach (var item in Model.Messages)
+        {
+            string ngaytao = item.NgayTao.ToString("dd/MM/yyyy");
+            if (item.NgayTao.ToString("dd/MM/yyyy") == now)
+            {
+                ngaytao = item.NgayTao.ToString("hh:mm");
+            }
+            else { ngaytao = item.NgayTao.ToString("dd/MM/yyyy hh:mm"); }
+            if (item.NguoiGuiId == Model.User)
+            {
+                <li class="admin clearfix">
+                    <div class="mb-2 ms-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>@ngaytao</small><br /></div>
+                    <ul class="chat-me" id="groupUserChat-@item.MessageId">
+                        @if (item.Messages != null && item.Messages.Count > 0)
+{
+    foreach (var mess in item.Messages)
+    {
+                                <li class="hover-action" id="divMessThread-@mess.MessageId">
+                                    <div class="dropdown right clearfix ms-2">
+                                        <a href="#" class="dropdown-button" type="button" id="dropdownMenuButton-@mess.MessageId" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fal fa-ellipsis-v"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-sm dropdown-menu-end" aria-labelledby="dropdownMenuButton-@mess.MessageId">
+                                            <li><a class="dropdown-item deleteMessThread" id="@mess.MessageId" href="#">Action</a></li>
+                                            @*<li><a class="dropdown-item" href="#">Another action</a></li>
+                                                <li><a class="dropdown-item" href="#">Something else here</a></li>*@
+                                        </ul>
+                                    </div>
+                                    <div class="chat-body clearfix me">
+                                        <p>
+                                            @Html.Raw(mess.NoiDung)
+                                        </p>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+
+
+                <li class="agent clearfix">
+                    <ul class="chat-user" id="groupUserChat-@item.MessageId">
+                        @if (item.Messages != null && item.Messages.Count > 0)
+                        {
+                            foreach (var mes in item.Messages)
+                            {
+                                <li>
+                                    <span class="chat-img left clearfix mx-2">
+                                        <img src="~/Assets/images/Avatar/@mes.Avatar" alt="Agent" class="img-circle" />
+                                    </span>
+                                    <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>@item.HoTen, @ngaytao</small><br /></div>
+                                    <div class="chat-body clearfix">
+                                        <p>
+                                            @Html.Raw(mes.NoiDung)
+                                        </p>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+
+                    </ul>
+                </li>
+            }
+
+
+        }
+   
+}
+
+
+
+
+

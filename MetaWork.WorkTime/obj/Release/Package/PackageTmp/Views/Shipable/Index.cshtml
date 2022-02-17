@@ -1,0 +1,316 @@
+﻿@using MetaWork.Data.ViewModel
+@model ShipAbleViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #overlay {
+        top: 100;
+        position: absolute;
+        background-color: black;
+        opacity: 0.1;
+    }
+
+    #content {
+        top: 100;
+        position: absolute;
+    }
+</style>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<input type="hidden" id="tuanHTM" value="@ViewBag.TuanHienTai" />
+<input type="hidden" id="tuanM" value="@ViewBag.Tuan" />
+<input type="hidden" id="teamM" value="@ViewBag.Team" />
+<input type="hidden" id="yearM" value="@ViewBag.Year" />
+<input type="hidden" id="duAnIdM" value="@ViewBag.DuAnId" />
+<input type="hidden" id="maM" value="@ViewBag.Ma" />
+<input type="hidden" id="trangThaiCvM" value="@ViewBag.trangThaiCV" />
+<input type="hidden" id="nowM" value="@ViewBag.Now" />
+<input type="hidden" id="nguoiDungMSh" value="@ViewBag.NguoiDungIdMS" />
+<div class="container">
+    <div id="addShipModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-60">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Thêm mới ship-able</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn dự án</label>
+                                    <select id="cboDuAn" class="form-control">
+                                        <option id="0"> Chọn dự án </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Giai đoạn dự án</label>
+                                    @*<input id="cboGiaiDoanDuAn" class="form-control" style="width:100%" />*@
+                                    <select id="cboGiaiDoanDuAn" class="form-control">
+                                        <option id="0"> Chọn giai đoạn </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn Người</label><span class="text-muted">(tùy chọn)</span>
+                                    @*<input id="cboNguoiDung" class="form-control" style="width:100%" />*@
+                                    <select id="cboNguoiDung" class="form-control">
+                                        <option id="0"> Chọn người </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label class="control-label">Tên shipable</label>
+                                    <input style="width:100%" id="txtTenShipable" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Mã</label>
+                                    <input style="width:100%" id="txtMaShipable" disabled class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Mô tả</label>
+                            @*<div id="overlay" style="width:100%;height:252px"></div>
+                            <div id="content">
+                                <textarea id="txtGhiChu" rows="5" style="width:100%"></textarea>
+                            </div>*@
+                            <textarea class="form-control" rows="5" id="txtGhiChu"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn tuần</label>
+                                    @*<input id="cboWeek" class="form-control" style="width:100%" />*@
+                                    <select id="cboWeek" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Độ ưu tiên</label>
+                                    @*<input id="cboDoUuTien" class="form-control" style="width:100%" />*@
+                                    <select id="cboDoUuTien" class="form-control"></select>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Deadline</label><span class="text-muted">(tùy chọn)</span>
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                        <input type='text' id="txtDeadLine" class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Trạng thái</label>
+                                    @*<input id="cboTrangThai" class="form-control" style="width:100%" />*@
+                                    <select id="cboTrangThai" class="form-control">
+                                        <option value="0">Chọn trạng thái</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label"></label>
+                                    @*<input id="cboTrangThai" class="form-control" style="width:100%" />*@
+                                    <select id="cboTrangThai2" class="form-control m-t-5">
+                                        <option value="0">Chọn trạng thái</option>
+                                    </select>
+                                    <label class="control-label m-t-15" id="lblTrangThaiPlan"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" id="divXuLy">
+                                <br />
+                                <input class="m-t-15" id="chkXuLyINW" type="checkbox"> <label for="chkXuLyINW"> Xử lý trong tuần tiếp theo</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="divDelete">
+                        <button type="button" id="btnDelete" class="btn btn-warning pull-left">Xóa</button>
+                    </div>                 
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>                 
+                        <button type="button" id="btnSubmit" class="btn btn-primary waves-effect waves-light">Lưu</button>                    
+                 
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="row m-b-20">
+    <div class="col-sm-12">
+        <div class="btn-group pull-right m-t-15">
+
+        </div>
+        <h4 class="page-title">Danh sách Ship-able</h4>
+    </div>
+</div>
+@{
+
+    var tuan2 = Model.Tuan - 1;
+    var tuan3 = Model.Tuan - 2;
+    var tuan4 = Model.Tuan - 3;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="form-inline m-b-20">
+
+                <div class="form-group m-r-10">
+                    <label class="control-label">Theo dự án: </label>
+                    <input id="cboDuAn1" style="width:100%" />
+                </div>
+                <div class="form-group m-r-10">
+                    <label class="control-label">Chọn tuần: </label>
+                    <input id="cboWeek1" style="width:100%" />
+                </div>
+                <div class="form-group m-r-10">
+                    <label class="control-label">Theo trạng thái: </label>
+                    <input id="cboTrangThai11" style="width:100%" />
+                </div>
+                <div class="form-group m-r-10">
+                    <label class="control-label">Chọn nhóm: </label>
+                    <input id="cboTeam" style="width:100%" />
+                </div>
+                <div class="form-group m-r-10">
+                    <label class="control-label">Chọn người dùng: </label>
+                    <input id="cboNguoiDung1" style="width:100%" />
+                </div>
+                <div class="pull-right p-t-20">
+                    <a @*href="/shipable/Addnew"*@ onclick="openAddShipModal()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-plus-square m-r-5"></i>Thêm mới ship  </a>
+                </div>
+                @*<button type="submit" class="btn btn-default waves-effect waves-light btn-md">
+            Lọc
+        </button>*@
+            </div>
+            <table class="table ship-able-table m-0">
+                <tr>
+                    <th class="row-span-colunm" width="10%">
+                    </th>
+                    <th width="12%">Dự án</th>
+                    <th width="3%"></th>
+                    <th width="30%">Ship-able</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @if (Model != null && Model.ShipAble2Indexs.Count > 0)
+                {
+                    var j = 0;
+                    var classTdN = "";
+                    var classTdN2 = "";
+                    foreach (var item2 in Model.ShipAble2Indexs)
+                    {
+                        if (j == 0)
+                        {
+                            classTdN = "bg-ship-able-week-now";
+                            classTdN2 = "bg-ship-able-week-now-2";
+                        }
+                        else { classTdN = ""; classTdN2 = ""; }
+                        if (item2.Shipables != null && item2.Shipables.Count > 0)
+                        {
+                            var i = 0;
+                            foreach (var item in item2.Shipables)
+                            {
+
+                                <tr>
+
+                                    @if (i == 0)
+                                    {
+                                        <th rowspan="@item2.Shipables.Count" class="@classTdN">
+                                            <span class="font-w-500 font-13">Tuần @item2.Tuan</span>
+                                            @*<p>
+                                                    <span class="text-danger">@Model.ShipAbleHoanThanhTuanHienTai</span> / @if (Model.ShipableTuanHienTai != null && Model.ShipableTuanHienTai.Count > 0)
+                                                    {
+                                                        <span class="text-dark"> @Model.ShipableTuanHienTai.Count </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-dark">0 </span>
+                                                    }
+                                                </p>*@
+                                        </th>
+                                    }
+                                    <td class="@classTdN">
+                                        <a href="/project/Edit?duAnId=@item.DuAnId" target="_blank" class="btn-link font-11 project-code-in-ship-able"><i class="fal fa-folder-open m-r-5"></i> @item.MaDuAn</a><br />
+                                        <span class="font-13 font-w-500" style="color:#1F2E54">@item.TenGiaiDoanActive</span>
+                                    </td>
+                                    <td class="@classTdN2">
+                                        <span class="font-w-500">@item.MaCongViec</span>
+                                    </td>
+
+                                    <td class="@classTdN2">
+                                        <a class="EditShipable" id="@item.CongViecId"><span class="font-w-500 font-13 ship-able-name">@item.TenCongViec</span> </a>
+                                        <br />
+                                        <span class="text-muted font-11">@item.TenCongViecMute</span>
+                                    </td>
+                                    <td class="ship-able-status p-t-20 @classTdN2">
+                                        <div class="label label-table label-@item.MaMau">@item.TenTrangThai</div>
+                                    </td>
+                                    <td class="@classTdN2 p-t-15">
+                                        @if (item.NguoiXuLyId != null)
+                                        {
+                                            <img src="~/Assets/images/Avatar/@item.AvatarNguoiXuLy" alt="user-img" class="img-circle m-r-5" height="20" title="@item.HoTenNguoiXuLy" width="20"> <span class="font-w-500 font-13">@item.HoTenNguoiXuLy</span>
+                                        }
+                                    </td>
+                                    <td class="@classTdN2 p-t-15">
+                                        <img src="~/Assets/images/Priority/@item.MaMauThuTuUuTien" />
+                                    </td>
+                                    <td class="@classTdN2 p-t-15">
+                                        <i class="fal fa-calendar-alt m-r-5"></i><span class="font-13 font-w-500">@item.StrNgayDuKienHoanThanhFull</span>
+                                    </td>
+                                    <td class="@classTdN2 p-t-15">@item.DiemPoint</td>
+                                    <td class="@classTdN2 p-t-15">
+                                        <a class="m-r-10 EditShipable" id="@item.CongViecId"><i class="fal fa-edit"></i></a>
+                                        <a class="deleteShipableT" id="@item.CongViecId"><i class="fal fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <th> Tuần @item2.Tuan</th>
+                                <td colspan="8"><h4 class="text-center font-13 font-w-500"> Không có shipable nào trong tuần.</h4></td>
+                            </tr>
+                        }
+                        j++;
+                    }
+                }
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
+<script src="~/Assets/js/Modul/IndexShipable.js"></script>

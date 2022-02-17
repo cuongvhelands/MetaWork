@@ -1,0 +1,23 @@
+﻿
+@using MetaWork.Data.ViewModel
+@model RoomViewModel
+@{
+    Layout = null;
+}
+<input type="hidden" id="phongchatid" value="@Model.PhongChatId"/>
+<ul class="chat-room">
+    @if (Model != null && Model.Messages != null && Model.Messages.Count > 0)
+    {
+        foreach (var mess in Model.Messages)
+        {
+            <li class="person messageChat" data-chat="person4" id="@mess.MessageId">
+                <img src="~/Assets/images/Avatar/@mess.Avatar" alt="@mess.HoTen">
+                <span class="name">@mess.HoTen</span>
+                <span class="status online"></span>
+                <span class="time">@mess.NgayTao.ToString("t")</span>
+                <span class="preview"> @Html.Raw(mess.NoiDung)</span>
+            </li>
+        }
+    }
+</ul>
+

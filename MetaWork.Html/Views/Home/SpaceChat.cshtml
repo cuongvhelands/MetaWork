@@ -1,0 +1,829 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Headers · Bootstrap v5.1</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+    <!-- Bootstrap core CSS -->
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/library/fontawesome-pro-5.15.2-web/css/all.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/Assets/css/header.css" rel="stylesheet" />
+    <link href="~/Assets/css/content.css" rel="stylesheet" />
+    <link href="~/Assets/css/sidebar.css" rel="stylesheet" />
+    <link href="~/Assets/css/custom.css" rel="stylesheet" />
+    <link href="~/Assets/css/chatbox.css" rel="stylesheet" />
+    <link href="~/Assets/Jodit-3.9.2/jodit.min.css" rel="stylesheet" />
+
+    <script src="~/Assets/library/jquery/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>   
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.9.2/jodit.min.js"></script>
+
+</head>
+
+<body>
+    <main>
+        <div class="modal fade" id="createEventModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create new meeting</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="d-flex mb-4">
+                                <div class="form-icon">
+                                </div>
+                                <div class="form-group flex-grow-1" style="padding-left:5px">
+                                    <input class="title" placeholder="Name of meeting" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex mb-3">
+                                <div class="form-icon text-right pe-3 my-auto">
+                                    <i class="fal fa-clock text-muted"></i>
+                                </div>
+                                <div class="form-group flex-grow-1">
+                                    <div class="d-flex">
+                                        <div style="width:70%">
+                                            <input class="form-control datepickr" placeholder="Date" />
+                                        </div>
+                                        <div style="width:30%" class="d-flex text-center">
+                                            <div style="width:40%">
+                                                <input class="form-control timepickr" placeholder="From" />
+                                            </div>
+                                            <div class="my-auto mx-auto" style="width:20%">
+                                                <i class="far fa-minus"></i>
+                                            </div>
+                                            <div style="width:40%">
+                                                <input class="form-control timepickr" style="text-align:center" placeholder="to" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <div class="form-icon text-right pe-3 my-auto">
+                                    <i class="fal fa-users text-muted"></i>
+                                </div>
+                                <div class="form-group flex-grow-1">
+                                    <select class="addUser" name="states[]" multiple="multiple">
+                                        <option value="AL">Cường Vũ</option>
+                                        <option value="WY">Việt Anh</option>
+                                        <option value="WY">Cường Vương</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="form-icon text-right pe-3 my-auto">
+                                    <i class="fal fa-align-right text-muted"></i>
+                                </div>
+                                <div class="form-group flex-grow-1">
+                                    <textarea class="description-meet" rows="1" placeholder="Add description or attachments"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Back</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="driveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-80">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title me-3" id="staticBackdropLabel">Select an item</h5>
+                        <div class="input-group" style="width:80%">
+                            <input type="text" class="form-control " placeholder="Search in drive" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-tabs nav-custom" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                    RECENT
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                    UPLOAD
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                    MY DRIVE
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                    SHARE WITH ME
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#tab5" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                    STARRED
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#tab6" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                    COMPUTERS
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content py-4" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="home-tab">
+                            </div>
+                            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                            <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="profile-tab">
+                                <hp class="text-muted">My Drive</hp>
+                                <div class="table-responsive">
+                                    <table class="table table-sm file-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name <a href="#"><i class="fal fa-sort-alpha-up-alt ms-1"></i></a></th>
+                                                <th width="20%">Owner</th>
+                                                <th width="15%">Last modified</th>
+                                                <th width="10%" class="text-right">File size</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <i class="fad fa-file-alt text-primary me-2"></i>
+                                                        <small class="text-dark">File name 1</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <small class="text-dark"> Admin</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <small>Dec,30,2021</small>
+                                                </td>
+                                                <td class="text-right">
+                                                    45kb
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <i class="fad fa-file-alt text-primary me-2"></i>
+                                                        <small class="text-dark">File name 1</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <small class="text-dark"> Admin</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <small>Dec,30,2021</small>
+                                                </td>
+                                                <td class="text-right">
+                                                    45kb
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <i class="fad fa-file-alt text-primary me-2"></i>
+                                                        <small class="text-dark">File name 1</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <small class="text-dark"> Admin</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <small>Dec,30,2021</small>
+                                                </td>
+                                                <td class="text-right">
+                                                    45kb
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <i class="fad fa-file-alt text-primary me-2"></i>
+                                                        <small class="text-dark">File name 1</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <small class="text-dark"> Admin</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <small>Dec,30,2021</small>
+                                                </td>
+                                                <td class="text-right">
+                                                    45kb
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <i class="fad fa-file-alt text-primary me-2"></i>
+                                                        <small class="text-dark">File name 1</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <small class="text-dark"> Admin</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <small>Dec,30,2021</small>
+                                                </td>
+                                                <td class="text-right">
+                                                    45kb
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <i class="fad fa-file-alt text-primary me-2"></i>
+                                                        <small class="text-dark">File name 1</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <small class="text-dark"> Admin</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <small>Dec,30,2021</small>
+                                                </td>
+                                                <td class="text-right">
+                                                    45kb
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <i class="fad fa-file-alt text-primary me-2"></i>
+                                                        <small class="text-dark">File name 1</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="text-decoration-none">
+                                                        <small class="text-dark"> Admin</small>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <small>Dec,30,2021</small>
+                                                </td>
+                                                <td class="text-right">
+                                                    45kb
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                            <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                            <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="contact-tab">
+                                <div class="text-center">
+                                    <img src="~/Assets/images/pages/empty.svg" width="200" />
+                                    <div class="mt-4">
+                                        <form action="/target" class="dropzone" id="my-great-dropzone"></form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1 class="visually-hidden">Headers examples</h1>
+        <header class="border-bottom">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <div style="width:20%" class="ps-4 py-3">
+                    <div class="d-flex">
+                        <a href="#" id="collapse-button" class="align-items-center mr-4 mb-lg-0 text-dark text-decoration-none" style="font-size:30px">
+                            <i class="far fa-bars"></i>
+                        </a>
+                    </div>
+                </div>
+                <div style="width:75%" class="py-3">
+                    <div class="input-group ps-0" style="width:60%">
+                        @*<span class="input-group-text"><i class="far fa-search"></i></span>*@
+                        <input type="text" class="form-control search-box" placeholder="Search">
+                        <button class="btn btn-outline-secondary btn-input" type="button"><i class="far fa-sliders-v"></i></button>
+                    </div>
+                </div>
+                <div class="dropdown text-end pe-4 py-3" style="width:5%">
+                    <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="d-flex main-content">
+            <div class="sidebar bg-white active">
+                <div class="px-3 py-2 collapse-content">
+                    <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="far fa-chevron-down me-2"></i><span>Direct chat</span>
+                    </a>
+                </div>
+                <div class="collapse show" id="collapseExample">
+                    <ul class="list-user">
+                        <li class="px-3 py-2 active">
+                            <a href="#">
+                                <div class="d-flex">
+                                    <div class="avartar">
+                                        <img src="~/Assets/images/user/user.png" />
+                                        <div class="status">
+                                            <i class="fas fa-circle text-success"></i>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <p class="mb-0">Viet Anh ng</p>
+                                        <small class="text-muted">You: Ối dồi ôi</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="px-3 py-2">
+                            <a href="#">
+                                <div class="d-flex">
+                                    <div class="avartar">
+                                        <img src="~/Assets/images/user/user.png" />
+                                        <div class="status">
+                                            <i class="fas fa-circle text-success"></i>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <p class="mb-0">Viet Anh ng</p>
+                                        <small class="text-muted">You: Ối dồi ôi</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="px-3 py-2">
+                            <a href="#">
+                                <div class="d-flex">
+                                    <div class="avartar">
+                                        <img src="~/Assets/images/user/user.png" />
+                                        <div class="status">
+                                            <i class="fas fa-circle text-success"></i>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <p class="mb-0">Viet Anh ng</p>
+                                        <small class="text-muted">You: Ối dồi ôi</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="py-2 px-3 collapse-content">
+                    <a class="" data-bs-toggle="collapse" href="#space" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="far fa-chevron-down me-2"></i><span>Space</span>
+                    </a>
+                </div>
+                <div class="collapse show" id="space">
+                    <ul class="list-user">
+                        <li class="px-3 py-2">
+                            <a href="#">
+                                <div class="d-flex">
+                                    <div class="avartar">
+                                        <img src="~/Assets/images/group/group.png" />
+                                        <div class="status">
+                                            <i class="fas fa-circle text-success"></i>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <p class="mb-0">WorkTime Dev</p>
+                                        <small class="text-muted">You: Ối dồi ôi</small>
+                                    </div>
+                                    <div class="timestamp">
+                                        <span class="text-muted"> 12:00</span><br />
+                                        <span class="badge rounded-pill bg-danger">10</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="content shadow flex-grow-1">
+                <div class="p-4">
+                    <div class="d-flex">
+                        <img src="~/Assets/images/group/group.png" style="width:50px;height:50px;border-radius:25px" />
+                        <div class="ms-2 mb-3">
+                            <p class="mb-0"><strong>Worktime Dev</strong></p>
+                            <small class="text-muted">
+                                6 Member | 20 File | 3 Task
+                            </small>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs nav-custom" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fad fa-comments-alt me-2"></i>Chat
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                <i class="fad fa-file-alt me-2"></i>
+                                File
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                <i class="fad fa-tasks me-2"></i>
+                                Task
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content py-4" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="card">
+                                <div class="card-body list-thread p-4">
+                                    <div class="card card-chat" id="box-1">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Thread: this is thread name</h5>
+                                            <div class="d-flex collape-chat" id="collapse-1">
+                                                <span class="badge rounded-pill">10</span>
+                                                <div class="flex-grow-1 line"></div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body chat-care pb-5" id="content-1">
+                                            <ul class="chat">
+                                                <li class="agent clearfix">
+                                                    <ul class="chat-user">
+                                                        <li>
+                                                            <span class="chat-img left clearfix mx-2">
+                                                                <img src="~/Assets/images/user/user.png" alt="Agent" class="img-circle" />
+                                                            </span>
+                                                            <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Viet Anh Ng, 13 mins ago</small><br /></div>
+                                                            <div class="chat-body clearfix">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="chat-img left clearfix mx-2">
+                                                                <img src="~/Assets/images/user/user.png" alt="Agent" class="img-circle" />
+                                                            </span>
+                                                            <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Viet Anh Ng, 13 mins ago</small><br /></div>
+                                                            <div class="chat-body clearfix">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="chat-img left clearfix mx-2">
+                                                                <img src="~/Assets/images/user/user.png" alt="Agent" class="img-circle" />
+                                                            </span>
+                                                            <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Viet Anh Ng, 13 mins ago</small><br /></div>
+                                                            <div class="chat-body clearfix">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="agent clearfix">
+                                                    <span class="chat-img left clearfix mx-2">
+                                                        <img src="~/Assets/images/user/user.png" alt="Agent" class="img-circle" />
+                                                    </span>
+                                                    <div class="mb-2chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Cuong vu, 15 mins ago</small><br /></div>
+                                                    <div class="chat-body clearfix">
+                                                        <p>
+                                                            Lorem ipsum dolor sit amet.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li class="admin clearfix hover-action">
+                                                    <div class="mb-2 me-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>23 mins ago</small><br /></div>
+                                                    <div class="dropdown right clearfix ms-2">
+                                                        <a href="#" class="dropdown-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fal fa-ellipsis-v"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-sm dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="chat-body clearfix me">
+                                                        <p>
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                                            dolor, quis ullamcorper ligula sodales.
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                <li class="agent clearfix">
+                                                    <ul class="chat-user">
+                                                        <li class="item-user-chat">
+
+                                                            <span class="chat-img left clearfix mx-2">
+                                                                <img src="~/Assets/images/user/user.png" alt="Agent" class="img-circle" />
+                                                            </span>
+                                                            <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Viet Anh Ng, 13 mins ago</small><br /></div>
+                                                            <div class="chat-body clearfix">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="item-user-chat">
+
+                                                            <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Viet Anh Ng, 13 mins ago</small><br /></div>
+                                                            <div class="chat-body clearfix">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="admin clearfix">
+                                                    <div class="mb-2 ms-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small><br /></div>
+                                                    <ul class="chat-me">
+                                                        <li class="hover-action">
+                                                            <div class="dropdown right clearfix ms-2">
+                                                                <a href="#" class="dropdown-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="fal fa-ellipsis-v"></i>
+                                                                </a>
+                                                                <ul class="dropdown-menu dropdown-sm dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="chat-body clearfix me">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                                                    dolor, quis ullamcorper ligula sodales.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="hover-action">
+                                                            <div class="dropdown right clearfix ms-2">
+                                                                <a href="#" class="dropdown-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="fal fa-ellipsis-v"></i>
+                                                                </a>
+                                                                <ul class="dropdown-menu dropdown-sm dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="chat-body clearfix me">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="hover-action">
+                                                            <div class="dropdown right clearfix ms-2">
+                                                                <a href="#" class="dropdown-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="fal fa-ellipsis-v"></i>
+                                                                </a>
+                                                                <ul class="dropdown-menu dropdown-sm dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="chat-body clearfix me">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. ádhfgdfjghk
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="agent clearfix">
+                                                    <ul class="chat-user">
+                                                        <li>
+                                                            <span class="chat-img left clearfix mx-2">
+                                                                <img src="~/Assets/images/user/user.png" alt="Agent" class="img-circle" />
+                                                            </span>
+                                                            <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Viet Anh Ng, 13 mins ago</small><br /></div>
+                                                            <div class="chat-body clearfix">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="chat-img left clearfix mx-2">
+                                                                <img src="~/Assets/images/user/user.png" alt="Agent" class="img-circle" />
+                                                            </span>
+                                                            <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Viet Anh Ng, 13 mins ago</small><br /></div>
+                                                            <div class="chat-body clearfix">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <span class="chat-img left clearfix mx-2">
+                                                                <img src="~/Assets/images/user/user.png" alt="Agent" class="img-circle" />
+                                                            </span>
+                                                            <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>Viet Anh Ng, 13 mins ago</small><br /></div>
+                                                            <div class="chat-body clearfix">
+                                                                <p>
+                                                                    Lorem ipsum dolor sit amet.
+                                                                </p>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                        <div class="card-footer py-3">
+                                            <div class="d-flex chat-input">
+                                                <div class="editor">
+                                                    <textarea class="form-control editor" id="chat1" placeholder="Type message here"></textarea>
+                                                </div>
+                                                <div class="chat-button flex-grow-1">
+                                                    <div class="ms-2">
+                                                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fal fa-smile"></i></button>
+                                                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fal fa-paperclip"></i></button>
+                                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModaldrive()"><i class="fab fa-google-drive"></i></button>
+                                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="openCreateEventModal()"><i class="fal fa-video"></i></button>
+                                                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fal fa-file-plus"></i></button>
+                                                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fal fa-calendar"></i></button>
+                                                        </div>
+                                                        <button class="btn btn-sm btn-primary"><i class="fad fa-paper-plane"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <button class="btn btn-outline-dark"><i class="fal fa-plus me-2"></i>Create new space</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="mb-4">
+                                <button class="btn btn-primary bnt-sm">Add file</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>File</th>
+                                            <th width="20%">Posted by</th>
+                                            <th width="15%">Date posted</th>
+                                            <th width="10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <a href="#" class="text-decoration-none">
+                                                    <i class="fad fa-file-alt text-primary me-2"></i>
+                                                    <span class="text-dark"> <b>File name 1</b></span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="text-decoration-none">
+                                                    <i class="fas fa-user-circle text-primary me-2"></i>
+                                                    <span class="text-dark"> Admin</span>
+                                                </a>
+                                            </td>
+                                            <td>Today</td>
+                                            <td class="text-right">
+                                                <a href="#"><i class="fal fa-folder-plus me-2"></i></a>
+                                                <a href="#"><i class="fal fa-comment-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="menubar">
+                <ul class="applist">
+                    <li class="py-3">
+                        <a href="#">
+                            <i class="fad fa-comments text-danger"></i>
+                        </a>
+                    </li>
+                    <li class="py-3">
+                        <a href="#">
+                            <i class="fad fa-calendar-star text-warning"></i>
+                        </a>
+                    </li>
+                    <li class="py-3">
+                        <a href="#">
+                            <i class="fad fa-check-circle text-success"></i>
+                        </a>
+                    </li>
+                    <li class="py-3">
+                        <a href="#">
+                            <i class="fad fa-user-cog"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+   <script src="~/Assets/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $('.addUser').select2({
+            placeholder: "Add guest",
+            allowClear: true
+        });
+        $('#createEventModal').modal('show');
+    });
+    //$('.datepickr').flatpickr({
+    //    dateFormat: "D-M-Y",
+    //    defaultDate: 'today'
+    //})
+    //$('.timepickr').flatpickr({
+    //    enableTime: true,
+    //    noCalendar: true,
+    //    dateFormat: "H:i",
+    //})
+
+    //Dropzone.options.myGreatDropzone = { // camelized version of the `id`
+    //    paramName: "file", // The name that will be used to transfer the file
+    //    maxFilesize: 2, // MB
+    //    accept: function (file, done) {
+    //        if (file.name == "justinbieber.jpg") {
+    //            done("Naha, you don't.");
+    //        }
+    //        else { done(); }
+    //    }
+    //};
+    //$('.editor').each(function () {
+    //    var editor = new Jodit(this, {
+    //        preset: 'inline',
+    //        "autofocus": true,
+    //        "minHeight": 60,
+    //        "maxHeight": 400,
+    //        placeholder: 'Type message here'
+    //    });
+    //});
+    //$("#chat1").click(function () {
+    //    var classList = $('#box-1').attr('class').split(/\s+/);
+    //    $.each(classList, function (index, item) {
+    //        if (item === 'h350') {
+    //            $("#box-1").removeClass('h350');
+    //        }
+    //    });
+    //    $(".list-thread").animate({ scrollTop: $('.list-thread').prop("scrollHeight") }, 500);
+    //});
+    
+    //function openModaldrive() {
+    //    $("#driveModal").modal('show')
+    //}
+    //function openCreateEventModal() {
+    //    $('#createEventModal').modal('show');
+    //}
+</script>

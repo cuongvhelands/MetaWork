@@ -1,0 +1,16 @@
+﻿.text-right{
+    text-align:right
+}
+.main-content {
+    height: calc(100vh - 75px)
+}
+
+    .main-content.collapse .sidebar {
+        width: 5%;
+    }
+        .main-content.collapse .collapse-content span{
+            display:none
+        }
+        .main-content.collapse .sidebar .list-user .info, .main-content.collapse .sidebar .list-user .timestamp {
+            display: none
+        }

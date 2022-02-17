@@ -1,0 +1,18 @@
+﻿@using MetaWork.Data.ViewModel
+@model List<NguoiDungViewModel>
+@{
+    Layout = null;
+}
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var nguoiDung in Model)
+    {
+        <li class="person userChat" data-chat="person1" id="@nguoiDung.NguoiDungId">
+            <img src="~/Assets/images/Avatar/@nguoiDung.Avatar" alt="Ubold Admin">
+            <span class="name">@nguoiDung.HoTen</span>
+            <span class="status online"></span>
+            @*<span class="time">10:55 AM</span>*@
+            @*<span class="preview">I was wondering...</span>*@
+        </li>
+    }
+}

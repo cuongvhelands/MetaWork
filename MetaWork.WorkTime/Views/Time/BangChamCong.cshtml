@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "BangChamCong";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="page-title">Bảng chấm công</h4>
+<div class="row m-t-20">
+    <div class="col-sm-2">
+        <select class="form-control">
+            <option>
+                Tháng 12
+            </option>
+        </select>
+    </div>
+    <div class="col-sm-2">
+        <select class="form-control">
+            <option>
+                Cường VH
+            </option>
+        </select>
+    </div>
+    <div class="col-sm-6">
+        <button type="button" class="btn btn-default waves-effect waves-light">
+            <span class="btn-label">
+                <i class="fal fa-filter"></i>
+            </span>Lọc
+        </button>
+    </div>
+    <div class="col-sm-2 text-right">
+        <button type="button" class="btn btn-warning waves-effect waves-light">
+            <span class="btn-label">
+                <i class="far fa-history"></i>
+            </span>Đăng ký giờ
+        </button>
+    </div>
+</div>
+<div class="row m-t-20">
+    <div class="col-sm-2">
+        <span>Tổng số giờ công: <strong class="text-primary">190h40p</strong> </span>
+    </div>
+    <div class="col-sm-10">
+        <span>Tổng số giờ cần có: <strong class="text-primary">190h40p</strong> </span>
+        <span class="m-l-20">đạt tỷ lệ: <strong class="text-primary">100%</strong> </span>
+    </div>
+</div>
+<div class="m-t-20">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    <span class="text-mute">NGÀY</span>
+                </th>
+                <th>
+                    <span class="text-mute">COMPUTER TIME</span>
+                </th>
+                <th>
+                    <span class="text-mute">GIỜ CẦN CÓ</span>
+                </th>
+                <th>
+                    <span class="text-mute">LÀ NGÀY</span>
+                </th>
+                <th>
+                    <span class="text-mute">OFFLINE TIME</span>
+                </th>
+                <th>
+                    <span class="text-mute">GIỜ CÔNG</span>
+                </th>
+                <th width="5%">
+                    <span class="text-mute"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="font-w-500">Thứ 6 | 01/11/2019</span></td>
+                <td><span class="font-w-500">08:00:00</span></td>
+                <td class="text-purple"><span class="font-w-500">08:00:00</span> </td>
+                <td><span class="font-w-500">Workday</span></td>
+                <td><span class="font-w-500">00:26:00</span></td>
+                <td class="text-purple"><span class="font-w-500">08:26:00</span></td>
+                <td class="text-center">
+                    <a href="#"><i class="fal fa-edit"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

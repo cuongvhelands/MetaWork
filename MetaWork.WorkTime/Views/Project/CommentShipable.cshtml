@@ -1,0 +1,202 @@
+﻿@using MetaWork.Data.ViewModel
+@model CongViecViewModel
+@{
+    ViewBag.Title = "CommentShipable";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .chat
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat li
+{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat li.left .chat-body
+{
+    margin-left: 60px;
+}
+
+.chat li.right .chat-body
+{
+    margin-right: 60px;
+}
+
+
+.chat li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+
+.panel .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
+}
+
+.panel-body
+{
+    overflow-y: scroll;
+    height: 250px;
+}
+
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+</style>
+
+    <div class="col-md-4 bg-ship-able-week-now p-b-10">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="label-ship-info"><i class="far fa-project-diagram m-r-5"></i> Dự án: </label>
+                </div>
+                <div class="col-sm-8">
+                    <p id="DuAnInModal">@Model.TenDuAn</p>
+                </div>
+            </div>
+            <input type="hidden" id="DuAnIdToInsert" />
+            <input type="hidden" id="ShipId" />
+            <input type="hidden" id="GiaiDoanDuAnIdToInsert" />
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="label-ship-info"><i class="fal fa-analytics m-r-5"></i> Giai đoạn:</label>
+            </div>
+            <div class="col-sm-8">
+                <p id="GiaiDoanInModal"> @Model.TenGiaiDoan</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="label-ship-info"><i class="far fa-box-open m-r-5"></i> Ship-able:</label>
+            </div>
+            <div class="col-sm-8">
+                <p id="TenShipInModal">@Model.TenCongViec</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="label-ship-info"><i class="far fa-calendar-alt m-r-5"></i> Deadline: </label>
+            </div>
+            <div class="col-sm-8">
+                @if (Model.NgayDuKienHoanThanh != null)
+                {
+                    <p id="NgayDuKienHoanThanhShipInModal">@Model.NgayDuKienHoanThanh.Value.ToString("dd/MM/yyyy")</p>
+                }
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="label-ship-info"><i class="far fa-info-circle m-r-5"></i> Mô tả: </label>
+            </div>
+            <div class="col-sm-8">
+                <p id="MotaShipInModal" placeholder="Mô tả" readonly>@Html.Raw(Model.MoTa)</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="label-ship-info"><i class="far fa-wifi m-r-5"></i> Trạng thái</label>
+            </div>
+            <div class="col-sm-8">
+                <p id="MotaTrangthai" placeholder="Trạng thái" readonly>@Model.TenTrangThai</p>
+            </div>
+        </div>
+        
+
+    </div>
+    <div class="col-md-8">
+        <div class="panel col-md-12" style="height:450px">
+            <div class="row">
+                <div class="col-md-10">
+                    <ul class="chat" id="ulChatM">
+                        @if (Model.Comments != null && Model.Comments.Count > 0)
+                        {
+                            foreach (var comment in Model.Comments)
+                            {
+                                <li class="left clearfix" id="Comment-@comment.NoiDungId">
+                                    <span class="chat-img pull-left">
+                                        <img src="~/Assets/images/Avatar/@comment.Avatar" alt="User Avatar" class="img-circle" />
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            @if (comment.Edit)
+                                            {
+                                                <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-sm btn-dropdown-custom btn-rounded waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">...</button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a class="EditComment" id="@comment.NoiDungId">Edit</a></li>
+                                                        <li><a class="deleteComment" id="@comment.NoiDungId">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                            <strong class="primary-font">@comment.HoTen</strong> <small class="pull-right text-muted">
+                                                <span class="glyphicon glyphicon-time"></span>@comment.NgayTao.ToString("dd/MM/yyyy hh:mm")
+                                            </small>
+
+                                        </div>
+                                        <p id="NDComment-@comment.NoiDungId">
+                                           @comment.NoiDungChiTiet
+                                        </p>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+
+                        @*<li class="left clearfix">
+                            <span class="chat-img pull-left">
+                                <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+                            </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>14 mins ago
+                                    </small>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                    dolor, quis ullamcorper ligula sodales.
+                                </p>
+                            </div>
+                        </li>*@
+
+                    </ul>
+                </div>
+            </div>
+            <div class="row footer">
+                <div class="col-sm-10">
+                    <input class="form-control" id="txtNoiDung" placeholder="Nội dung" />
+                </div>
+                <div class="col-sm-2">
+                    <btn class="btn btn-link" id="btnCancel"> Hủy</btn>
+                    <btn class="btn btn-success" id="btnSendCM"> Gửi</btn>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+

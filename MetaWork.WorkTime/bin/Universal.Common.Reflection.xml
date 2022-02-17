@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Universal.Common.Reflection</name>
+    </assembly>
+    <members>
+        <member name="T:Universal.Common.Reflection.DelegateKey">
+            <summary>
+            Represents a method signature, including its return type.
+            </summary>
+        </member>
+        <member name="P:Universal.Common.Reflection.DelegateKey.Name">
+            <summary>
+            The name of the method.
+            </summary>
+        </member>
+        <member name="P:Universal.Common.Reflection.DelegateKey.ReturnType">
+            <summary>
+            The return type of the method.
+            </summary>
+        </member>
+        <member name="P:Universal.Common.Reflection.DelegateKey.Parameters">
+            <summary>
+            The parameter types of the method.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Reflection.DelegateKey.#ctor(System.String,System.Type,System.Collections.Generic.IList{System.Type})">
+            <summary>
+            Constructs a new instance of a <see cref="T:Universal.Common.Reflection.DelegateKey"/>.
+            </summary>
+            <param name="aName"></param>
+            <param name="aReturnType"></param>
+            <param name="aParameters"></param>
+        </member>
+        <member name="M:Universal.Common.Reflection.DelegateKey.#ctor(Universal.Common.Reflection.DelegateKey)">
+            <summary>
+            Copy constructor for a <see cref="T:Universal.Common.Reflection.DelegateKey"/>.
+            </summary>
+            <param name="other"></param>
+        </member>
+        <member name="M:Universal.Common.Reflection.DelegateKey.Clone">
+            <summary>
+            Returns a new instance that is a copy of the current <see cref="T:Universal.Common.Reflection.DelegateKey"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Reflection.Emit.Extensions.ObjectExtensions">
+            <summary>
+            Extension methods for objects.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Reflection.Emit.Extensions.ObjectExtensions.As``1(System.Object)">
+            <summary>
+            Returns a new proxy object that implements the given interface <typeparamref name="T"/> that is tightly bound with the original object.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="object"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Emit.Extensions.ObjectExtensions.AsValueType``1(System.Object)">
+            <summary>
+            Returns a <see cref="T:System.ValueType"/> that implements the given interface <typeparamref name="T"/>'s properties but only trivially implements the methods and events.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="object"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Reflection.Emit.Extensions.TypeExtensions">
+            <summary>
+            Extensions for the <see cref="T:System.Type"/> class.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Reflection.Emit.Extensions.TypeExtensions.CreateProxyValueType(System.Type)">
+            <summary>
+            Creates or returns a new <see cref="T:System.ValueType"/> that implements the given interface type.
+            </summary>
+            <param name="interfaceType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Reflection.ExpressionUtility">
+            <summary>
+            Utility methods for the <see cref="T:System.Linq.Expressions.Expression`1" /> class.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Reflection.ExpressionUtility.DeserializeLambdaExpression(System.String,System.Type[])">
+            <summary>
+            Deserializes a <see cref="T:System.Linq.Expressions.LambdaExpression"/> from a given string.
+            </summary>
+            <param name="string"></param>
+            <param name="parameterTypes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.ExpressionUtility.ResolveFields``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            Resolves the given expression into the relevant <see cref="T:System.Reflection.FieldInfo"/>s for the given type.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expression"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Reflection.Extensions.ObjectExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Object"/>.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.ObjectExtensions.Bind(System.Object,System.Object)">
+            <summary>
+            Sets fields and properties on the current object with values from correspondingly named fields or properties on a given <paramref name="object"/>.
+            </summary>
+            <param name="tObject"></param>
+            <param name="object"></param>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.ObjectExtensions.BindCollection(System.Object,System.Collections.IEnumerable)">
+            <summary>
+            Binds a given collection with types unknown at compile time using reflection, calling <see cref="M:Universal.Common.Reflection.Extensions.ObjectExtensions.Bind(System.Object,System.Object)"/> on each item to assign fields and properties.
+            </summary>
+            <param name="ICollection"></param>
+            <param name="other"></param>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.ObjectExtensions.BindCollection``1(System.Collections.Generic.ICollection{``0},System.Collections.IEnumerable)">
+            <summary>
+            Binds a given <see cref="T:System.Collections.Generic.ICollection`1"/> by populating it with members from an <see cref="T:System.Collections.IEnumerable"/>, calling <see cref="M:Universal.Common.Reflection.Extensions.ObjectExtensions.Bind(System.Object,System.Object)"/> on each item to assign fields and properties.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ICollection"></param>
+            <param name="other"></param>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.ObjectExtensions.BindFrom(System.Object,System.Object)">
+            <summary>
+            Sets fields and properties on the current object with values from correspondingly named fields or properties on a given object.
+            </summary>
+            <param name="object"></param>
+            <param name="other"></param>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.ObjectExtensions.BindTo(System.Object,System.Object)">
+            <summary>
+            Sets fields and properties on the target object with values from correspondingly named fields or properties the current object.
+            </summary>
+            <param name="object"></param>
+            <param name="target"></param>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.ObjectExtensions.GetCustomProperties(System.Object)">
+            <summary>
+            Gets an object that represents custom properties on a class, returning an <see cref="T:System.Dynamic.ExpandoObject"/> if one does not already exist.
+            </summary>
+            <param name="object"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.ObjectExtensions.GetCustomProperties``1(System.Object)">
+            <summary>
+            Gets an object that represents custom properties on a class, returning a new instance of <typeparamref name="T"/> if one does not already exist.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="object"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Reflection.Extensions.PropertyInfoExtensions">
+            <summary>
+            Extension methods for the <see cref="T:System.Reflection.PropertyInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.PropertyInfoExtensions.GetBackingField(System.Reflection.PropertyInfo)">
+            <summary>
+            Returns a <see cref="T:System.Reflection.FieldInfo"/> of the associated backing field for the given <see cref="T:System.Reflection.PropertyInfo"/> or null if it is not found.
+            </summary>
+            <param name="PropertyInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.StringExtensions.ToDelegate``1(System.String)">
+            <summary>
+            Converts the given string into a <see cref="T:System.Delegate"/> of type T.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.StringExtensions.ToLambdaExpression(System.String,System.Type[])">
+            <summary>
+            Converts the given string into a <see cref="T:System.Linq.Expressions.LambdaExpression"/>.
+            </summary>
+            <param name="string">String that was produced by the ToString() call on a given expression.</param>
+            <param name="parameterTypes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Reflection.Extensions.TypeExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Type"/>.
+            </summary>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.GetConstants(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Returns all constants on the specified type.
+            </summary>
+            <param name="Type"></param>
+            <param name="bindingFlags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.GetConstants``1(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Returns all constants of type <typeparamref name="T"/> on the given <see cref="T:System.Type"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="Type"></param>
+            <param name="bindingFlags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.GetGenericEnumerableType(System.Type)">
+            <summary>
+            Returns the type parameter argument for a type that implements <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </summary>
+            <param name="Type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.GetPublicProperties(System.Type)">
+            <summary>
+            Gets all public properties of a given class or interface, including from base interfaces or classes.
+            Equivalent to calling GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance) for class types.
+            For interfaces, recursively considers each type.
+            Credit: mythz @ https://stackoverflow.com/questions/358835/getproperties-to-return-all-properties-for-an-interface-inheritance-hierarchy
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsAnonymous(System.Type)">
+            <summary>
+            Returns true if the given type if an anonymous type.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsBlittable(System.Type)">
+            <summary>
+            Returns true if the given type is blittable given by the definition at https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types.
+            </summary>
+            <param name="Type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsCastableTo(System.Type,System.Type)">
+            <summary>
+            Returns if the current <see cref="T:System.Type"/> can be casted to the <see cref="T:System.Type"/> <paramref name="to"/>.
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsCollection(System.Type)">
+            <summary>
+            Returns true if the <see cref="T:System.Type"/> implements <see cref="T:System.Collections.ICollection"/>.
+            </summary>
+            <param name="Type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsEnumerable(System.Type)">
+            <summary>
+            Returns true if the <see cref="T:System.Type"/> implements <see cref="T:System.Collections.IEnumerable"/>.
+            </summary>
+            <param name="Type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsGenericCollection(System.Type)">
+            <summary>
+            Returns true if the <see cref="T:System.Type"/> implements <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+            <param name="Type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsGenericEnumerable(System.Type)">
+            <summary>
+            Returns true if the <see cref="T:System.Type"/> implements <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </summary>
+            <param name="Type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsGenericSubtype(System.Type,System.Type)">
+            <summary>
+            Returns true if the <see cref="T:System.Type"/> derives from the given generic type.
+            </summary>
+            <param name="Type"></param>
+            <param name="genericType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsImplicitlyCastableTo(System.Type,System.Type)">
+            <summary>
+            Returns if the current <see cref="T:System.Type"/> can be implicitly casted to the <see cref="T:System.Type"/> <paramref name="to"/>.
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Universal.Common.Reflection.Extensions.TypeExtensions.IsPinnable(System.Type)">
+            <summary>
+            Returns true if the given <see cref="T:System.Type"/> can be pinned using <see cref="M:System.Runtime.InteropServices.GCHandle.Alloc(System.Object,System.Runtime.InteropServices.GCHandleType)"/>.
+            </summary>
+            <param name="Type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Universal.Common.Reflection.MutableObject">
+            <summary>
+            Represents a dynamic object that can be assigned arbitrary fields or methods, with methods being keyed using <see cref="T:Universal.Common.Reflection.DelegateKey"/>.
+            </summary>
+        </member>
+    </members>
+</doc>

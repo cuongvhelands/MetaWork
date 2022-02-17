@@ -1,0 +1,189 @@
+﻿@using MetaWork.Data.ViewModel
+@model DuAnViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutWorkTime.cshtml";
+}
+<style>
+    body {
+        font-family: arial, sans-serif;
+        font-size: 14px;
+    }
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #dddddd;
+    }
+
+    .even {
+        background-color: #ecf6fc;
+    }
+
+    .odd {
+        background-color: #ddeedd;
+    }
+
+    .myDragClass {
+        background-color: yellow;
+        font-size: 16pt;
+    }
+   
+
+    .note0 {
+        left: 2px !important;
+        position: relative;
+    }
+
+    .note1 {
+        left: 16px !important;
+        position: relative;
+    }
+
+    .note2 {
+        left: 30px !important;
+        position: relative;
+    }
+
+    .note3 {
+        left: 44px !important;
+        position: relative;
+    }
+
+    .note4 {
+        left: 58px !important;
+        position: relative;
+    }
+
+    .collap0 {
+        left: 2px !important;
+        position: relative;
+    }
+    .collap1 {
+        left: 22px !important;
+        position: relative;
+    }
+
+    .collap2 {
+        left: 42px !important;
+        position: relative;
+    }
+
+    .collap3 {
+        left: 62px !important;
+        position: relative;
+    }
+
+    .collap4 {
+        left: 82px !important;
+        position: relative;
+    }
+
+    .collap5 {
+        left: 102px !important;
+        position: relative;
+    }
+
+    .collap6 {
+        left: 122px !important;
+        position: relative;
+    }
+
+    .collap7 {
+        left: 142px !important;
+        position: relative;
+    }
+
+    .relative0 {
+        left: 2px !important;
+        position: relative;
+    }
+    .relative1 {
+        left: 26px !important;
+        position: relative;
+    }
+
+    .relative2 {
+        left: 42px !important;
+        position: relative;
+    }
+
+    .relative3 {
+        left: 62px !important;
+        position: relative;
+    }
+    .relative4 {
+        left: 82px !important;
+        position: relative;
+    }
+    .relative5 {
+        left: 102px !important;
+        position: relative;
+    }
+    .relative6 {
+        left: 122px !important;
+        position: relative;
+    }
+    .relative7 {
+        left: 142px !important;
+        position: relative;
+    }
+    .spaninput0 {
+        left: 2px !important;
+        position: relative;
+    }
+    .selected{
+        background-color:azure !important
+    }
+</style>
+<div class="row">
+    <div class="col-md-10">
+        <h5>@Model.TenDuAn</h5>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-white"><i class="fa fa-plus-circle"></i></a>
+    </div>
+</div>
+<div class="row">
+    <table id="tableTaskOutline">
+        <tr class="nodrag nodrop">
+            <td>
+                <span class="collap0 cllap">
+                    <a class="btn btn-link"><i class="far fa-chevron-down"></i></a>
+                </span>
+                <span class="relative0">
+                    <a  class="btn btn-link"><i class="fad fa-tasks"></i> </a>
+                </span>                
+                    <span id="titleProject" class="relative0" style="width: 70%">@Model.TenDuAn</span>
+                <input id="txtTitleProject"  style="width: 80%; display: none"  />
+            </td>
+            <td width="10%"></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+        </tr>
+        @if (Model.CongViecs != null && Model.CongViecs.Count > 0) { 
+            foreach(var item in Model.CongViecs)
+                {
+                    <tr id="tr-@item.CongViecId-0">
+                       
+                    </tr>
+                }
+        }
+    </table>
+</div>
+<script>
+    var idtr;
+    $(document).on("click", "tr ", function () {
+        idtr = this.id;
+    $(this).addClass("selected").siblings().removeClass("selected");
+    })
+
+</script>

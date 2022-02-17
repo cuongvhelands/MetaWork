@@ -1,0 +1,304 @@
+﻿@using MetaWork.Data.ViewModel;
+@model PhongChatViewModel
+
+@{
+
+    Layout = "~/Views/Shared/_LayoutWorkTime.cshtml";   
+}
+<input type="hidden" id="phongChatIdM" value="@Model.PhongChatId" />
+<input type="file" id="inputFile" hidden />
+<input type="file" id="inputTabFile" hidden />
+<input type="hidden" id="nguoiDungIdM" value="@Model.User" />
+<style>
+/*    .jodit_inline {
+        border-style: groove !important;
+        border: 1px;
+    }*/
+    .nobored {
+        border-radius:0;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+    }
+    tr.selected {
+        background-color: #CCFFFF
+    }
+    .bored1px {
+        border-style: groove !important;
+        border: 1px;
+    }
+    table {
+        border-collapse: collapse;
+    }
+
+    table, td, th {
+        border: 1px solid black;
+    }
+
+    .bitacoratable {
+        height: 400px;
+        overflow-y: auto;
+        width: 220px;
+        float: left;
+    }
+
+    #table1 {
+        margin-right: 100px;
+    }
+
+    .childgrid tr {
+        cursor: pointer;
+    }
+
+        .selectedRow, .selectedRow:active, .childgrid tr:active {
+            background-color: #CCFFFF;
+            cursor: move;
+        }
+</style>
+<div class="loading" id="loadingchannel" align="center">
+        Loading. Please wait.<br />
+        <br />
+        <img src="~/Assets/images/loadding.svg" alt="" />
+</div>
+<div id="ChannelContentDetail" style="display:none">
+    <div class="d-flex" id="divShowDetailChannel">
+        <img src="~/Assets/HTML/images/group/group.png" style="width:50px;height:50px;border-radius:25px" />
+        <div class="ms-2 mb-3">
+            <p class="mb-0"><strong>@Model.TenVietTat</strong></p>
+            <small class="text-muted" id="txtInfoChannel">
+                @Model.CountNguoiDung Member | @Model.CountFile File | 3 Task
+            </small>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div id="progressbar">
+                <div class="progress-label" id="progesslable">
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="nav nav-tabs nav-custom" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active tabchat" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                <i class="fad fa-comments-alt me-2"></i>Chat
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link tabchat" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                <i class="fad fa-file-alt me-2"></i>
+                File
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link tabchat" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                <i class="fad fa-tasks me-2"></i>
+                Document
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link tabchat" id="calendar-tab" data-bs-toggle="tab" data-bs-target="#calendar" type="button" role="tab" aria-controls="calendar" aria-selected="false">
+                <i class="fad fa-tasks me-2"></i>
+                Calendar
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link tabchat" id="outliner-tab" data-bs-toggle="tab" data-bs-target="#taskOutLiner" type="button" role="tab" aria-controls="taskOutLiner" aria-selected="false">
+                <i class="fad fa-tasks me-2"></i>
+                Task outliner
+            </button>
+        </li>
+    </ul>
+    <div class="tab-content py-4" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="card nobored" id="chatcontent1">
+                <div class="card-body list-thread p-4 " id="contentChanel">
+                </div>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="row mb-4">
+                <div class="col-md-1">
+                    <label>Từ khóa</label>
+                </div>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="txtSearchFileTab" placeholder="Search..." />
+                </div>
+            </div>
+            <div class="row ">
+                <div class="mb-4">
+                    @*<button class="btn btn-primary bnt-sm" id="btnAddTabFileFolder">New folder</button>*@
+                    <button class="btn btn-primary bnt-sm" id="btnAddTabFileLocal">Add file</button>
+                    <button class="btn btn-primary bnt-sm" id="btnAddTabFileLink">Add file link</button>
+                    <button class="btn btn-primary bnt-sm" id="btnAddTabFileDocument">Add document</button>
+                </div>
+            </div>
+            <div class="table-responsive" id="tabFileContent">
+
+            </div>
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="mb-4">
+                <button class="btn btn-primary bnt-sm" id="btnAddTabDocument">Add document</button>
+            </div>
+            <div class="table-responsive" id="tabDocumentContent">
+
+            </div>
+        </div>
+        <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+            <div id="tabcalendarContent">
+
+            </div>
+            <div id="SettupCalendarContent">
+                <h5> Channel chưa có link embed Calendar</h5>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="taskOutLiner" role="tabpanel" aria-labelledby="calendar-tab">
+            <div id="tableTaskOutLiner">
+
+            </div>
+            
+        </div>
+    </div>
+    <div class="modal fade " id="modalUpdateFileLocal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update file local</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">Tiêu đề</label>
+                                <input type="text" id="txtTieuDeFileLocal" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" id="btnSubmitFileLocal" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " id="modalFolder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleFolder">Thêm thư mục</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">Tiêu đề</label>
+                                <input type="text" id="txtTieuDeFolder" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" id="btnSubmitFileFolder" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="ModalAddDocumentThread" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleModalAddDocument">Add document</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">Tiêu đề</label>
+                                <input type="text" id="txtTieuDeDocumentThread" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">Link document</label>
+                                <input type="text" id="txtDocumentLinkThread" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" id="btnSubmitDocumentThread" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="ModalAddEventCalendar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Event Calendar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">Tiêu đề</label>
+                                <input type="text" id="txtTieuDeEventCalendar" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">Nội dung</label>
+                                <input type="text" id="txtNoiDungEventCalendar" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">StartTime</label>
+                                <input type="datetime" id="txtStartTimeEventCalendar" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">EndTime</label>
+                                <input type="datetime" id="txtEndTimeEventCalendar" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="control-label">Người tham gia</label>
+                                <input type="text" id="txtNguoiThamGiaEventCalendar" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" id="btnSubmitAddEventCalendar" class="btn btn-primary waves-effect waves-light">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+
+
+</div>
+
+

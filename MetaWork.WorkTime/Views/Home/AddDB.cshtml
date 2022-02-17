@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input type="file" class="uploadf" />
+
+<script>
+        $('.uploadf').change(upload2ServerDonVi);
+        function upload2ServerDonVi() {         
+            var inputFileUpload = $(this)[0];
+            var file_data = inputFileUpload.files[0];
+            var name = file_data.name;
+            var size = file_data.size;//in bytes
+            var type = file_data.type;//in bytes
+            var ext = name.substr(name.lastIndexOf('.') + 1);
+            if (size < 4090000) {              
+                    var progress = $(inputFileUpload).next();
+                    var progressbar = $(progress).children(".bar")[0];
+                    var progressbarpercent = $(progress).children(".percent")[0];
+                    var fileNameServer = $(progress).children(":hidden")[0];
+                    var form_data = new FormData();
+                    form_data.append("file", file_data)
+                    $.ajax({
+                        url: "/api/DownUploadApi/Upload2Temp",
+                        type: 'POST',
+                        beforeSend: function () {
+                            $(progress).attr("style", "visibility: visible");
+                            $(progressbar).width('0%');
+                            $(progressbarpercent).html("0%");
+                        },
+                        uploadProgress: function (event, position, total, percentComplete) {
+                            $(progressbar).width(percentComplete + '%');
+                            $(progressbarpercent).html(percentComplete + '%');
+                        },
+                        success: function () {
+                            $(progressbar).width('100%');
+                            $(progressbarpercent).html('100%');
+                        },
+                        complete: function (response) {
+                            //$("#UL" + stt).html('<div id="info' + stt + '"><a href="#" class="info-row" id="' + response.responseText + '" title="Xem file">' + name + '</a> <a class="btn btn-default remove-row" href=""><i class="fa fa-times" aria-hidden="true"></i> </a></div>');
+                            //upLoadFileC(response.responseText, giayToMauId, guid, name, size, regStt, nguoiDungId, tenGiayToMau);
+                            //size = size + "";
+                            //if (size.length > 6) {
+                            //    size = size.substring(0, size.length - 6) + "," + size.substring(size.length - 6, size.length - 5) + " MB";
+                            //} else {
+                            //    size = "0," + size.substring(size.length - 6, size.length - 5) + " MB";
+                            //}
+                            //$("#S" + stt).html(size);
+                            //if (stt == rowcheck) {
+                            //    checkNewRow = false;
+                            //    rowcheck = 0;
+                            //}
+                        },
+                        error: function () {
+                            alert('ERROR: unable to upload files');
+                            $(progress).attr("style", "visibility: hidden");
+                        },
+                        data: form_data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                    })
+             
+             
+            }
+            else {
+                alert('ERROR: file cannot more than 4MB');
+                $(inputFileUpload).val('');
+                return true;
+            };
+        }
+</script>

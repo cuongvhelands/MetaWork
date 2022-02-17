@@ -1,0 +1,144 @@
+﻿@using MetaWork.Data.ViewModel;
+@model PhongChatViewModel
+@if (Model != null)
+{
+    string textday = "";
+    var now = DateTime.Now.ToString("dd/MM/yyyy");
+    string title = "";
+    var lastmes = Model.Messages[0];
+    var lastUser = lastmes.NguoiGuiId;
+    var lstTime = lastmes.NgayTao.ToString("dd/MM/yyyy HH:mm");
+   
+    if (string.IsNullOrEmpty(textday) || Model.NgayTao.ToString("dd/MM/yyyy") != textday)
+    {
+        textday = Model.NgayTao.ToString("dd/MM/yyyy");
+    }
+    if (textday == now)
+    {
+        title = "Hôm nay";
+    }
+    else
+    {
+        title = textday;
+    }
+
+<div class="card card-chat mb-5" id="pcThread-@Model.PhongChatId">
+    <input id="lastUserpc-@Model.PhongChatId" value="@lastUser" hidden />
+    <input id="lastTimepc-@Model.PhongChatId" value="@lstTime" hidden />
+    <input id="lastGroupUserChat-@Model.PhongChatId" value="@lastmes.MessageId" hidden />
+    <div class="card-header">
+        <h5 class="card-title text-center"> @title </h5>
+        @*<div class="d-flex collape-chat" id="collapse-1">
+                <span class="badge rounded-pill">10</span>
+                <div class="flex-grow-1 line"></div>
+            </div>*@
+    </div>
+    <div class="card-body chat-care pb-5">
+        <ul class="chat" id="pcThreadBody-@Model.PhongChatId">
+            @if (Model.Messages != null && Model.Messages.Count > 0)
+            {
+
+                if (Model.Count < 5)
+                {
+                    foreach (var item in Model.Messages)
+                    {
+                        string ngaytao = item.NgayTao.ToString("dd/MM/yyyy");
+                        if (item.NgayTao.ToString("dd/MM/yyyy") == now)
+                        {
+                            ngaytao = item.NgayTao.ToString("hh:mm");
+                        }
+                        else { ngaytao = item.NgayTao.ToString("dd/MM/yyyy hh:mm"); }
+                        if (item.NguoiGuiId == Model.User)
+                        {
+                            <li class="admin clearfix">
+                                <div class="mb-2 ms-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>@ngaytao</small><br /></div>
+                                <ul class="chat-me" id="groupUserChat-@item.MessageId">
+                                    @if (item.Messages != null && item.Messages.Count > 0)
+                                    {
+                                        foreach (var mess in item.Messages)
+                                        {
+                                            <li class="hover-action" id="divMessThread-@mess.MessageId">
+                                                <div class="dropdown right clearfix ms-2">
+                                                    <a href="#" class="dropdown-button" type="button" id="dropdownMenuButton-@mess.MessageId" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fal fa-ellipsis-v"></i>
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-sm dropdown-menu-end" aria-labelledby="dropdownMenuButton-@mess.MessageId">
+                                                        <li><a class="dropdown-item deleteMessThread" id="@mess.MessageId" href="#">Action</a></li>
+                                                        @*<li><a class="dropdown-item" href="#">Another action</a></li>
+                                                            <li><a class="dropdown-item" href="#">Something else here</a></li>*@
+                                                    </ul>
+                                                </div>
+                                                <div class="chat-body clearfix me">
+                                                    <p>
+                                                        @Html.Raw(mess.NoiDung)
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+
+
+                            <li class="agent clearfix">
+                                <ul class="chat-user" id="groupUserChat-@item.MessageId">
+                                    @if (item.Messages != null && item.Messages.Count > 0)
+                                    {
+                                        foreach (var mes in item.Messages)
+                                        {
+                                            <li>
+                                                <span class="chat-img left clearfix mx-2">
+                                                    <img src="~/Assets/images/Avatar/@mes.Avatar" alt="Agent" class="img-circle" />
+                                                </span>
+                                                <div class="mb-2 chat-info"><small class="text-muted"><span class="glyphicon glyphicon-time"></span>@item.HoTen, @ngaytao</small><br /></div>
+                                                <div class="chat-body clearfix">
+                                                    <p>
+                                                        @Html.Raw(mes.NoiDung)
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+
+
+                                </ul>
+                            </li>
+                        }
+
+
+                    }
+                }
+
+            }
+        </ul>
+
+    </div>
+    <div class="card-footer py-3">
+        <div class="d-flex chat-input">
+            <div class="editor">
+                <textarea class="form-control editorsendThread" id="txtEditorSendThread-@Model.PhongChatId" placeholder="Type message here"></textarea>
+            </div>
+            <div class="chat-button flex-grow-1">
+                <div class="ms-2">
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="SendThread-@Model.PhongChatId"><i class="fal fa-smile"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary uploadfile" title="Upload File Local" id="SendThread-@Model.PhongChatId"><i class="fal fa-paperclip"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary uploadgoogledrive" title="Upload File Google Drive" id="SendThread-@Model.PhongChatId"><i class="fab fa-google-drive"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary uploadMeeting" title="Create Meeting" id="SendThread-@Model.PhongChatId"><i class="fal fa-video"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary uploadDocument" title="Upload Document" id="SendThread-@Model.PhongChatId"><i class="fal fa-file-plus"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="SendThread-@Model.PhongChatId"><i class="fal fa-calendar"></i></button>
+                    </div>
+                    <button class="btn btn-sm btn-primary editorSendMessage" id="btnSendMessageThread-@Model.PhongChatId"><i class="fad fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+}

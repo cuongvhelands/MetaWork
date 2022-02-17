@@ -1,0 +1,48 @@
+﻿<script src="~/Assets/js/jquery.min.js"></script>
+<script>
+    var settings = {
+        "url": "https://coda.io/apis/v1/docs/QLEj7bYtQA",
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Authorization": "Bearer 7a053e92-81be-4c89-9313-927d02ba7d68"
+        },
+    };
+    function getTable() {
+        var settings2 = {
+            "url": "https://coda.io/apis/v1/docs/QLEj7bYtQA/tables",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Authorization": "Bearer 7a053e92-81be-4c89-9313-927d02ba7d68"
+            },
+        };
+        $.ajax(settings2).done(function (response) {
+            if (response != null && response.items != null && response.items.length > 0) {
+
+                for (i = 0; i < response.items.length; i++) {
+                    var item = response.items[i];
+                    var id = item.id;
+                    getDataOfTable(id);
+                }
+            }
+        });
+    }
+    $.ajax(settings).done(function (response) {
+        console.log(response)
+    });
+    function getDataOfTable(tableId) {
+        var settings2 = {
+            "url": "https://coda.io/apis/v1/docs/QLEj7bYtQA/tables/" + tableId,
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Authorization": "Bearer 7a053e92-81be-4c89-9313-927d02ba7d68"
+            },
+        };
+        $.ajax(settings2).done(function (response) {
+            console.log(response);           
+        });
+    }
+    getTable();
+</script>

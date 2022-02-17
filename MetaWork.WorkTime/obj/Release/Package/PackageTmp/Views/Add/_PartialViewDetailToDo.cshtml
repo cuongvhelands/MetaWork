@@ -1,0 +1,148 @@
+﻿@using MetaWork.Data.ViewModel
+@model CongViecViewModel
+@*<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>*@
+<h4> Chi tiết công viêc: @Model.TenCongViec</h4>
+<input hidden id="duAnDetailId" value="@Model.DuAnId" />
+<input hidden id="todoDetailId" value="@Model.CongViecId"/>
+<input hidden id="taskDetailId" value="@Model.KhoaChaId" />
+<input hidden id="shipDetailId" value="@ViewBag.shipId" />
+<table class="table table-project">
+    <thead>
+        <tr>
+            <th width="15%">Tên công việc</th>
+            <th with="10%">Ngày làm việc</th>
+            <th>Thời gian sử dụng</th>
+            <th width="10%"></th>
+            <th width="10%">Trạng thái</th>
+            <th width="8%"></th>
+        </tr>
+    </thead>
+    <tbody class="list-project">
+        @if (Model.ThoiGianLamViecs != null && Model.ThoiGianLamViecs.Count > 0)
+        {
+            foreach (var item in Model.ThoiGianLamViecs)
+            {
+                <tr id="trTTP-@item.ThoiGianLamViecId">
+                    <td>@Model.TenCongViec</td>
+                    <td>@item.NgayLamViec.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        Từ @item.ThoiGianBatDau.Value.ToString("HH:mm")
+                        @if (item.ThoiGianKetThuc != null)
+                        {
+                            <span> đến @item.ThoiGianKetThuc.Value.ToString("HH:mm")</span>
+                        }
+                    </td>
+                    <td> @item.StrTongThoiGian </td>
+                    <td>
+                        @if (item.PheDuyet == true)
+                        {
+                            <img src="~/Assets/images/todo-icon/approved.svg" />
+                        }
+                        else
+                        {
+                            <img src="~/Assets/images/todo-icon/not-approved.svg" />
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-link linkdeleteTTP" id="@item.ThoiGianLamViecId">Xóa</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<hr />
+<br />
+<div class="row">
+    <div class="col-md-3">
+        <label class="control-label">Dự án</label>
+        <select class="form-control" id="ddlDuAnPop">
+            @{
+                var duAns = (List<DuAnViewModel>)ViewBag.DuAns;
+                if (duAns != null && duAns.Count > 0)
+                {
+                    foreach (var item in duAns)
+                    {
+                        if (item.DuAnId == Model.DuAnId)
+                        {
+                            <option value="@item.DuAnId" selected> @item.TenDuAn</option>
+                        }
+                        else
+                        {
+                            <option value="@item.DuAnId"> @item.TenDuAn</option>
+                        }
+                    }
+                }
+            }
+
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="control-label">Dự án thành phần</label>
+        <select class="form-control" id="ddlDuAnTPPop">
+       
+                @{
+                    var duAnTPs = (List<DuAnViewModel>)ViewBag.DuAnThanhPhans;
+                    if (duAnTPs != null && duAnTPs.Count > 0)
+                    {
+                        foreach (var item in duAnTPs)
+                        {
+                            if (item.DuAnId == Model.DuAnId)
+                            {
+                            <option value="@item.DuAnId" selected> @item.TenDuAn</option>
+                        }
+                        else
+                        {
+                            <option value="@item.DuAnId"> @item.TenDuAn</option>
+                        }
+                    }
+                }
+                }
+              
+            </select>
+    </div>
+    <div class="col-md-3">
+        <label class="control-label">Shipable</label>
+        <input id="cboShipPop" style="width:100%" />
+
+    </div> <div class="col-md-3">
+        <label class="control-label">Task</label>
+        <input id="cboTaskPop" style="width:100%" />
+    </div>
+    <div class="col-md-3">
+        <label class="label">Trạng thái</label>
+        <select class="form-control" id="ddlTTPop">
+            @if (Model.TrangThaiCongViecs != null && Model.TrangThaiCongViecs.Count > 0)
+            {
+                foreach (var item in Model.TrangThaiCongViecs)
+                {
+                    if (item.TrangThaiCongViecId == Model.TrangThaiCongViecId)
+                    {
+                        <option value="@item.TrangThaiCongViecId" selected> @item.TenTrangThai</option>
+                    }
+                    else
+                    {
+                        <option value="@item.TrangThaiCongViecId"> @item.TenTrangThai</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary pull-right" id="subMitPopTime">Approve Time</button>
+        <button type="button" class="btn btn-info pull-right" id="subMitPopCV">Cập nhật</button>
+        <button type="button" class="btn btn-link pull-right" id="cancelpopCV">Bỏ qua</button>
+    </div>
+</div>
+
+
+
+
+

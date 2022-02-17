@@ -1,0 +1,354 @@
+﻿@using MetaWork.Data.ViewModel
+@model DuAnViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/RobinHerbots/jquery.inputmask@5.0.0-beta.87/dist/jquery.inputmask.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+
+<input type="hidden" id="duAnIdM" value="@Model.DuAnId" />
+<input type="hidden" id="loaiCongViecIdsM" value="@Model.strLoaiCongViecIds" />
+<div class="container">
+    <div id="DBDMDATPModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:80%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Đồng bộ đầu mục công việc</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Link Coda đầu mục công việc của dự án thành phần </label>
+                                <input id="txtLinkDBDMCVDATP" class="form-control" value="@ViewBag.DocIdDefault" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;&nbsp;&nbsp; </label><br />
+
+                                <a class="btn btn-success" id="btnCodaDBDMCVDATP">Đồng bộ</a>
+                                <button type="button" class="btn btn-primary waves-effect waves-light btnSubmitDBDMDATP">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row divScroll" >
+                        <table class="table table-striped" >
+                            <thead>
+                                <tr>
+                                    <th> <input id="chkAllDMCV" checked type="checkbox"></th>
+                                    <th>Action</th>
+                                    <th>Tên đầu mục công việc</th>
+                                    <th>Người xử lý</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbyDBDMCVDATP" >
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light btnSubmitDBDMDATP" >Lưu</button>
+
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="container">
+    <div id="DBAllDMDATPModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:80%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Đồng bộ đầu mục công việc</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Link Coda đầu mục công việc của dự án </label>
+                                <input id="txtLinkDBAllDMCVDATP" class="form-control" value="@ViewBag.DocIdDefault" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;&nbsp;&nbsp; </label><br />
+                                <a class="btn btn-success pull-right" id="btnCodaDBAllDMCVDATP">Đồng bộ</a>
+                                <button type="button" class="btn btn-primary waves-effect waves-light btnSubmitADBDMDATP">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row divScroll">
+                        <table class="table table-striped" >
+                            <thead>
+                                <tr>
+                                    <th><input id="chkAllADMCV" checked type="checkbox"></th>
+                                    <th>Action</th>
+                                    <th width="400px">Dự án thành phần</th>
+                                    <th>Tên đầu mục công việc</th>
+                                    <th>Người xử lý</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbyDBAllDMCVDATP">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light btnSubmitADBDMDATP" >Lưu</button>
+
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+<div id="add-phase-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="txtTitle">Chi tiết dự án thành phần</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label class="control-label">Link Coda đầu mục công việc của dự án: </label>
+                            <input id="txtDBDATP" class="form-control" value="" />
+                        </div>
+
+
+                    </div>
+                    <div class="col-sm-3 text-right">
+                        <div class="form-group">
+                            <label class="control-label">&nbsp;&nbsp;&nbsp; </label><br />
+
+                            <a class="btn btn-success" id="btnCodaDBDATP">Đồng bộ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label">Tên dự án </label>
+                            <input readonly type="text" id="txtTenDuAnCha" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label">Tên dự án thành phần</label>
+                            <input readonly type="text" id="txtTenDuAnThanhPhan" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label for="field-7" class="control-label">Mô tả</label>
+                            <textarea readonly class="form-control" rows="5" id="txtMoTaDuAnTP"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label for="field-7" class="control-label">Ghi chú</label>
+                            <textarea readonly class="form-control" rows="5" id="txtGhiChuDuAnTP"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label">CostH </label>
+                            <input readonly type="text" id="txtCostHTp" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label">Cost tiền </label>
+                            <input readonly type="text" id="txtCostTienTp" class="form-control" />
+                        </div>
+                    </div>  
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label">Cost </label>
+                            <input readonly type="text" id="txtCost" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-3" class="control-label">Ngân sách</label>
+                            <input readonly type="text" id="txtTongNganSach" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-3" class="control-label">Bảng danh sách các đầu mục công việc</label>
+                        <div class="col-md-10">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tên đầu mục công việc</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbdyShipables">
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addLoaiCongViecModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Thêm loại công việc</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">Tên Loại công việc</label>
+                            <input type="text" class="form-control" id="txtTenLoaiCongViec" placeholder="Tên loại công việc..">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Đóng</button>
+                <button type="button" id="btnInsetLoaiCongViec" class="btn btn-info waves-effect waves-light">Lưu lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row m-b-20">
+        <div class="col-sm-12">
+            <div class="pull-right m-t-15">
+                <a href="#" class="btn btn-link m-r-15 font-w-500" id="btnNotUpdateDuAn"><i class="far fa-sign-out m-r-5"></i>Thoát </a>
+
+            </div>
+            <h4 class="page-title">Chỉnh sửa dự án</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="card-box">
+                <h4 class="m-b-20 m-t-0 header-title"><b>Thông tin chung</b></h4>            
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label class="control-label">Tên dự án</label>
+                            <input class="form-control" id="txtTenDuAn" value="@Model.TenDuAn" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Mã dự án</label>
+                            <input class="form-control" id="txtMaDuAn" value="@Model.MaDuAn" />
+                        </div>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="control-label">Loại công việc</label>
+                        <div class="row">
+                            <div class="col-sm-11">
+                                <select id="loaiCongViecList" multiple="multiple" data-placeholder="Chọn loại công việc..."></select>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" onclick="openAddLoaiCongViecModal()" class="btn btn-block btn-instagram btn-flat"><span><i class="fa fa-plus"></i></span></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="control-label">Nhóm thành viên</label>
+                        <input id="cboNhomThanhVien" style="width:100%" />
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Mô tả dự án</label>
+                <textarea id="txtGhiChu">@Html.Raw(Model.MoTa)</textarea>
+            </div>
+
+
+            <div class="card-box">
+                <h4 class="m-t-0 m-b-30 header-title"><b>Ngân sách dự án</b></h4>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Chi phí</label>
+                            <input type="text"  value="@Model.StrCost" readonly  class="form-control">
+                        </div>
+                    </div>                    
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Budget duyệt</label>
+                            <input type="text" value="@Model.StrTongNganSach" readonly  class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h4 class="header-title"><b>Dự án thành phần</b></h4>
+                    </div>
+                    <div class="col-sm-4 pull-right">
+                        <a class="btn btn-success pull-right" id="btnCodaDBALLDATP">Đồng bộ đầu mục công việc</a>
+                    </div>
+                </div>
+
+
+                    <div class="row" id="divDuAnThanhPhan" style="height:650px;  overflow-y: scroll;">
+
+                        <!-- end: page -->
+                    </div>
+
+                </div>
+
+        </div>
+    </div>
+</div>
+<input id="strPhongBanIds" value="@Model.StrPhongBanIds" hidden />
+
+<script src="~/Assets/js/Modul/EditDuAn.js" defer></script>

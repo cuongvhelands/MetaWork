@@ -1,0 +1,104 @@
+﻿@using MetaWork.Data.ViewModel
+@model List<MeetingCodaViewModel>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Action</th>
+            <th width="70px">Mã</th>
+            <th>Project name</th>
+            <th>Type</th>
+            <th>Tên cuộc họp</th>
+            <th>Người tham gia</th>
+            <th>Thời gian </th>
+            <th>Nội dung</th>
+            <th>Shipable</th>
+            <th>Quyết định</th>            
+        </tr>
+    </thead>
+    <tbody id="tbdyTableCodaMeeting">
+        @if (Model != null && Model.Count > 0)
+                    {
+                       
+                        foreach (var row in Model)
+                        {
+
+
+                <tr id="tr-@row.id">
+                    <td>
+                        @if (row.InsertOrUpdate)
+                                    {
+                            <input class="chkChangeMeeting" id="chk-@row.id" checked type="checkbox"> <label for="@row.id"> &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        }
+                    </td>
+                    <td>
+                        @if (row.InsertOrUpdate)
+                        {
+                            <p> Thêm mới</p>
+                        }                      
+                    </td>
+                    <td>
+                        @row.MaDuAn
+                    </td>
+                    <td>
+                        @row.TenDuAn
+                    </td>
+                    <td>
+                        @row.LoaiMeeting
+                    </td>
+                    <td>
+                        @row.TenMeeting
+                    </td>
+                    <td>
+                        @if (row.HoTenNguoiThamGias != null && row.HoTenNguoiThamGias.Count > 0)
+                        {
+                            foreach (var item in row.HoTenNguoiThamGias)
+                            {
+                                if (!string.IsNullOrEmpty(item))
+                                {
+                                    <span>@item</span><br />
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        Từ @row.StrStartTime đến @row.StrEndTime
+                    </td>
+                    <td>
+                        @row.NoiDung
+                    </td>
+                    <td>
+                        @if (row.TenShipAbles != null && row.TenShipAbles.Count > 0)
+                        {
+                            foreach (var item in row.TenShipAbles)
+                            {
+                                if (!string.IsNullOrEmpty(item))
+                                {
+                                    <span>@item</span><br />
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.Raw(row.QuyetDinh)
+                    </td>
+                   
+                </tr>
+              
+            }
+           
+        }
+        else
+        {
+
+                <tr>
+                    <td colspan="11"> Tài liệu không có dữ liệu cần cập nhật </td>
+                </tr>
+           
+        }
+    </tbody>
+</table>
+
+

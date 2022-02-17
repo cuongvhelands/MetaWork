@@ -1,0 +1,270 @@
+﻿@using MetaWork.Data.ViewModel
+@model TodoListViewModel
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "ToDoList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var task0 = new CongViecViewModel();
+}
+<link href="~/Assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/RobinHerbots/jquery.inputmask@5.0.0-beta.87/dist/jquery.inputmask.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.0.6/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@8.0.6/dist/sweetalert2.min.css" rel="stylesheet" />
+
+<input type="hidden" value="@Model.Week" id="weekM" />
+<input type="hidden" value="@Model.Year" id="yearM" />
+<input type="hidden" value="@Model.DuAnId" id="duAnIdM" />
+<input type="hidden" value="@Model.NguoiDungId" id="nguoiDungIdM" />
+<input type="hidden" value="@Model.KeyWord" id="keyWordM" />
+<input type="hidden" value="@Model.PageNum" id="pageNumM" />
+<input type="hidden" value="@Model.PageSize" id="pageSizeM" />
+<div class="form-inline m-b-20">
+    <div class="div-20 m-b-30">
+        <h4 class="page-title">Danh sách công việc tuần @Model.Week</h4>
+        <span>@Model.StrWeek</span>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <input id="cboDuAn1" style="width:100%" />
+        </div>
+        <div class="col-sm-2">
+            <input id="cboWeek1" style="width:100%" />
+        </div>
+        <div class="col-sm-2">
+            <input id="cboNguoiDung" style="width:100%" />
+        </div>     
+
+        <div class="col-sm-4 text-right">
+            <button id="btnSearch" class="btn btn-default dropdown-toggle waves-effect waves-light"><span class="m-r-5"><i class="fal fa-filter"></i></span>Lọc</button>
+        </div>
+    </div>
+</div>
+<table class="table ship-able-table m-0">
+    <thead>
+        <tr>
+            <th class="row-span-colunm text-left" width="20%">
+                <span class="text-mute">Dự án</span>
+            </th>
+            <th width="5%"></th>
+            <th width="40%">
+                <span class="text-mute">
+                    Công việc
+                </span>
+            </th>
+            <th width="10%">
+                <span class="text-mute">
+                    Trạng thái
+                </span>
+            </th>
+            <th>
+                <span class="text-mute">
+                    DeadLine
+                </span>
+            </th>
+            <th>
+                <span class="text-mute">
+                    Time
+                </span>
+            </th>
+            <th width="3%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ShipAbles != null && Model.ShipAbles.Count > 0)
+        {
+            foreach (var item in Model.ShipAbles)
+            {
+                var count = 0;
+                if (item.CongViecs != null && item.CongViecs.Count > 0)
+                {
+                    count += item.CongViecs.Count;
+                    foreach (var item2 in item.CongViecs)
+                    {
+                        if (item2.CongViecs != null && item2.CongViecs.Count > 0)
+                        {
+                            count += item2.CongViecs.Count;
+                        }
+                    }
+                }
+                else { count = 1; }
+                <tr>
+                    <th rowspan="@count">
+                        <span class="text-mute font-11 font-w-300"><i class="fal fa-folder-open m-r-5"></i>@item.TenDuAn</span>
+                        <p href="#" class="font-w-500 font-13 text-inverse">@item.TenCongViec</p>
+                    </th>
+
+                    @if (item.CongViecs != null && item.CongViecs.Count > 0)
+                    {
+                        task0 = item.CongViecs[0];
+
+                        <td>
+                            <img src="~/Assets/images/Avatar/@task0.AvatarNguoiXuLy" alt="user-img" class="img-circle m-r-5" height="20" title="@task0.HoTenNguoiXuLy" width="20">
+                        </td>
+                        <td>
+                            @if ((int)ViewBag.Quyen == 3 || (Guid)ViewBag.NguoiDungId == task0.NguoiXuLyId || (Guid)ViewBag.NguoiDungId == task0.NguoiHoTroId)
+                            {
+                                <a href="/Time/TaskDetail?taskId=@task0.CongViecId" class="font-13 font-w-500 text-primary"> @task0.TenCongViec</a>
+                            }
+                            else
+                            {
+                                <span class="font-13 font-w-500"> @task0.TenCongViec</span>
+                            }
+
+                        </td>
+                        <td>
+                            <div class="label label-table label-@task0.MaMauTrangThaiCongViec">@task0.TenTrangThai</div>
+                        </td>
+                        <td>
+                            @if (task0.NgayDuKienHoanThanh != null)
+                            {<label class="font-w-500 font-12">@String.Format("{0:dd/MM}", task0.NgayDuKienHoanThanh)</label>}
+                        </td>
+                        <td><span class="font-w-500 font-12">@task0.StrThoiGianLamViec</span> </td>
+                        <td>
+                            <div id="divCheck-@task0.CongViecId">
+
+                                @if (task0.XacNhanHoanThanh == true)
+                                {
+                                    <img src = "~/Assets/images/Icons/check-time.svg" />
+                                }
+                            </div>
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    }
+
+                </tr>
+                if (count > 1)
+                {
+                    if (task0 != null && task0.CongViecs != null && task0.CongViecs.Count > 0)
+                    {
+                        foreach (var item2 in task0.CongViecs)
+                        {
+                            <tr class="sub-task">
+                                <td></td>
+                                <td><span class="font-12"><i class="fas fa-angle-right m-r-5"></i> @item2.TenCongViec</span> </td>
+                                <td></td>
+                                <td></td>
+                                <td><span class="font-w-500 font-11">@item2.StrThoiGianLamViec</span> </td>
+                                <td>
+                                    <div id="divCheck-@item2.CongViecId">
+
+                                        @if (item2.XacNhanHoanThanh == true)
+                                        {
+                                            <img src="~/Assets/images/Icons/check-time.svg" />
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    if (item.CongViecs.Count > 1)
+                    {
+                        for (int i = 1; i < item.CongViecs.Count; i++)
+                        {
+                            var task = item.CongViecs[i];
+
+                            <tr>
+                                <td>
+                                    <img src="~/Assets/images/Avatar/@task.AvatarNguoiXuLy" alt="user-img" class="img-circle m-r-5" height="20" title="@task.HoTenNguoiXuLy" width="20">
+                                </td>
+                                <td>
+                                    @if ((int)ViewBag.Quyen == 3 || (Guid)ViewBag.NguoiDungId == task.NguoiXuLyId || (Guid)ViewBag.NguoiDungId == task.NguoiHoTroId)
+                                    {
+                                        <a href="/Time/TaskDetail?taskId=@task.CongViecId" class="font-w-500 font-13"> @task.TenCongViec</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="font-13 font-w-500"> @task.TenCongViec</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="label label-table label-@task.MaMauTrangThaiCongViec">@task.TenTrangThai</div>
+                                </td>
+                                <td>
+                                    @if (task.NgayDuKienHoanThanh != null)
+                                    {<label class="font-w-500 font-12">@String.Format("{0:dd/MM}", task.NgayDuKienHoanThanh)</label>}
+                                </td>
+                                <td><span class="font-w-500 font-12">@task.StrThoiGianLamViec</span> </td>
+                                <td>
+                                    <div id="divCheck-@task.CongViecId">
+
+                                        @if (task.XacNhanHoanThanh == true)
+                                        {
+                                            <img src="~/Assets/images/Icons/check-time.svg" />
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                            if (task.CongViecs != null && task.CongViecs.Count > 0)
+                            {
+                                foreach (var item2 in task.CongViecs)
+                                {
+                                    <tr class="sub-task">
+                                        <td></td>
+                                        <td><span class="font-12"><i class="fas fa-angle-right m-r-5"></i> @item2.TenCongViec</span></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><span class="font-w-500 font-11">@item2.StrThoiGianLamViec</span></td>
+                                        <td>
+                                            <div id="divCheck-@item2.CongViecId">
+
+                                                @if (item2.XacNhanHoanThanh == true)
+                                                {
+                                                    <img src="~/Assets/images/Icons/check-time.svg" />
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7"> Không có shipable nào trong tuần.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-md-4">Số ship
+        <select id="selectPageSize" style="width:50px"> 
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+    </div>
+   
+    <div class="col-md-8">
+        @if (Model.Count > Model.PageSize)
+        {
+            @Html.PagedListPager(Model.PageList, page => Url.Action("ToDoList",
+            new { page, keyWord = Model.KeyWord, duAnId = Model.DuAnId, nguoiDungId = Model.NguoiDungId, week = Model.Week, pageSize = Model.PageSize }))
+        }
+    </div>
+</div>
+
+
+<script src="~/Assets/js/Modul/ToDoList.js"></script>
+
+

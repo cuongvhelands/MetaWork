@@ -1,0 +1,30 @@
+﻿@using MetaWork.Data.ViewModel
+@model NoiDungViewModel
+@{
+    ViewBag.Title = "PartialViewComment";
+}
+
+<li class="left clearfix" id="Comment-@Model.NoiDungId">
+    <span class="chat-img pull-left">
+        <img src="~/Assets/images/Avatar/@Model.Avatar" alt="User Avatar" class="img-circle" />
+    </span>
+    <div class="chat-body clearfix">
+        <div class="header">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-sm btn-dropdown-custom btn-rounded waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">...</button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a class="EditComment" id="@Model.NoiDungId">Edit</a></li>
+                    <li><a class="deleteComment" id="@Model.NoiDungId">Delete</a></li>
+                </ul>
+            </div>
+            <strong class="primary-font">@Model.HoTen</strong> <small class="pull-right text-muted">
+                <span class="glyphicon glyphicon-time"></span>@Model.NgayTao.ToString("dd/MM/yyyy hh:mm")
+            </small>
+
+        </div>
+        <p id="NDComment-@Model.NoiDungId">
+            @Model.NoiDungChiTiet
+        </p>
+    </div>
+</li>
+

@@ -1,0 +1,117 @@
+﻿@using MetaWork.Data.ViewModel
+@model CongViecViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<input type="hidden" id="duAnIdM" value="@Model.DuAnId" />
+<input type="hidden" id="giaiDoanDuAnIdM" value="@Model.GiaiDoanDuAnId" />
+<input type="hidden" id="tuanM" value="@Model.Tuan" />
+<input type="hidden" id="thuTuUuTienM" value="@Model.ThuTuUuTien" />
+<input type="hidden" id="trangThaiIdM" value="@Model.TrangThaiCongViecId" />
+<input type="hidden" id="congViecIdM" value="@Model.CongViecId" />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group pull-right m-t-15">
+                <a id="btnSubmitShipable" class="btn btn-default dropdown-toggle waves-effect waves-light">Lưu lại <span class="m-l-5"><i class="fa fa-save"></i></span></a>
+            </div>
+
+            <h4 class="page-title">Shipable</h4>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Shipable</a>
+                </li>
+                <li class="active">
+                    Thêm mới
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="m-t-0 header-title"><b>Thông tin gói chuyển giao</b></h4>
+                <p class="text-muted m-b-30 font-13">
+                    Thông tin về shipable
+                </p>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Chọn dự án</label>
+                            <input id="cboDuAn" style="width:100%" />
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Chọn phase</label>
+                            <input id="cboGiaiDoanDuAn" style="width:100%" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label class="control-label">Tên shipable</label>
+                            <input style="width:100%" id="txtTenShipable" class="form-control" value="@Model.TenCongViec" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Mã</label>
+                            <input style="width:100%" id="txtMaShipable" class="form-control" value="@Model.MaCongViec" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Mô tả</label>
+                    <textarea class="form-control" rows="5" id="txtGhiChu">@Model.MoTa</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Độ ưu tiên</label>
+                            <input id="cboDoUuTien" style="width:100%" />
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Deadline</label>
+                            @{
+                                var date = Model.NgayDuKienHoanThanh;
+                                if (date != null)
+                                {
+                                    <input class="form-control" id="txtDeadLine" value=" @String.Format("{0:dd/MM/yyyy}", date.Value)" />
+                                }
+                                else
+                                {
+                                    <input class="form-control" id="txtDeadLine" />
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Thực hiện cho</label>
+                    <input id="cboWeek" style="width:100%" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Trạng thái</label>
+                    <input id="cboTrangThai" style="width:100%" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Assets/js/Modul/EditShipable.js"></script>

@@ -1,0 +1,356 @@
+﻿@using MetaWork.Data.ViewModel
+@model DuAnIndexViewModel
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<link href="~/Assets/plugins/bootstrap-table/css/bootstrap-table.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-table/js/bootstrap-table.min.js"></script>
+<link href="~/Assets/css/w3.css" rel="stylesheet" />
+<script src="~/Assets/pages/jquery.bs-table.js"></script>
+<div class="container">
+    <div id="DBDAModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:90%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Đồng bộ dự án</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="control-label">Link coda danh sách dự án: </label>
+                                <input id="txtDABA" class="form-control" value="@ViewBag.DocIdDefault" />
+                            </div>
+
+
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;&nbsp;&nbsp; </label><br />
+
+                                <a class="btn btn-success" id="btnCodaDBDA">Đồng bộ</a>
+                                <button type="button" class="btn btn-primary waves-effect waves-light btnSubmit">Lưu</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row" id="tableDBAD">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light btnSubmit">Lưu</button>
+
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <h4 class="page-title">Danh sách dự án</h4>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Group theo</label>
+                <select id="SelectGroup" class="form-control">
+                    <option value="1">Group theo Project</option>
+                    @if (Model.TypeGroup == 2)
+                    {
+                        <option value="2" selected>Group người quản lý</option>
+                    }
+                    else
+                    {
+                        <option value="2">Group người quản lý</option>
+                    }
+
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Loại dự án</label>
+                <select id="SelectLoaiDuAn" class="form-control">
+                    <option value="0">
+                        Chọn loại dự án
+                    </option>
+                    @if (Model.LoaiDuAns != null && Model.LoaiDuAns.Count > 0)
+                    {
+                        foreach (var item in Model.LoaiDuAns)
+                        {
+                            if (item.LoaiDuAnId == Model.Type)
+                            {
+                                <option value="@item.LoaiDuAnId" selected>
+                                    @item.TenLoaiDuAn
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@item.LoaiDuAnId">
+                                    @item.TenLoaiDuAn
+                                </option>
+                            }
+
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Trạng thái dự án</label>
+                <select id="SelectTrangThai" data-placeholder="Chọn trạng thái dự án..."></select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Người dùng</label>
+                <select id="SelectNguoiDung" data-placeholder="Chọn người dùng..."></select>
+            </div>
+        </div>
+        <div class="col-sm-4 text-right">
+            <div class="form-group">
+                <label class="control-label">&nbsp;&nbsp;&nbsp;</label><br />
+                <div class="btn-group pull-right">
+                    <a id="btnDongBo" class="btn btn-inverse dropdown-toggle waves-effect waves-light"><span class="m-r-5"><i class="fa fa-plus-square"></i></span>Đồng bộ dữ liệu </a>
+                </div>
+                <button id="btnFilter" class="btn btn-default dropdown-toggle waves-effect waves-light"><span class="m-r-5"><i class="fal fa-filter"></i></span>Lọc</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+            <table class="table table-project">
+                <thead>
+                    <tr>
+                        @if (Model.TypeGroup != 1)
+                        {
+                            <th width="200px">TeamLead</th>
+                        }
+                        <th>Parent</th>
+                        <th>Project Name</th>
+                        <th>Channel Slack</th>
+                        <th>Type</th>
+                        @if (Model.TypeGroup == 1)
+                        {
+                            <th width="200px">TeamLead</th>
+                        }
+
+                        <th width="100px">Status</th>
+                        <th width="160px">Cost</th>
+                        <th width="160px">Budget</th>
+                        <th width="100px">Risk</th>
+                        <th>Document</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody class="list-project">
+                    @if (Model.TypeGroup == 1)
+                    {
+                        if (Model != null && Model.DuAns != null && Model.DuAns.Count > 0)
+                        {
+                            foreach (var duAnC in Model.DuAns)
+                            {
+                                var index = 0;
+                                foreach (var duAn in duAnC.DuAns)
+                                {
+                                    var clBk = "";
+                                    if (!string.IsNullOrEmpty(duAn.TenLoaiDuAn) && duAn.TenLoaiDuAn.ToUpper() != "PROJECT")
+                                    {
+                                        clBk = "bgcProcess";
+                                    }
+                    <tr>
+                        @if (index == 0)
+                        {
+                            <td rowspan="@duAnC.DuAns.Count">
+                                <a href="/Project/Edit?duAnId=@duAn.KhoaChaId">@duAnC.TenDuAn</a>
+                            </td>
+                        }
+                        <td><a href="/Project/Edit?duAnId=@duAn.KhoaChaId">@duAn.TenDuAn</a></td>
+                        <td>@duAn.TenVietTat</td>
+                        <td class="@clBk">@duAn.TenLoaiDuAn</td>
+                        <td>
+                            <img src="~/Assets/images/Avatar/@duAn.AvatarNguoiQuanLy" alt="user-img" class="img-circle m-r-5" title="@duAn.HoTenNguoiQuanLy" height="25" width="25"> @duAn.HoTenNguoiQuanLy
+                        </td>
+                        <td class="ship-able-status ship-able-status text-center">
+                            <div class="label label-table font-13 p-r-20 label-@duAn.MaMauTrangThaiDuAn" width="100%">@duAn.TenTrangThaiDuAn</div>
+
+                        </td>
+                        <td class="text-right">
+                            @if (duAn.Cost > 0)
+                            {
+                                <p> @duAn.Cost.Value.ToString("C0").Substring(1)</p>
+                            }
+                            else
+                            { <p> 0 </p>}
+
+                        </td>
+                        <td class="text-right">
+                            @if (duAn.TongNganSach > 0)
+                            {
+                                <p> @duAn.TongNganSach.Value.ToString("C0").Substring(1)</p>
+                            }
+                            else
+                            { <p> 0 </p>}
+                        </td>
+                        <td class="ship-able-status ship-able-status text-center">
+
+                            @if (!string.IsNullOrEmpty(duAn.TenHoatDong))
+                            {
+                                if (duAn.TenHoatDong.ToUpper() == "OK")
+                                {
+                                    <div class="label label-table font-13 p-r-20 label-primary" width="100%"> @duAn.TenHoatDong</div>
+
+                                }
+                                else if (duAn.TenHoatDong.ToUpper() == "CHÚ Ý")
+                                {
+                                    <div class="label label-table font-13 p-r-20 label-warning" width="100%"> @duAn.TenHoatDong</div>
+                                }
+                                else if (duAn.TenHoatDong.ToUpper() == "DELAY")
+                                {
+                                    <div class="label label-table font-13 p-r-20 label-danger" width="100%"> @duAn.TenHoatDong</div>
+                                }
+                            }
+
+                        </td>
+                        <td>@Html.Raw(duAn.MoTa)</td>
+                        <td>@duAn.GhiChu</td>
+                    </tr>
+                                    index++;
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            <tr> <td colspan="10"><h4 class="text-center"> Không có dữ liệu dự án.</h4></td></tr>
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (Model != null && Model.NguoiDungs != null && Model.NguoiDungs.Count > 0)
+                        {
+                            foreach (var nd in Model.NguoiDungs)
+                            {
+                                var index = 0;
+                                foreach (var duAn in nd.DuAns)
+                                {
+                                    var clBk = "";
+                                    if (duAn.TenLoaiDuAn != null)
+                                    {
+                                        if (duAn.TenLoaiDuAn.ToUpper() != "PROJECT")
+                                        {
+                                            clBk = "bgcProcess";
+                                        }
+                                    }
+
+                <tr>
+                    @if (index == 0)
+                    {
+                        <td rowspan="@nd.DuAns.Count">
+                            <img src="~/Assets/images/Avatar/@duAn.AvatarNguoiQuanLy" alt="user-img" class="img-circle m-r-5" title="@duAn.HoTenNguoiQuanLy" height="25" width="25"> @duAn.HoTenNguoiQuanLy
+                        </td>
+                    }
+                    <td>
+                        <a href="/Project/Edit?duAnId=@duAn.KhoaChaId">@duAn.TenKhoaCha</a>
+                    </td>
+
+
+                    <td>
+                        <a href="/Project/Edit?duAnId=@duAn.KhoaChaId">@duAn.TenDuAn</a>
+
+                    </td>
+                    <td>
+                       @duAn.TenVietTat
+                    </td>
+                    <td class="@clBk">@duAn.TenLoaiDuAn</td>
+
+                    <td class="ship-able-status ship-able-status text-center">
+                        <div class="label label-table font-13 label-@duAn.MaMauTrangThaiDuAn" width="100%">@duAn.TenTrangThaiDuAn</div>
+                    </td>
+                    <td width="160px" class="text-right">
+                        @if (duAn.Cost > 0)
+                        {
+                            <p> @duAn.Cost.Value.ToString("C0").Substring(1)</p>
+                        }
+                        else
+                        { <p> 0 </p>}
+                    </td>
+                    <td width="160px" class="text-right">
+                        @if (duAn.TongNganSach > 0)
+                        {
+                            <p> @duAn.TongNganSach.Value.ToString("C0").Substring(1)</p>
+                        }
+                        else
+                        { <p> 0 </p>}
+
+
+                    </td>
+                    <td class="ship-able-status ship-able-status text-center">
+
+                        @if (!string.IsNullOrEmpty(duAn.TenHoatDong))
+                        {
+                            if (duAn.TenHoatDong.ToUpper() == "OK")
+                            {
+                                <div class="label label-table font-13 p-r-20 label-primary" width="100%"> @duAn.TenHoatDong</div>
+
+                            }
+                            else if (duAn.TenHoatDong.ToUpper() == "CHÚ Ý")
+                            {
+                                <div class="label label-table font-13 p-r-20 label-warning" width="100%"> @duAn.TenHoatDong</div>
+                            }
+                            else if (duAn.TenHoatDong.ToUpper() == "DELAY")
+                            {
+                                <div class="label label-table font-13 p-r-20 label-danger" width="100%"> @duAn.TenHoatDong</div>
+                            }
+                        }
+
+                    </td>
+                    <td>@Html.Raw(duAn.MoTa)</td>
+                    <td>@duAn.GhiChu</td>
+                </tr>
+                                    index++;
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            <tr> <td colspan="10"><h4 class="text-center"> Không có dữ liệu dự án.</h4></td></tr>
+                        }
+                    }
+
+
+
+
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@Model.StrNguoiDung" id="strNguoiDungIdM" />
+<input type="hidden" value="@Model.StrStatus" id="strStatusM" />
+<script src="~/Assets/js/Modul/ProjectIndex.js"></script>
+

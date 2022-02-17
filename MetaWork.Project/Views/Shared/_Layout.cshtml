@@ -1,0 +1,581 @@
+﻿@using MetaWork.Data;
+@using MetaWork.Data.Provider
+@{
+    NguoiDung userLoged = new NguoiDung();
+    if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+    {
+        string username = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).Name;
+        userLoged = new NguoiDungProvider().GetUserByUsername(username);
+    }
+    else
+    {
+        userLoged = null;
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
+    <meta name="author" content="Coderthemes">
+    <!-- App Favicon icon -->
+    <link rel="shortcut icon" href="~/Assets/images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap&subset=vietnamese" rel="stylesheet">
+    <!-- Font Awesome -->
+    @*<link rel="stylesheet" href="~/Assets/bower_components/font-awesome/css/font-awesome.min.css">*@
+
+
+
+    <!-- App Title -->
+    <title>Tecotec Timer - @ViewBag.Title</title>
+    <link href="~/Assets/fontawesome-pro-5.9.0-web/css/all.css" rel="stylesheet" />
+    <link href="~/Assets/plugins/custombox/css/custombox.css" rel="stylesheet">
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/core.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/components.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/pages.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/menu.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/custom.css" rel="stylesheet" />
+    <link href="~/Assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <!-- Jodit -->
+    <link href="~/Assets/jodit-3.2.34/build/jodit.min.css" rel="stylesheet" />
+    <link href="~/Assets/plugins/notifications/notification.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+    <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="~/Assets/timer/easytimer.min.js"></script>
+    <script src="~/Assets/js/jquery.min.js"></script>
+    <script src="~/Assets/js/bootstrap.min.js"></script>
+    <script src="~/Assets/js/detect.js"></script>
+    <script src="~/Assets/js/fastclick.js"></script>
+    <script src="~/Assets/js/jquery.slimscroll.js"></script>
+    <script src="~/Assets/js/jquery.blockUI.js"></script>
+    <script src="~/Assets/js/waves.js"></script>
+    <script src="~/Assets/js/wow.min.js"></script>
+    <script src="~/Assets/js/jquery.nicescroll.js"></script>
+    <script src="~/Assets/js/jquery.scrollTo.min.js"></script>
+    <script src="~/Assets/plugins/notifyjs/js/notify.js"></script>
+    <script src="~/Assets/plugins/notifications/notify-metro.js"></script>
+    <!-- App core js -->
+    <script src="~/Assets/js/jquery.core.js"></script>
+    <script src="~/Assets/js/jquery.app.js"></script>
+
+    <script src="~/Assets/plugins/custombox/js/custombox.min.js"></script>
+    <script src="~/Assets/plugins/custombox/js/legacy.min.js"></script>
+
+    <script src="~/Assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="~/Assets/js/modernizr.min.js"></script>
+    <script src="~/Assets/jodit-3.2.34/build/jodit.min.js"></script>
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+</head>
+
+
+<body>
+
+
+    <!-- Navigation Bar-->
+    <header id="topnav">
+        <div class="topbar-main">
+            <div class="container">
+                <!-- Logo container-->
+                <div class="logo">
+                    <a href="/Todo/WorkSheetSummary" class="logo">
+                        <img src="~/Assets/images/logo/timer-logo.svg" />
+                        @*<img src="~/Assets/images/logo.svg" />*@
+                    </a>
+                </div>
+                <!-- End Logo container-->
+                <ul class="nav navbar-nav hidden-xs m-l-20">
+                    @*<li><a href="/Todo/WorkSheetSummary" class="waves-effect waves-light font-16">Tổng quan</a></li>*@
+                    @if (userLoged.Quyen == 3)
+                    {
+                        <li class="dropdown">
+                            <a href="/Project/Index" class="dropdown-toggle waves-effect waves-light font-16" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dự án <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Project/Index" class="font-16">Quản lý dự án</a></li>                               
+                            </ul>
+                        </li>
+                    }
+
+                    @*<li class="dropdown">
+                        <a href="/Project/Index" class="dropdown-toggle waves-effect waves-light font-16" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lập kế hoạch <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Todo/Planning" class="font-16">Lập kế hoạch tuần</a></li>
+                            <li><a href="/Todo/WorkSheet" class="font-16">Bảng công việc tuần</a></li>
+                        </ul>
+                    </li>*@
+                    <!--<li><a href="/ToDo/ToDoWork" class="waves-effect waves-light font-16">Quản lý công việc</a></li>                    
+                    <li class="dropdown">
+                        <a class="dropdown-toggle waves-effect waves-light font-16" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Thống kê<span class="caret"></span></a>
+                        <ul class="dropdown-menu">                           
+                            <li><a href="/Report/Point" class="font-16">Đánh giá</a></li>
+                            <li><a href="/Project/ResouceUser" class="font-16">Thống kê người dùng</a></li>
+                        </ul>
+                    </li>-->
+                    @*<li class="dropdown">
+            <a class="dropdown-toggle waves-effect waves-light font-16" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Thống kê <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/Report/ReportProject" class="font-16">Thời gian theo dự án</a></li>
+            </ul>
+        </li>*@
+                </ul>
+
+                <div class="menu-extras">
+                    <ul class="nav navbar-nav navbar-right pull-right">
+                        @*<li class="dropdown top-menu-item-xs" id="timer">
+
+                        </li>*@
+
+                        <li class="dropdown top-menu-item-xs">
+                            <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fal fa-bell"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown navbar-c-items">
+                            <a href="" class="dropdown-toggle waves-effect waves-light profile" data-toggle="dropdown" aria-expanded="true"> <img src="~/Assets/images/Avatar/@userLoged.Avatar" alt="user-img" class="img-circle"></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)"><i class="ti-user text-custom m-r-10"></i> Trang cá nhân</a></li>
+                                <li><a href="/User/ChangePassword"><i class="ti-lock text-custom m-r-10"></i> Đổi mật khẩu</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Time/ToDoList" class="font-16">Công việc tổng hợp</a></li>
+                                <li><a href="/Time/ReportUser"><i class="fas fa-chart-bar m-r-10"></i> Thống kê cá nhân</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/User/Logout"><i class="ti-power-off text-danger m-r-10"></i> Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="menu-item">
+                        <!-- Mobile menu toggle-->
+                        <a class="navbar-toggle">
+                            <div class="lines">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </a>
+                        <!-- End mobile menu toggle-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @*<div class="log-time" id="log_time">
+            <div class="p-15">
+                <input type="text" id="keyword" class="form-control bg-grey input-sm" placeholder="&#xf002; Tìm kiếm.." style="font-family:Roboto, FontAwesome">
+            </div>
+            <div class="loading">
+                <div id="overlay" style="display:none;">
+                    <div class="spinner"></div>
+                    <br />
+                    Loading...
+                </div>
+                <ul class="task-on-dropdown m-t-10 p-l-0" id="listTodoLog">
+               
+                </ul>
+            </div>
+
+        </div>*@
+    </header>
+    <!-- End Navigation Bar-->
+
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="modal center" tabindex="-1" role="dialog" id="loadding">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <img src="~/Assets/images/loadding.svg" width="150" height="150" />
+                                <h3 class="text-mute">Đang tải dữ liệu..</h3>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            @RenderBody()
+            <!-- Page-Title -->
+            <!-- Footer -->
+            <footer class="footer text-right">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            © 2019. Tecotec Technologies
+                        </div>
+                        <div class="col-xs-6">
+                            <ul class="pull-right list-inline m-b-0">
+                                <li>
+                                    <a href="#">About</a>
+                                </li>
+                                <li>
+                                    <a href="#">Help</a>
+                                </li>
+                                <li>
+                                    <a href="#">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- End Footer -->
+
+        </div> <!-- end container -->
+    </div>
+    <script>
+        $("#keyword").keyup(function (e) {
+            if (e.keyCode == 13) {
+                var keyword = $(this).val();
+                renderListTodo(keyword);
+            }
+        });
+        var NguoiDungId = '@userLoged.NguoiDungId';
+
+        $(document).ready(function () {
+            initTimer();      
+        });
+        function getCurrentTodo() {
+            var result;
+            var url = '/Time/getCurrentTodoLogTime?userId=' + NguoiDungId;
+            $.ajax({
+                url: url,
+                context: document.body,
+                type: "GET",
+                dataType: "html",
+                async: false,
+                success: function (data) {
+                    if (data == 'null') {
+                        result = null;
+                    }
+                    else {
+                        var todoObj = JSON.parse(data);
+                        result = todoObj;
+                    }
+                },
+                error: function (xhr, status) {
+                    $.Notification.autoHideNotify('error', 'top right', 'Lỗi', "Có lỗi xảy ra khi tải dữ liệu!");
+                },
+                complete: function (xhr, status) {
+
+                }
+            });
+            return result;
+        }
+
+        function getIdCurrentTodo() {
+            var result;
+            var url = '/Time/getCurrentTodoLogTime?userId=' + NguoiDungId;
+            $.ajax({
+                url: url,
+                context: document.body,
+                type: "GET",
+                dataType: "html",
+                async: false,
+                success: function (data) {
+                    if (data == 'null') {
+                        result = 0;
+                    }
+                    else {
+                        var todoObj = JSON.parse(data);
+                        result = todoObj.CongViecId;
+                    }
+                },
+                error: function (xhr, status) {
+                    $.Notification.autoHideNotify('error', 'top right', 'Lỗi', "Có lỗi xảy ra khi tải dữ liệu!");
+                },
+                complete: function (xhr, status) {
+
+                }
+            });
+            return result;
+        }
+        function renderListTodo(keyword) {
+            $('#overlay').fadeIn();
+            var todoCurrentId = getIdCurrentTodo();
+            $("#listTodoLog").html('');
+            var url = '/Time/GetCongViecToLogTime?nguoiDungId=' + NguoiDungId + '&&keyword=' + keyword;
+            $.ajax({
+                url: url,
+                context: document.body,
+                type: "GET",
+                dataType: "html",
+                async: true,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    //console.log(result);
+                    $.each(result, function (index, value) {
+                        if (value.XacNhanHoanThanh != true && value.CongViecs.length > 0 ) {
+                            var id = value.CongViecId;
+                            var countTime = value.TongThoiGianLog;
+                            var hours = Math.floor(countTime / 3600);
+                            var minutes = Math.floor((countTime % 3600) / 60);
+                            var seconds = Math.floor(countTime % 3600 % 60);
+                            var time = hours + 'h ' + minutes + 'm ' + seconds + 's';
+                            var html = '<li id="task_' + value.CongViecId + '"><div class="task-item"><div class="leftItem"><img class="m-r-5" width="10" height="10" src="/Assets/images/Priority/' + value.MaMauThuTuUuTien + '" /><a href="#" class="font-w-500 font-13 task-name">' + value.TenCongViec + '</a><p class="font-11 m-l-15 m-b-0"><i class="fas fa-folder-open"></i> ' + value.TenDuAn + '</p></div><div class="rightItem text-right"><span class="font-w-500 font-12 m-r-5">' + time + '</span></div></div><div><table class="table table-hover table-todo" id="table_todo_' + value.CongViecId + '"></table></div></li>';
+                            $("#listTodoLog").append(html);
+                            $.each(value.CongViecs, function (index2, value2) {
+                                if (value2.XacNhanHoanThanh != true || value2.CongViecId == todoCurrentId) {
+                                    var countTime2 = value2.TongThoiGianLog;
+                                    var hours2 = Math.floor(countTime2 / 3600);
+                                    var minutes2 = Math.floor((countTime2 % 3600) / 60);
+                                    var seconds2 = Math.floor(countTime2 % 3600 % 60);
+
+                                    if (value2.LoaiTimer == "1" || value2.LoaiTimer == 1) {
+                                        var element = '';
+                                        var element2 = '';
+                                        var icon = '';
+                                        var color = ''
+                                        if (value2.CongViecId == todoCurrentId) {
+                                            color = 'task-run';
+                                            var time2 = '<span id="hours2">' + hours2 + 'h</span><span id="minutes2"> ' + minutes2 + 'm </span><span id="seconds2">' + seconds2 + 's</span>';
+                                            element = '<a href="#" class="font-16 m-r-5" onclick="stopTimer(' + value2.CongViecId + ');"><i class="fas fa-pause-circle text-primary"></i></a>';
+                                            element2 = '<span class="font-w-500 font-11">' + time2 + '</span>';
+                                            icon = '<i class="fas fa-stopwatch m-r-5"></i>';
+
+                                        }
+                                        else {
+                                            var time2 = '<span>' + hours2 + 'h</span><span> ' + minutes2 + 'm </span><span>' + seconds2 + 's</span>';
+                                            element2 = '<span class="font-w-300 font-11">' + time2 + '</span>';
+                                            element = '<a href="#" class="font-16 text-mute m-r-5" onclick="startTimer(' + value2.CongViecId + ');"><i class="far fa-play-circle"></i></a>';
+                                            icon = '<i class="far fa-genderless m-r-5"></i>';
+                                        }
+                                        var html2 = '<tr class="' + color + '"><td width="70%"><a href="#" class="font-w-500 font-11 task-name"> ' + icon + value2.TenCongViec + '</a></td><td width="20%">' + element2 + '</td><td width="10%" class="action-table"><div>' + element + '</div></td></tr>';
+                                        $("#table_todo_" + id).append(html2);
+                                    }
+                                }
+                            })
+                        }
+                    })
+                },
+                error: function (xhr, status) {
+                    $.Notification.autoHideNotify('error', 'top right', 'Lỗi', "Có lỗi xảy ra khi tải dữ liệu!");
+                },
+                complete: function (xhr, status) {
+                    //$('#showresults').slideDown('slow')
+                }
+            });
+            $('#overlay').fadeOut();
+        }
+        var timer = new easytimer.Timer();
+        $(document).on('click', '#log-time-dropdown', function (e) {
+            e.stopPropagation();
+        });
+        $(document).mouseup(function (e) {
+            var container = $("#log_time");
+
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                $("#log_time").removeClass('open');
+                $("#open_log").parent().removeClass('open');
+            }
+        });
+        function openLogTime() {
+            //if ($("#log_time").hasClass('open')) {
+            //    $("#log_time").removeClass('open');
+            //    $("#open_log").parent().removeClass('open');
+            //}
+            //else {
+            //    $("#log_time").addClass('open');
+            //    $("#open_log").parent().addClass('open');
+            //    renderListTodo('');
+            //}
+        }
+        function initTimer() {
+            //var todoCurrent = getCurrentTodo();
+            //var url = '/Time/getCurrentTodoLogTime?userId=' + NguoiDungId;
+            //if (todoCurrent == null) {
+            //    var html = '<a href="#" onclick="openLogTime()" class="waves-effect waves-light" id="open_log"><i class="fal fa-stopwatch"></i></a>';
+            //    $("#timer").html(html);
+            //}
+            //else {
+            //    console.log(todoCurrent);
+            //    var countTime = todoCurrent.TongThoiGianLogChuaKetThuc;
+            //    var hours = Math.floor(countTime / 3600);
+            //    var minutes = Math.floor((countTime % 3600) / 60);
+            //    var seconds = Math.floor(countTime % 3600 % 60);
+            //    var tenCongViec = todoCurrent.TenCongViec;
+            //    if (tenCongViec.length > 25) tenCongViec = tenCongViec.substring(0, 25) +"... ";
+            //    var html = '<div class="timer" onclick="openLogTime()"><span>' + tenCongViec + '<span class="timer-run"><i class="fas fa-circle"></i></span><label class="font-13 font-w-500"><span id="hours"></span><span id="minutes"></span><span id="seconds"></span></label></span></div>';
+            //    $("#timer").html(html);
+            //    timer.start({ precision: 'seconds', startValues: { hours: hours, minutes: minutes, seconds: seconds } });
+            //    timer.addEventListener('secondsUpdated', function (e) {
+            //        $('#hours').html(timer.getTotalTimeValues().hours.toString() + 'h ');
+            //        $('#minutes').html(timer.getTimeValues().minutes.toString() + 'm ');
+            //        $('#seconds').html(timer.getTimeValues().seconds.toString() + 's');
+            //        $('#hours2').html(timer.getTotalTimeValues().hours.toString() + 'h ');
+            //        $('#minutes2').html(timer.getTimeValues().minutes.toString() + 'm ');
+            //        $('#seconds2').html(timer.getTimeValues().seconds.toString() + 's');
+            //    });
+            //}
+        }
+        function startTimer(id) {
+            
+            //$.ajax({
+            //    url: '/Time/StartTimer2',
+            //    context: document.body,
+            //    type: "POST",
+            //    async: false,
+            //    data: {
+            //        toDoId: id,
+            //    },
+            //    dataType: "html",
+            //    success: function (data) {
+            //        var result = JSON.parse(data);
+            //        console.log(result);
+            //        if (result.Status) {
+            //            timer.stop();
+            //            if ($("#tableToDoWork").length > 0) load();
+            //            else {
+            //                initTimer();
+            //                //$.ajax({
+            //                //    url: '/Time/GetTimeLogedOfTask?todoId=' + id,
+            //                //    context: document.body,
+            //                //    type: "GET",
+            //                //    dataType: "html",
+            //                //    async: false,
+            //                //    success: function (countTime) {
+
+            //                //        console.log('timelog: ' + countTime)
+            //                //        var hours = Math.floor(countTime / 3600);
+            //                //        var minutes = Math.floor((countTime % 3600) / 60);
+            //                //        var seconds = Math.floor(countTime % 3600 % 60);
+            //                //        var html = '<div class="timer" onclick="openLogTime()"><span><span class="timer-run"><i class="fas fa-circle"></i></span><label class="font-13 font-w-500"><span id="hours"></span><span id="minutes"></span><span id="seconds"></span></label></span></div>';
+            //                //        $("#timer").html(html);
+
+            //                //        timer.start({ precision: 'seconds', startValues: { hours: hours, minutes: minutes, seconds: seconds } });
+            //                //        timer.addEventListener('secondsUpdated', function (e) {
+            //                //            $('#hours').html(timer.getTotalTimeValues().hours.toString() + 'h ');
+            //                //            $('#minutes').html(timer.getTimeValues().minutes.toString() + 'm ');
+            //                //            $('#seconds').html(timer.getTimeValues().seconds.toString() + 's');
+            //                //            $('#hours2').html(timer.getTotalTimeValues().hours.toString() + 'h ');
+            //                //            $('#minutes2').html(timer.getTimeValues().minutes.toString() + 'm ');
+            //                //            $('#seconds2').html(timer.getTimeValues().seconds.toString() + 's');
+            //                //        });
+            //                //    },
+            //                //    error: function (xhr, status) {
+            //                //        $.Notification.autoHideNotify('error', 'top right', 'Lỗi', "Có lỗi xảy ra khi bắt đầu công việc!");
+            //                //    },
+            //                //    complete: function (xhr, status) {
+            //                //        //$('#showresults').slideDown('slow')
+            //                //    }
+            //                //});
+            //                renderListTodo('');
+            //            }
+                      
+            //        }
+
+            //        else {
+            //            $.Notification.autoHideNotify('error', 'top right', 'Lỗi', result.Message);
+            //        }
+            //    },
+            //    error: function (xhr, status) {
+            //        $.Notification.autoHideNotify('error', 'top right', 'Lỗi', "Có lỗi xảy ra khi tải dữ liệu!");
+            //    },
+            //    complete: function (xhr, status) {
+            //        //$('#showresults').slideDown('slow')
+            //    }
+            //});
+            
+        }
+
+        function getTimeLogOfTodo(id) {
+            var result;
+            $.ajax({
+                url: '/Time/GetTimeLogedOfTask?todoId=' + id,
+                context: document.body,
+                type: "GET",
+                dataType: "html",
+                async: false,
+                success: function (countTime) {
+                    result = countTime;
+                },
+                error: function (xhr, status) {
+                    $.Notification.autoHideNotify('error', 'top right', 'Lỗi', "Có lỗi xảy ra khi lấy tổng thời gian công việc!");
+                },
+                complete: function (xhr, status) {
+                    //$('#showresults').slideDown('slow')
+                }
+            });
+            return result;
+        }
+        function stopTimer(id) {
+            $.ajax({
+                url: '/Time/StopTimer2',
+                context: document.body,
+                type: "POST",
+                async: false,
+                data: {
+                    toDoId: id
+                },
+                dataType: "html",
+                success: function (data) {      
+                    var result = JSON.parse(data);
+                    if (result.Status) {
+                        timer.stop();
+
+                        var html = '<a href="#" onclick="openLogTime()" class="waves-effect waves-light" id="open_log"><i class="fal fa-stopwatch"></i></a>';
+                        $("#timer").html(html);
+                        renderListTodo('');
+                        if ($("#tableToDoWork").length > 0) load();
+                    }
+                    
+                    else {
+                        $.Notification.autoHideNotify('error', 'top right', 'Lỗi', result.Message);
+                    }
+                    
+                },
+                error: function (xhr, status) {
+                    $.Notification.autoHideNotify('error', 'top right', 'Lỗi', "Có lỗi xảy ra khi tải dữ liệu!");
+                },
+                complete: function (xhr, status) {
+                    //$('#showresults').slideDown('slow')
+                }
+            });
+
+        }
+
+        function getToken() {
+            var result;
+            $.ajax({
+                url: 'http://113.190.243.226:8050/api/Token/GetMyToken/' + NguoiDungId,
+                context: document.body,
+                type: "GET",
+                dataType: "html",
+                async: false,
+                success: function (data) {
+                    if (data == "\"\"") {
+                        result = null;
+                    }
+                    else {
+                        result = data;
+                    }
+                },
+                error: function (xhr, status) {
+                    $.Notification.autoHideNotify('error', 'top right', 'Lỗi', "Có lỗi xảy ra khi tải dữ liệu!");
+                },
+                complete: function (xhr, status) {
+                    //$('#showresults').slideDown('slow')
+                }
+            });
+            return result;
+        }
+        
+    </script>
+    <!-- end wrapper -->
+    <!-- jQuery  -->
+
+</body>
+</html>

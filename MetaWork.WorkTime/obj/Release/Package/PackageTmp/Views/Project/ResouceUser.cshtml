@@ -1,0 +1,944 @@
+﻿@using MetaWork.Data.ViewModel
+@model ResourceUserViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Thống kê người dùng";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+<link href="~/Assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<script src="~/Assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+<link href="~/Assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" />
+<div class="div-80 p-t-10">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Phòng ban</label>
+                <select class="form-control selectpicker" id="SelectPhongBan">
+                    <option value="0"> Tất cả phòng ban</option>
+                    @if (Model.PhongBans != null && Model.PhongBans.Count > 0)
+                    {
+                        foreach (var item in Model.PhongBans)
+                        {
+                            if (item.PhongBanId == Model.PhongBanId)
+                            {
+                                <option value="@item.PhongBanId" selected>@item.TenPhongBan</option>
+                            }
+                            else
+                            {
+                                <option value="@item.PhongBanId">@item.TenPhongBan</option>
+                            }
+
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Người dùng</label>
+                <select id="SelectNguoiDung" data-placeholder="Chọn thuộc tính hiển thị..."></select>
+                @*<select class="form-control selectpicker" id="SelectNguoiDung" data-live-search="true">
+                    <option value="@Guid.Empty" data-content="<i class='fas fa-users m-r-5'></i>Tất cả người dùng"></option>
+                    @if (Model.NguoiDungAll != null && Model.NguoiDungAll.Count > 0)
+                    {
+                        foreach (var item in Model.NguoiDungAll)
+                        {
+                            if (item.NguoiDungId == Model.NguoiDungId)
+                            {
+                                <option value="@item.NguoiDungId" selected>@item.HoTen</option>
+                            }
+                            else
+                            {
+                                <option value="@item.NguoiDungId">@item.HoTen</option>
+                            }
+
+                        }
+                    }
+                </select>*@
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Từ</label>
+                <div class='input-group date' id='datetimepicker1'>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    <input type='text' id="txtFromDate" class="form-control" value="@Model.StrStartDate" />
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label">Đến</label>
+                <div class='input-group date' id='datetimepicker2'>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    <input type='text' id="txtToDate" class="form-control" value="@Model.StrEndDate" />
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1 text-right">
+           <br />
+            <button id="btnSearch" class="btn btn-default dropdown-toggle waves-effect waves-light m-t-5"><span class="m-r-5"><i class="fal fa-filter"></i></span>Lọc</button>
+        </div>
+    </div>
+</div>
+<table class="table table-project">
+    <thead>
+        <tr>
+            <th>Họ tên</th>
+            <th></th>
+            <th>Tổng thời gian</th>
+        </tr>
+    </thead>
+    <tbody class="list-project">
+        @if (Model != null && Model.NguoiDungs != null && Model.NguoiDungs.Count > 0)
+        {
+            foreach (var item in Model.NguoiDungs)
+            {
+                <tr>
+                    <td width="15%">
+                        @item.HoTen
+                    </td>
+                    <td>
+                        <div class="progress">
+                            @if (item.DuAns != null && item.DuAns.Count > 0)
+                            {
+                                foreach (var duan in item.DuAns)
+                                {
+                                    if (duan.CongViecs != null && duan.CongViecs.Count > 0)
+                                    {
+                                        foreach (var ship in duan.CongViecs)
+                                        {
+                                            if (ship.PercentTime > 4)
+                                            {
+                                                <div id="@ship.CongViecId" class="progress-bar progress-bar-success @duan.BackGroundColor" title="@ship.MaCongViec-@duan.TenDuAn" role="progressbar" style="width:@(ship.PercentTime)%">
+                                                    @ship.MaCongViec
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="progress-bar progress-bar-success @duan.BackGroundColor" title="@ship.MaCongViec-@duan.TenDuAn" role="progressbar" style="width:@(ship.PercentTime)%">
+                                                </div>
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+
+                        </div>
+                    </td>
+                    <td width="8%">
+                        @if (string.IsNullOrEmpty(item.StrTotalTime))
+                        {
+                            <label> 0h</label>
+                        }
+                        else
+                        {
+                            <label> @item.StrTotalTime</label>
+                        }
+
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr> <td colspan="6"><h4 class="text-center"> Không có dữ liệu dự án.</h4></td></tr>
+        }
+    </tbody>
+</table>
+<div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" style="width:90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="custom-width-modalLabel">Chi tiết Shipable</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 bg-ship-able-week-now p-b-10">
+                        <h4 class="m-b-20"><b>Thông tin Shipable</b></h4>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="label-ship-info"><i class="far fa-project-diagram m-r-5"></i> Dự án: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <p id="DuAnInModal"></p>
+                                </div>
+                            </div>
+                            <input type="hidden" id="DuAnIdToInsert" />
+                            <input type="hidden" id="ShipId" />
+                            <input type="hidden" id="GiaiDoanDuAnIdToInsert" />
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="label-ship-info"><i class="fal fa-analytics m-r-5"></i> Giai đoạn: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <p id="GiaiDoanInModal"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="label-ship-info"><i class="far fa-box-open m-r-5"></i> Ship-able:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <p id="TenShipInModal"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="label-ship-info"><i class="far fa-calendar-alt m-r-5"></i> Deadline: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <p id="NgayDuKienHoanThanhShipInModal"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="label-ship-info"><i class="far fa-info-circle m-r-5"></i> Mô tả: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <p id="MotaShipInModal" placeholder="Mô tả" readonly></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="label-ship-info"><i class="far fa-wifi m-r-5"></i> Trạng thái</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="TrangThaiShipable"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <select id="cboTrangThai2" class="form-control">
+                                    <option value="0">Chọn trạng thái</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                            </div>
+                            <div class="col-sm-8" id="divXuLy">
+                                <input class="m-t-15" id="chkXuLyINW" type="checkbox"> <label for="chkXuLyINW"> Xử lý trong tuần tiếp theo</label>
+                            </div>
+                            <div class="col-sm-8" id="divXuLy2">
+                                <input class="m-t-15" id="chkXuLyINW2" type="checkbox"> <label for="chkXuLyINW2"> Continue tiếp</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                     
+                        <h4><b>Danh sách công việc</b></h4>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <td width="45%" class="font-w-500 text-mute">Tên</td>
+                                            <td width="10%" class="font-w-500 text-mute">Trạng thái</td>
+                                            <td width="25%" class="font-w-500 text-mute">Tên người</td>
+                                            <td width="10%" class="font-w-500 text-mute">Deadline</td>
+                                            <td width="10%" class="font-w-500 text-mute"></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ListCongViecInShip" class="todoListInShip"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-box hidden" id="form-add-todo">
+                            <h4><b>Thêm công việc</b></h4>
+                            <input type="hidden" id="DuAnId" />
+                            <div class="row m-t-20">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Tên công việc</label>
+                                        <input type="text" class="form-control" id="todoName" placeholder="Tên công việc">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Mô tả</label>
+                                        <textarea class="form-control" id="todoDes" placeholder="Mô tả"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Thứ tự ưu tiên</label>
+                                        <select class="form-control" id="ThuTuUuTienToInsert">
+                                            <option value="1" class="text-success">Thấp</option>
+                                            <option value="2">Trung bình</option>
+                                            <option value="3">Cao</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>Loại công việc</label>
+                                        <select class="form-control" id="LoaiCongViecToInsert" multiple></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Deadline</label>
+                                        <input type="text" class="form-control datepicker" id="todoDate" placeholder="Deadline">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Độ phức tạp</label>
+                                        <select class="form-control" id="DoPhucTapToInsert">
+                                            <option value="1" class="text-success">Dễ</option>
+                                            <option value="2">Bình thường</option>
+                                            <option value="3">Khó</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Giờ ước lượng</label>
+                                        <input type="number" min="0" max="100" class="form-control" id="todoTime" placeholder="Giờ">
+                                    </div>
+                                </div>
+
+                                @*<div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label id="lblDiemPoint">Điểm point</label>
+                                                            <input type="number" min="1" max="6" class="form-control" id="todoPoint" placeholder="Point">
+                                    </div>
+                                                        </div>*@
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Trạng thái</label>
+                                        <select class="form-control" id="TrangThaiCongViecToInsert">
+                                            <option value="9" class="text-success">Doing</option>
+                                            <option value="10">Block</option>
+                                            <option value="11">Done</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>Người nhận</label>
+                                        <select class="js-example-basic-single" id="userList" name="state"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Người hỗ trợ</label>
+                                        <select class="js-example-basic-single" id="userSupportList"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-white waves-effect waves-light" onclick="closeAddTodo()">Đóng</a>
+                                        <a href="#" class="btn btn-default waves-effect waves-light" onclick="InsertTodo()">Lưu lại</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-box hidden" id="form-update-todo">
+                            <h4><b>Cập nhật công việc</b></h4>
+                            <input type="hidden" id="DuAnIdToUpdate2" />
+                            <input type="hidden" id="TuanToUpdate2" />
+                            <input type="hidden" id="GiaiDoanDuAnUpdateTodo2" />
+                            <input type="hidden" id="ShipIdUpdateTodo2" />
+                            <input type="hidden" id="CongViecIdToUpdate2" />
+                            <div class="row m-t-20">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Tên công việc</label>
+                                        <input type="text" class="form-control" id="TenCongViecToUpdate2" placeholder="Tên công việc">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Mô tả</label>
+                                        <textarea class="form-control" id="MaTaToUpdate2" placeholder="Mô tả"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Thứ tự ưu tiên</label>
+                                        <select class="form-control" id="ThuTuUuTienToUpdate2">
+                                            <option value="1" class="text-success">Thấp</option>
+                                            <option value="2">Trung bình</option>
+                                            <option value="3">Cao</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>Loại công việc</label>
+                                        <select class="form-control" id="LoaiCongViecToUpdate2" multiple></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Deadline</label>
+                                        <input type="text" class="form-control datepicker" id="NgayDuKienHoanThanhToUpdate2" placeholder="Deadline">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Ước lượng</label>
+                                        <input type="number" min="0" max="100" class="form-control" id="ThoiGianUocLuongToUpdate2" placeholder="Số giờ">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Độ phức tạp</label>
+                                        <select class="form-control" id="DoPhucTapToUpdate2">
+                                            <option value="1" class="text-success">Dễ</option>
+                                            <option value="2">Bình thường</option>
+                                            <option value="3">Khó</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @*<div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <label id="lblDiemPoint2">Điểm point</label>
+                                                                            <input type="number" min="1" max="6" class="form-control" id="DiemPointToUpdate2" placeholder="Point">
+                                    </div>
+                                                                        </div>*@
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Trạng thái</label>
+                                        <select class="form-control" id="TrangThaiCongViecToUpdate2">
+                                            <option value="9">Doing</option>
+                                            <option value="10">Block</option>
+                                            <option value="11">Done</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>Người nhận</label>
+                                        <select class="js-example-basic-single" id="NguoiXuLyToUpdate2" name="state"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Người hỗ trợ</label>
+                                        <select class="js-example-basic-single" id="NguoiHoTroToUpdate2" name="state"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-white waves-effect waves-light" onclick="closeUpdateTodo()">Đóng</a>
+                                        <a href="#" class="btn btn-default waves-effect waves-light" onclick="updateTodo2()">Lưu lại</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-right">
+                @*<a class="btn-link-grey waves-effect font-w-500 m-r-10" data-dismiss="modal"><i class="far fa-times m-r-10"></i> Đóng</a>*@
+                <button type="button" class="btn btn-link" data-dismiss="modal"><i class="fal fa-retweet m-r-5"></i> Đóng</button>
+
+                @*<button type="button" class="btn btn-default waves-effect waves-light">OK</button>*@
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<input type="hidden" value="@ViewBag.QuyenM" id="quyenM" />
+<input type="hidden" value="@ViewBag.NguoiDungId" id="nguoiDungIdM" />
+<script>
+    $(document).ready(function () {
+        if ($("#SelectNguoiDung").length > 0) {
+            var phongBanId = $("#SelectPhongBan").val();
+            var dataNguoiDung = getDataNguoiDung(phongBanId);
+            $("#SelectNguoiDung").kendoMultiSelect({
+                dataTextField: "HoTen",
+                dataValueField: "NguoiDungId",
+                dataSource: dataNguoiDung
+            })
+            var str = '@Model.StrNguoiDungId';
+            if (str != "") {
+                var nguoiDungIds = str.split(",");
+                $("#SelectNguoiDung").data("kendoMultiSelect").value(nguoiDungIds);
+            }
+        }
+
+    })
+    function getDataNguoiDung(id) {
+        var result;
+        $.ajax({
+            url: "/Project/GetNguoiDungByPhongBanId?phongBanId="+id,
+            context: document.body,
+            type: "GET",
+            dataType: "html",
+            async: false,
+            success: function (data) {
+                result = JSON.parse(data);
+            },
+            error: function (xhr, status) {
+
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+        return result;
+    }
+    $('#datetimepicker1').datepicker({
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+        todayHighlight: true
+    })
+    $('#datetimepicker2').datepicker({
+        autoclose: true,
+        format: 'dd/mm/yyyy',
+        todayHighlight: true
+    })
+    $("#btnSearch").click(function () {
+        load();
+    })
+    $("#SelectPhongBan").change(function () {
+        $("#SelectNguoiDung").data("kendoMultiSelect").value([])
+        load();
+    })   
+    function load() {
+        var phongBanId = $("#SelectPhongBan").val();
+        var nguoiDungIds = $("#SelectNguoiDung").data("kendoMultiSelect").value();
+        var tu = $("#txtFromDate").val();
+        var den = $("#txtToDate").val();
+        var str = "/project/ResouceUser";
+        var check = true;
+        if (phongBanId > 0) {
+            if (check) {
+                check = false;
+                str += "?";
+            } else str += "&&";
+            str += "phongBanId=" + phongBanId;
+        }
+        if (nguoiDungIds.length>0) {
+            if (check) {
+                check = false;
+                str += "?";
+            } else str += "&&";
+            str += "strNguoiDungId=" + nguoiDungIds;
+        }
+        if (tu != "") {
+            if (check) {
+                check = false;
+                str += "?";
+            } else str += "&&";
+            str += "strStartTime=" + tu;
+        }
+        if (den != "") {
+            if (check) {
+                check = false;
+                str += "?";
+            } else str += "&&";
+            str += "strEndTime=" + den;
+        }
+        location.href = str;
+    }
+    $(".progress-bar-success").click(function () {
+        var id = this.id;
+        title_task(id);
+    })
+       var tuanHT = '@Model.Tuan'; var maxpoint = 1;
+    var TuanTiepTheo = '@Model.TuanTiepTheo';
+    var quyenM = $("#quyenM").val();
+    var nguoiDungIdM = $("#nguoiDungIdM").val();
+    function title_task(id) {
+        $('#loadding').modal({ backdrop: 'static', keyboard: false });
+        $("#TrangThaiShipable").prop("disabled", false);
+        $("#cboTrangThai2").prop("disabled", false);
+        var flagUpdate = $("#form-update-todo").hasClass("hidden");
+        var flagAdd = $("#form-add-todo").hasClass("hidden");
+        if (!flagUpdate) {
+            $("#form-update-todo").addClass("hidden");
+        }
+        if (!flagAdd) {
+            $("#form-add-todo").addClass("hidden");
+        }
+        console.log(flagUpdate + " " + flagAdd);
+        $.ajax({
+            url: "/Todo/GetCongViecById?CongViecId=" + id,
+            context: document.body,
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                insertDebit = true;
+                edit = true;
+                shipableId = id;
+                var result = JSON.parse(data);
+                console.log(result);
+                $("#DuAnIdToInsert").val(result.DuAnId);
+                $("#ShipId").val(result.CongViecId);
+                $("#GiaiDoanInModal").text(result.TenGiaiDoan);
+                $("#DuAnInModal").text(result.TenDuAn);
+                $("#TenShipInModal").text(result.TenCongViec);
+                $("#MotaShipInModal").html(result.MoTa);
+                $("#NgayDuKienHoanThanhShipInModal").text(result.StrNgayDuKienHoanThanhFull);
+                if (quyenM != "3" && result.NguoiXuLyId != nguoiDungIdM) {
+
+                    $("#cboTrangThai2").prop("disabled", true);
+                    $("#TrangThaiShipable").prop("disabled", true);
+                } else {
+                    $("#cboTrangThai2").prop("disabled", false);
+                    $("#TrangThaiShipable").prop("disabled", false);
+                }
+
+                if (result.TrangThaiCongViecId == 3) {
+                    $("#TrangThaiShipable").prop("disabled", true);
+                    setSelectTrangThaiCongViec(result.TrangThaiCongViecId);
+                    $("#TrangThaiShipable").val(3);
+                    $("#cboTrangThai2").show();
+                    setSelectTrangThaiCongViec2(result.TrangThaiCongViecId, result.CongViecId);
+                    $("#cboTrangThai2").val(0);
+
+                } else {
+                    if (result.TrangThaiCongViec.KhoaChaId == 3) {
+                        $("#TrangThaiShipable").prop("disabled", true);
+                        setSelectTrangThaiCongViec(3);
+                        setSelectTrangThaiCongViec2(3, result.CongViecId);
+                        if (result.TrangThaiCongViecId == 12) {
+                            $("#cboTrangThai2").prop("disabled", false);
+                        } else {
+                            edit = false;
+                            $("#cboTrangThai2").prop("disabled", true);
+                        }
+                        $("#TrangThaiShipable").val(3);
+                        $("#cboTrangThai2").val(result.TrangThaiCongViecId);
+                        $("#cboTrangThai2").show();
+
+
+
+                    } else {
+                        $("#TrangThaiShipable").prop("disabled", false);
+                        if (result.TrangThaiCongViecId == 1) {
+                            if (!(result.CongViecs.length > 0)) {
+                                setSelectTrangThaiCongViec(0);
+                            } else {
+                                setSelectTrangThaiCongViec(result.TrangThaiCongViecId);
+                                $("#TrangThaiShipable").val(result.TrangThaiCongViecId);
+                            }
+
+                        } else {
+                            setSelectTrangThaiCongViec(result.TrangThaiCongViecId);
+                            $("#TrangThaiShipable").val(result.TrangThaiCongViecId);
+                        }
+
+                        $("#cboTrangThai2").hide();
+                        $("#cboTrangThai2").val(0);
+                    }
+                }
+
+                $("#ListCongViecInShip").html('');
+                $("#DuAnId").val(result.DuAnId);
+                $.each(result.CongViecs, function (index, value) {
+                    var html = '<tr><td class="font-13 font-w-500">' + value.TenCongViec + '</td><td><label class="label label-' + value.MaMau + '">' + value.TenTrangThai + '</label></td><td><img class="img-circle m-r-5" height="20" width="20" src="/Assets/images/Avatar/' + value.AvatarNguoiXuLy + '" /><span class="font-13 font-w-500">' + value.HoTenNguoiXuLy + '</span></td><td>' + value.StrNgayDuKienHoanThanh + '</td></tr>';
+                    $("#ListCongViecInShip").append(html);
+                });
+                getNguoiDung(result.DuAnId);
+                duAnIdAll = result.DuAnId;
+                getLoaiCongViecToInsert(result.DuAnId);
+                changeUserList();
+
+
+                if (result.TrangThaiCongViecId == 6) {
+                    if (quyenM == "3") {
+                        $("#divXuLy").show();
+
+                        if (result.XuLyVaoTuanTiepTheo) {
+                            $("#chkXuLyINW")[0].checked = true;
+                            $("#chkXuLyINW").prop("disabled", false);
+                            insertDebit = false;
+                        } else {
+                            $("#chkXuLyINW")[0].checked = false;
+                        }
+                    }
+
+                } else {
+                    $("#divXuLy").hide();
+                }
+                if (result.TrangThaiCongViecId == 12) {
+                    if (quyenM == "3") {
+                        $("#divXuLy2").show();
+                        $("#chkXuLyINW2")[0].checked = false;
+                    }
+
+                } else {
+                    $("#divXuLy2").hide();
+                }
+                setTimeout(function () {
+                    $('#loadding').modal('hide');
+                    $('#custom-width-modal').modal('show');
+                }, 1000)
+            },
+            error: function (xhr, status) {
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+    }
+
+    function getLoaiCongViecToInsert(id) {
+        $('#LoaiCongViecToUpdate').html('');
+        $.ajax({
+            url: "/Todo/GetLoaiCongViec?DuAnId=" + id,
+            type: "GET",
+            async: false,
+            success: function (data) {
+                var result = JSON.parse(data);
+                var data = $.map(result, function (obj) {
+                    obj.id = obj.id || obj.LoaiCongViecId; // replace pk with your identifier
+                    obj.text = obj.text || obj.TenLoaiCongViec
+                    return obj;
+                });
+                $('#LoaiCongViecToInsert').select2({
+                    data: data,
+                    tags: true,
+                    tokenSeparators: [',', ' ']
+                });
+            },
+            error: function (xhr, status) {
+                alert('Error load data!')
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+    }
+    function getNguoiDung(id) {
+        $('#userList').html('');
+        $.ajax({
+            url: "/Todo/GetNguoiDung?DuAnId=" + id,
+            type: "GET",
+            async: false,
+            success: function (data) {
+                var result = JSON.parse(data);
+                var data = $.map(result, function (obj) {
+                    obj.id = obj.id || obj.NguoiDungId; // replace pk with your identifier
+                    obj.text = obj.text || obj.HoTen
+                    return obj;
+                });
+                $('#userList').select2({
+                    data: data
+                });
+                //$('#userSupportList').select2({
+                //    data: data
+                //});
+            },
+            error: function (xhr, status) {
+                alert('Error load data!')
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+    }
+    function setSelectTrangThaiCongViec(trangThaiShipable) {
+        var trangThaiCongViecData = getDataTrangThaiCongViecByKhoaCha(trangThaiShipable);
+        if (trangThaiCongViecData.length > 0) {
+            var str = '';
+            $.each(trangThaiCongViecData, function (index, value) {
+                str += '<option value="' + value.TrangThaiCongViecId + '">' + value.TenTrangThai + '</option>';
+            })
+            $("#TrangThaiShipable").html(str);
+        }
+    }
+    function setSelectTrangThaiCongViec2(trangThaiShipable, shipalbeId) {
+        var trangThaiCongViecData = getDataTrangThaiCongViecByKhoaCha2(trangThaiShipable, shipalbeId);
+        if (trangThaiCongViecData.length > 0) {
+            var str = '';
+            $.each(trangThaiCongViecData, function (index, value) {
+                str += '<option value="' + value.TrangThaiCongViecId + '">' + value.TenTrangThai + '</option>';
+            })
+            $("#cboTrangThai2").html(str);
+        }
+    }
+    function changeUserList() {
+        var NguoiXuLyId = $("#userList").val();
+        $.ajax({
+            url: "/Todo/GetPointNotUsedInWeek?week=" + tuanHT + "&&userId=" + NguoiXuLyId,
+            type: "GET",
+            async: false,
+            success: function (data) {
+                if (data > 0) {
+                    loaiPoint = 1;
+                    $("#lblDiemPoint").text("Điểm point (Bạn còn " + data + " point)");
+                    $("#todoPoint").val("1");
+                    $("#todoPoint").prop("disabled", false);
+                    $("#todoPoint").prop("max", data);
+                    maxpoint = data;
+                } else {
+                    if (data == 0) {
+                        $("#lblDiemPoint").text("Điểm point (Điểm point của bạn đã hết)");
+                        $("#todoPoint").val("1");
+                        $("#todoPoint").prop("disabled", false);
+                        $("#todoPoint").prop("max", 1);
+                    } else {
+                        $("#lblDiemPoint").text("Điểm point (Bạn đã nợ " + data + " point)");
+                        $("#todoPoint").val("1");
+                        $("#todoPoint").prop("disabled", false);
+                        $("#todoPoint").prop("max", 1);
+                    }
+                    loaiPoint = 2;
+                    maxpoint = 1;
+                }
+
+            },
+            error: function (xhr, status) {
+                alert('Error load data!')
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+
+        setUserSupportList(duAnIdAll, NguoiXuLyId);
+    }
+    function changeUserList2(point) {
+        var NguoiXuLyId = $("#NguoiXuLyToUpdate2").val();
+        $.ajax({
+            url: "/Todo/GetPointNotUsedInWeek?week=" + tuanHT + "&&userId=" + NguoiXuLyId,
+            type: "GET",
+            async: false,
+            success: function (data) {
+                data = parseInt(data);
+                $("#DiemPointToUpdate2").val(point);
+                if (data > 0) {
+                    $("#lblDiemPoint2").text("Điểm point (Bạn còn " + data + " point)");
+                    $("#DiemPointToUpdate2").prop("disabled", false);
+                    $("#todDiemPointToUpdate2oPoint2").prop("max", data + point);
+                    maxpoint = data + point;
+                } else {
+                    if (data == 0) {
+                        $("#lblDiemPoint2").text("Điểm point (Điểm point của bạn đã hết)");
+                        $("#DiemPointToUpdate2").prop("disabled", false);
+                        $("#DiemPointToUpdate2").prop("max", point);
+                    } else {
+                        $("#lblDiemPoint2").text("Điểm point (Bạn đã nợ " + data + " point)");
+                        $("#DiemPointToUpdate2").prop("disabled", false);
+                        $("#DiemPointToUpdate2").prop("max", point);
+                    }
+                    maxpoint = point;
+                }
+
+            },
+            error: function (xhr, status) {
+                alert('Error load data!')
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+        setUserSupportList2(duAnIdAll, NguoiXuLyId);
+    }
+    function setUserSupportList(duAnId, nguoiXuLyId) {
+        $.ajax({
+            url: "/Todo/GetNguoiDung2?duAnId=" + duAnId + "&&nguoiXuLyId=" + nguoiXuLyId,
+            type: "GET",
+            async: false,
+            success: function (data) {
+                var result = JSON.parse(data);
+                var data1 = $.map(result, function (obj) {
+                    obj.id = obj.id || obj.NguoiDungId; // replace pk with your identifier
+                    obj.text = obj.text || obj.HoTen
+                    return obj;
+                });
+                $('#userSupportList').select2({
+                    data: data1
+                });
+                $('#userSupportList').trigger('change');
+                //$('#userSupportList').select2({
+                //    data: data
+                //});
+
+            },
+            error: function (xhr, status) {
+                alert('Error load data!')
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+    }
+    function getDataTrangThaiCongViecByKhoaCha(chaId) {
+        var result;
+        $.ajax({
+            url: "/Shipable/GetTrangThaiShipablesByKhoaCha?khoaChaId=" + chaId,
+            context: document.body,
+            type: "GET",
+            dataType: "html",
+            async: false,
+            success: function (data) {
+                result = JSON.parse(data);
+            },
+            error: function (xhr, status) {
+
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+        return result;
+    }
+    function getDataTrangThaiCongViecByKhoaCha2(chaId, shipId) {
+        var result;
+        $.ajax({
+            url: "/Shipable/GetTrangThaiShipablesByKhoaCha2?khoaChaId=" + chaId + "&&shipId=" + shipId,
+            context: document.body,
+            type: "GET",
+            dataType: "html",
+            async: false,
+            success: function (data) {
+                result = JSON.parse(data);
+            },
+            error: function (xhr, status) {
+
+            },
+            complete: function (xhr, status) {
+                //$('#showresults').slideDown('slow')
+            }
+        });
+        return result;
+    }
+</script>
+
+

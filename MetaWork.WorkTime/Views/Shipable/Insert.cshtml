@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Insert";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group pull-right m-t-15">
+                <a href="/Project/AddNew" class="btn btn-default dropdown-toggle waves-effect waves-light">Lưu lại <span class="m-l-5"><i class="fa fa-save"></i></span></a>
+            </div>
+
+            <h4 class="page-title">Thêm mới ship-able</h4>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Shipable</a>
+                </li>
+                <li class="active">
+                    Thêm mới
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="m-t-0 header-title"><b>Thông tin</b></h4>
+                <p class="text-muted font-13">
+                    Thông tin cơ bản
+                </p>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>Chọn dự án</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Chọn Phase</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Chọn người thực hiện</label>
+                    </div>
+                </div>
+                <div class="row  m-b-20">
+                    <div class="col-sm-4">
+                        <select class="form-control">
+                            <option>-- Chọn dự án -- </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select class="form-control">
+                            <option>-- Chọn phase -- </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select class="form-control">
+                            <option>-- Chọn người thực hiện -- </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <label>Tên Ship</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Mã</label>
+                    </div>
+                </div>
+                <div class="row m-b-20">
+                    <div class="col-sm-8">
+                        <input class="form-control" placeholder="Tên ship.." />
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control" placeholder="Mã ship.." />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea class="form-control" rows="5" placeholder="Mô tả.."></textarea>
+                </div>
+            </div>
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select class="form-control">
+                                <option>-- Trạng thái --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

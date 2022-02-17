@@ -1,0 +1,95 @@
+﻿@using MetaWork.Data.ViewModel;
+@model PhongChatViewModel
+   
+<table class="table" id="tableFileTab">
+    <thead>
+        <tr>
+            <th>File</th>
+            <th width="20%">Posted by</th>
+            <th width="15%">Last modified</th>
+            <th width="10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Files!=null&&Model.Files.Count > 0)
+        {
+            foreach (var file in Model.Files)
+            {
+
+
+        <tr id="trFileTabId-@file.FileId">
+            @if (file.FileType == 0)
+            {
+                <td colspan="3">
+                    <a href="#" class="text-decoration-none OpenFolderDoubleClick" id="@file.FileId">
+                        <i class="far fa-folder text-primary me-2"></i>
+                        <span class="text-dark"> <b>@file.FileName</b></span>
+                    </a>
+                </td>
+                <td class="text-right">
+                    <a href="#" title="Open" id="@file.FileId" class="openFolderFileTab m-l-5"><i class="far fa-folder-open"></i></a>
+                    <a href="#" title="Edit" id="@file.FileId" class="editFolderTab m-l-5"><i class="fas fa-edit"></i></a>
+                    <a href="#" title="Move" class="cutFolderTab m-l-5"><i class="fas fa-copy"></i></a>
+                    <a href="#" class="deleteFolderTab m-l-5" title="Delete" id="@file.FileId"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    @if (file.FileType == 1)
+                    {
+                        <a href="@file.FilePath" title="download" download target="_blank" class="text-decoration-none">
+                            <i class="fad fa-file-alt text-primary me-2"></i>
+                            <span class="text-dark"> <b>@file.FileName</b></span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@file.FilePath" target="_blank" class="text-decoration-none">
+                            <i class="fas fa-link text-primary me-2"></i>
+                            <span class="text-dark"> <b>@file.FileName</b></span>
+                        </a>
+                    }
+
+
+                </td>
+                <td>
+                    <a href="#" class="text-decoration-none">
+                        <i class="fas fa-user-circle text-primary me-2"></i>
+                        <span class="text-dark"> @file.HoTen</span>
+                    </a>
+                </td>
+                <td>@file.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")</td>
+                <td class="text-right">
+                    @if (file.FileType == 1)
+                    {
+                        <a href="@file.FilePath" title="download" download target="_blank"><i class="fas fa-download"></i></a>
+
+                    }
+                    else
+                    {
+                        <a href="@file.FilePath" target="_blank"><i class="fas fa-link"></i></a>
+                    }
+                    &nbsp;&nbsp;
+                    @if (file.FileType == 1)
+                    {
+
+                        <a href="#" title="Edit" id="@file.FileId" class="editFileLocalTab m-l-5"><i class="fas fa-edit"></i></a>
+                    }
+                    else
+                    {
+
+                        <a href="#" title="Edit" id="@file.FileId" class="editFileLinkTab m-l-5"><i class="fas fa-edit"></i></a>
+                    }
+                    @*&nbsp;&nbsp;
+                    <a href="#" title="Cut" class="cutFileTab m-l-5"><i class="fas fa-copy"></i></a>*@
+                    &nbsp;&nbsp;
+                    <a href="#" class="deleteFileTab m-l-5" title="Delete" id="@file.FileId"><i class="fas fa-trash-alt"></i></a>
+
+                </td>
+            }
+
+        </tr>
+            }
+        }    </tbody>
+</table>

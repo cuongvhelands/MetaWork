@@ -1,0 +1,390 @@
+﻿
+@{
+    ViewBag.Title = "ListShipable";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div id="addShipModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-60">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Thêm mới ship-able</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn dự án</label>
+                                    <input id="cboDuAn" class="form-control" style="width:100%" />
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn phase</label>
+                                    <input id="cboGiaiDoanDuAn" class="form-control" style="width:100%" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn Người</label>
+                                    <input id="cboNguoiDung" class="form-control" style="width:100%" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label class="control-label">Tên shipable</label>
+                                    <input style="width:100%" id="txtTenShipable" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Mã</label>
+                                    <input style="width:100%" id="txtMaShipable" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Mô tả</label>
+                            <textarea class="form-control" rows="5" id="txtGhiChu"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn tuần</label>
+                                    <input id="cboWeek" class="form-control" style="width:100%" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Độ ưu tiên</label>
+                                    <input id="cboDoUuTien" class="form-control" style="width:100%" />
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Deadline</label>
+                                    <input class="form-control" id="txtDeadLine" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Trạng thái</label>
+                                    <input id="cboTrangThai" class="form-control" style="width:100%" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button>
+                </div>
+            </div>
+            
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="btn-group pull-right m-t-15">
+            <a href="#" onclick="openAddShipModal()" class="btn btn-default waves-effect waves-light">Thêm mới ship <i class="fa fa-plus-square m-l-5"></i> </a>
+        </div>
+        <h4 class="page-title">Danh sách Ship-able</h4>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">Dự án</a>
+            </li>
+            <li class="active">
+                Danh sách
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="form-inline m-b-20">
+                <div class="form-group m-r-10">
+                    <label class="m-r-10">Name</label>
+                    <select class="form-control m-r-15">
+                        <option>-- Chọn tuần --</option>
+                        <option>Tuần tiếp theo</option>
+                        <option>Tuần hiện tại</option>
+                    </select>
+                </div>
+                <div class="form-group m-r-10">
+                    <label class="m-r-10">Theo dự án</label>
+                    <select class="form-control m-r-15">
+                        <option>-- Chọn dự án --</option>
+                    </select>
+                </div>
+                @*<button type="submit" class="btn btn-default waves-effect waves-light btn-md">
+                        Lọc
+                    </button>*@
+            </div>
+            <table class="table table-bordered m-0">
+                <tr>
+                    <th rowspan="4" class="row-span-colunm bg-grey" width="10%">
+                        Week 39
+                        <p><span class="text-danger">7</span> / <span class="text-dark">10</span></p>
+                    </th>
+                    <th width="7%" class="bg-grey">Dự án</th>
+                    <th width="20%" class="bg-grey">Giai đoạn</th>
+                    <th width="3%">#</th>
+                    <th width="5%"></th>
+                    <th>Ship-able</th>
+                    <th>Mô tả</th>
+                    <th width="5%">Priority</th>
+                    <th width="3%">Point</th>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+            </table>
+            <table class="table table-bordered m-t-30">
+                <tr>
+                    <th rowspan="4" class="row-span-colunm bg-grey" width="10%">
+                        Week 38
+                        <p><span class="text-danger">7</span> / <span class="text-dark">10</span></p>
+                    </th>
+                    <th width="7%" class="bg-grey">Dự án</th>
+                    <th width="20%" class="bg-grey">Giai đoạn</th>
+                    <th width="3%">#</th>
+                    <th width="5%"></th>
+                    <th>Ship-able</th>
+                    <th>Mô tả</th>
+                    <th width="5%">Priority</th>
+                    <th width="3%">Point</th>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+            </table>
+            <table class="table table-bordered m-t-30">
+                <tr>
+                    <th rowspan="4" class="row-span-colunm bg-grey" width="10%">
+                        Week 37
+                        <p><span class="text-danger">7</span> / <span class="text-dark">10</span></p>
+                    </th>
+                    <th width="7%" class="bg-grey">Dự án</th>
+                    <th width="20%" class="bg-grey">Giai đoạn</th>
+                    <th width="3%">#</th>
+                    <th width="5%"></th>
+                    <th>Ship-able</th>
+                    <th>Mô tả</th>
+                    <th width="5%">Priority</th>
+                    <th width="3%">Point</th>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+            </table>
+            <table class="table table-bordered m-t-30">
+                <tr>
+                    <th rowspan="4" class="row-span-colunm bg-grey" width="10%">
+                        Week 6
+                        <p><span class="text-danger">7</span> / <span class="text-dark">10</span></p>
+                    </th>
+                    <th width="7%" class="bg-grey">Dự án</th>
+                    <th width="20%" class="bg-grey">Giai đoạn</th>
+                    <th width="3%">#</th>
+                    <th width="5%"></th>
+                    <th>Ship-able</th>
+                    <th>Mô tả</th>
+                    <th width="5%">Priority</th>
+                    <th width="3%">Point</th>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td class="bg-grey"><a href="#" class="btn-link">Dự án 1</a></td>
+                    <td class="bg-grey">Phase 1: POC</td>
+                    <td>1</td>
+                    <td>
+                        <span class="label label-table label-warning">Doing</span>
+                    </td>
+                    <td>HTML & Deploy</td>
+                    <td>Có bản live html</td>
+
+                    <td>
+                        <i class="fa fa-arrow-up text-success"></i> Cao
+                    </td>
+                    <td>24</td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+</div>
+<script>
+    function openAddShipModal() {
+        $("#addShipModal").modal('show');
+    }
+</script>
+

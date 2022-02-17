@@ -1,0 +1,80 @@
+﻿@using MetaWork.Data.ViewModel
+@model ReportProjectDetailsViewModel
+@{
+    ViewBag.Title = "PartialViewReportUser";
+}
+@*<script src="~/Assets/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>*@
+    <h4>Thống kê thời gian sử dụng của @Model.HoTen @Model.KhoangThoiGian</h4>
+<div class="demo-section k-content wide">
+    <div id="chartReportUser" style="width:100%"></div>
+</div>
+<script>
+    var data = {}
+    data.StrStartDate='@Model.StartDate.ToString("dd/MM/yyyy")';
+    data.StrEndDate ='@Model.EndDate.ToString("dd/MM/yyyy")';
+    data.NguoiDungId = '@Model.NguoiDungId';
+
+    function createChart(data) {
+        $("#chartReportUser").kendoChart({
+            title: {
+                text: "Tổng thời gian đã sử dung: "+result.TotalHour
+            },
+            legend: {
+                position: "top"
+            },
+            seriesDefaults: {
+                type: "column"
+            },
+            series: [{
+                name: "Loại Công Việc",
+                data: data.HourSpents
+            }],
+            valueAxis: {
+                labels: {
+                    format: "{0}"
+                },
+                line: {
+                    visible: false
+                }
+            },
+            categoryAxis: {
+                categories: data.LoaiCongViecs,
+                line: {
+                    visible: false
+                }
+            },
+            tooltip: {
+                visible: true,
+                format: "{0}%",
+                template: "Số giờ đã sử dụng: #= value #"
+            }
+        });
+    }
+
+    $(document).ready(function () {
+           $.ajax({
+          url: "/Report/GetDataReportUser",
+               data: data,
+               async: false,
+       context: document.body,
+                type: "POST",
+                dataType: "html",
+        success: function (data) {
+            result = JSON.parse(data);
+            createChart(result);
+        },
+        error: function (xhr, status) {
+
+        },
+        complete: function (xhr, status) {
+            //$('#showresults').slideDown('slow')
+        }
+    });
+    });
+    $(document).bind("kendo:skinChange", createChart);
+</script>

@@ -1,0 +1,155 @@
+﻿@using MetaWork.Data.ViewModel
+@model ReportProjectViewModel
+@{
+    ViewBag.Title = "ReportProject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common.min.css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.911/styles/kendo.default.mobile.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.3.911/js/kendo.all.min.js"></script>
+<input type="hidden" id="duAnIdM" value="@Model.DuAnId" />
+<input type="hidden" id="nguoiDungIdM" value="@Model.NguoiDungId" />
+<input type="hidden" id="startDateM" value="@Model.StartDate.ToString("dd/MM/yyyy")" />
+<input type="hidden" id="endDateM" value="@Model.EndDate.ToString("dd/MM/yyyy")" />
+<div class="container">
+    <div id="ReportProjectModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-85">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="Title_ReportProject">Thống kê dự án theo thời gian</h4>
+                </div>
+                <div class="modal-body" id="bdyReportProject">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    <div id="ReportUserSpentModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-85">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Thống kê dự án theo thời gian</h4>
+                </div>
+                <div class="modal-body" id="bdyReportUser">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    <div id="ReportUserSpentInProjectModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-85">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Thống kê dự án theo thời gian</h4>
+                </div>
+                <div class="modal-body" id="bdyReportUserProject">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Thoát</button>
+                </div>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <div class="form-inline m-b-20">
+
+                <div class="form-group m-r-10">
+                    <label class="control-label">Theo dự án: </label>
+                    <input id="cboDuAn1" style="width:100%" />
+                </div>
+                <div class="form-group m-r-10">
+                    <label class="control-label">Chọn người dùng: </label>
+                    <input id="cboNguoiDung1" style="width:100%" />
+                </div>
+                <div class="form-group m-r-10">
+                    <label class="control-label">Từ: </label>
+                    <div class='input-group date' id='datetimepicker2' style="width:100%">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <input type='text' id="txtFrom" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group m-r-10">
+                    <label class="control-label">Đến: </label>
+                    <div class='input-group date' id='datetimepicker3' style="width:100%">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <input type='text' id="txtTo" class="form-control" />
+                    </div>
+                </div>
+                <div class="pull-right p-t-20">
+                    <button id="btnSearch" type="button" class="btn btn-default waves-effect waves-light">
+                        <span class="btn-label">
+                            <i class="fal fa-filter"></i>
+                        </span>Lọc
+                    </button>
+                    @*<button id="btnExportExcelReport" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-plus-square m-r-5"></i>Xuất excel  </button>*@
+                </div>
+                @*<button type="submit" class="btn btn-default waves-effect waves-light btn-md">
+                        Lọc
+                    </button>*@
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="text-mute"></span>
+                        </th>
+                        @if (Model.NguoiDungs != null && Model.NguoiDungs.Count > 0)
+                        {
+                            foreach (var nguoiDung in Model.NguoiDungs)
+                            {
+                                <th>
+                                    <span class="links popUserTimeReport" id="@nguoiDung.NguoiDungId">@nguoiDung.HoTen</span>
+                                </th>
+                            }
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.DuAns != null && Model.DuAns.Count > 0)
+                    {
+                        foreach (var duAn in Model.DuAns)
+                        {
+                            <tr>
+                                <td>
+                                    <p class="popDuAnTimeReport" id="@duAn.DuAnId"> @duAn.TenDuAn <br /> <a>@duAn.StrTimeSpent</a> </p>
+                                </td>
+                                @if (duAn.ThoiGianSuDungs != null && duAn.ThoiGianSuDungs.Count > 0)
+                                {
+                                    foreach (var thoiGian in duAn.ThoiGianSuDungs)
+                                    {
+                                        <td><p class="popUserProjectTimeReport" id="@duAn.DuAnId-@thoiGian.NguoiDungId">@thoiGian.StrThoiGianSuDung</p></td>
+                                    }
+                                }
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/Assets/js/Modul/ReportProject.js" defer></script>

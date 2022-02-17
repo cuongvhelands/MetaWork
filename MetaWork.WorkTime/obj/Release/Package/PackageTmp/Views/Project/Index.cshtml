@@ -1,0 +1,225 @@
+﻿@using MetaWork.Data.ViewModel
+@model DuAnIndexViewModel
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/plugins/bootstrap-table/css/bootstrap-table.min.css" rel="stylesheet" />
+<script src="~/Assets/plugins/bootstrap-table/js/bootstrap-table.min.js"></script>
+<link href="~/Assets/css/w3.css" rel="stylesheet" />
+<script src="~/Assets/pages/jquery.bs-table.js"></script>
+<div class="container">
+    <div class="row m-b-20">
+        <div class="col-sm-4">
+            <h4 class="page-title">Danh sách dự án</h4>
+        </div>
+        <div class="col-sm-8">
+            <div class="btn-group pull-right">
+                <a href="/Project/AddNew" class="btn btn-inverse dropdown-toggle waves-effect waves-light"><span class="m-r-5"><i class="fa fa-plus-square"></i></span>Thêm mới dự án </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <div class="w3-bar w3-white m-b-10">
+                    @if (Model.Type == 1)
+                    {
+                        <button class="w3-bar-item w3-button tablink w3-blue" id="1">Quan tâm - @Model.CountFavorite</button>
+                    }
+                    else
+                    {
+                        <button class="w3-bar-item w3-button tablink " id="1">Quan tâm - @Model.CountFavorite</button>
+                    }
+                    @if (Model.Type == 2)
+                    {
+                        <button class="w3-bar-item w3-button tablink w3-blue" id="2">Tất cả - @Model.CountAll</button>
+                    }
+                    else
+                    {
+                        <button class="w3-bar-item w3-button tablink" id="2">Tất cả - @Model.CountAll</button>
+                    }
+                    @if (Model.Type == 3)
+                    {
+                        <button class="w3-bar-item w3-button tablink w3-blue" id="3">Lưu trữ - @Model.CountArchive</button>
+                    }
+                    else
+                    {
+                        <button class="w3-bar-item w3-button tablink" id="3">Lưu trữ - @Model.CountArchive</button>
+                    }
+
+
+
+                </div>
+                <table class="table table-project">
+                    <tbody class="list-project">
+                        @if (Model != null && Model.DuAns != null && Model.DuAns.Count > 0)
+                        {
+                            foreach (var item in Model.DuAns)
+                            {
+                                var phan = 0;
+                                if (item.TongNganSach!=null&&  item.TongNganSach != 0) {
+                                    phan = (item.Spent * 100) / item.TongNganSach.Value;
+                                }
+                                <tr>
+                                    <td>
+                                        @if (item.QuanTam == true)
+                                        {
+                                            if (item.TrangThaiDuAnId != 6)
+                                            {
+                                                <span style="color:coral"><i class="far fa-star"></i></span>
+                                            }
+                                            else
+                                            {
+                                                <span><i class="far fa-star"></i></span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (item.LuuTru == true)
+                                            {
+                                                <span><i class="fas fa-archive"></i></span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color:darkgrey"><i class="far fa-star"></i></span>
+                                            }
+                                        }
+
+                                    </td>
+                                    <td id="@item.DuAnId" class="tdDuAn p-t-10">
+                                        <div class="projectHeader">
+                                            <div class="label label-table @item.MaMau" title="Giai đoạn hiện tại">@item.TenGiaiDoanActive</div>
+                                            <div><strong class="font-13">@item.TenDuAn</strong></div>
+                                        </div><br />
+                                        <div>
+                                            <span class="font-11">@item.TenKhachHang</span>
+                                        </div>
+                                    </td>
+                                    <td class="project-status p-t-10">
+                                        <span class="label @item.MaMauTrangThaiDuAn"><i class="fas fa-circle m-r-2"></i> @item.TenTrangThaiDuAn</span>
+                                        <p class="time-stamp m-l-20 font-11">@item.StrNgayBatDau2</p>
+                                    </td>
+                                    <td>
+                                        <div class="projectUserList">
+                                            <ul>
+                                                @if (item.NguoiQuanLys != null && item.NguoiQuanLys.Count > 0)
+                                                {
+                                                    foreach (var item2 in item.NguoiQuanLys)
+                                                    {
+                                                        <li>
+                                                            <img src="~/Assets/images/Avatar/@item2.Avatar" alt="user-img" class="img-circle" height="25" title="@item2.HoTen" width="25">
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                    <td class="p-t-20">
+                                        <div class="progress progress-md">
+                                            <div class="progress-bar progress-bar-info text-dark" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:@phan%;">
+
+                                            </div>
+                                        </div>
+                                        <span class="font-12 font-w-500">@string.Format("{0:n0}", item.Spent)/ @string.Format("{0:n0}", item.TongNganSach) @item.TenLoaiNganSachVietTat </span>
+                                    </td>
+                                    <td class="p-t-15">
+                                        <span class="font-12">@phan%</span>
+                                    </td>
+                                    <td class="p-t-15">
+                                        @*<div class="toShipable" id="@item.DuAnId"><label class="text-danger">@item.TotalShipableDone</label>/<label>@item.TotalShipable</label></div>*@
+                                        <a href="/project/projectChart?duAnId=@item.DuAnId" title="Biểu đồ tăng giảm shipable" class="project-chart-icon"><i class="fas fa-chart-bar"></i></a>
+                                    </td>
+                                    <td width="5%" class="text-center p-t-15">
+                                        <a href="/project/Edit?duAnId=@item.DuAnId" class="on-default edit-row m-r-5 editRowPhase" title="Sửa"><i class="far fa-edit"></i></a>@if (Model.Type != 3)
+                                        {
+                                            <a href="#" id="@item.DuAnId" class="Archive-DuAn m-l-5" title="Lưu trữ"><i class="fal fa-trash-alt"></i></a>
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr> <td colspan="6"><h4 class="text-center"> Không có dữ liệu dự án.</h4></td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on("click", ".delete-DuAn", function () {
+        var id = this.id;
+        if (confirm("Bạn có muốn xóa dự án này không?")) {
+            $.ajax({
+                url: "/Project/DeleteDuAn?duAnId=" + id,
+                context: document.body,
+                type: "DELETE",
+                dataType: "html",
+                success: function (data) {
+                    if (data == "True" || data == "true") {
+                        $.Notification.autoHideNotify('success', 'top right', 'Thông báo', "Xóa dự án thành công!");
+                        setTimeout(
+                            function () {
+                                location.reload();
+                            }, 2000);
+
+                    }
+                },
+                error: function (xhr, status) {
+                },
+                complete: function (xhr, status) {
+                    //$('#showresults').slideDown('slow')
+                }
+            });
+        }
+
+    });
+    $(document).on("click", ".toShipable", function () {
+        var duAnId = this.id;
+        var url = "/Shipable/index?duAnId=" + duAnId;
+        window.location.href = url;
+    })
+    $(document).on("click", ".tablink", function () {
+        var id = this.id;
+        var url = "/project/index?type=" + id;
+        window.location.href = url;
+    })
+    $(document).on("click", ".tdDuAn", function () {
+        var id = this.id;
+        var url = "/project/Edit?duAnId=" + id;
+        window.location.href = url;
+    })
+    $(document).on("click", ".Archive-DuAn", function () {
+        var id = this.id;
+        if (confirm("Bạn có muốn lưu trữ dự án này không?")) {
+            $.ajax({
+                url: "/Project/ArchaveProject?duAnId=" + id,
+                context: document.body,
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    if (data == "True" || data == "true") {
+                        $.Notification.autoHideNotify('success', 'top right', 'Thông báo', "Lưu trữ dự án thành công!");
+                        setTimeout(
+                            function () {
+                                location.reload();
+                            }, 2000);
+                        location.reload();
+                    }
+                },
+                error: function (xhr, status) {
+                },
+                complete: function (xhr, status) {
+                    //$('#showresults').slideDown('slow')
+                }
+            });
+        }
+    })
+</script>
