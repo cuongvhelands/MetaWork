@@ -31,7 +31,7 @@ namespace MetaWork.WorkTime.Controllers
         public string GetWebpage(string url)
         {
             _url = url;
-            // WebBrowser is an ActiveX control that must be run in a
+            // WebBrowser is anadgad ActiveX control that must be run in a
             // single-threaded apartment so create a thread to create the
             // control and generate the thumbnail
             Thread thread = new Thread(new ThreadStart(GetWebPageWorker));
