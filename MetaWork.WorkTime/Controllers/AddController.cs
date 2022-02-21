@@ -24,6 +24,86 @@ namespace MetaWork.WorkTime.Controllers
     {
         // GET: Add
         NguoiDungProvider _nguoiDungP = new NguoiDungProvider();
+        public ActionResult Index1(int? phongBanId, byte? type, string strNguoiDungId, string strStartDate, string strEndDate)
+        {
+
+            ThoiGianLamViecModel model = new ThoiGianLamViecModel();
+            NguoiDungModel nguoiDungM = new NguoiDungModel();
+            var userId = GetUserID();
+            var nguoiDung = nguoiDungM.GetById(userId);
+            if (phongBanId == null && string.IsNullOrEmpty(strNguoiDungId))
+                strNguoiDungId = userId.ToString();
+            QuanLyCongViecViewModel vm = new QuanLyCongViecViewModel() { Type = type ?? 1, PhongBanId = phongBanId ?? 0 };
+            // datetime
+            DateTime startDate;
+            DateTime endDate;
+            if (vm.Type == 1)
+            {
+                var date = Helpers.GetMonDayBy(DateTime.Now);
+                startDate = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+                endDate = startDate.AddDays(7).AddTicks(-1);
+                vm.TextHeader = "Tuần " + Helpers.GetNumerWeek(startDate);
+            }
+            else if (vm.Type == 2)
+            {
+                var date = Helpers.GetMonDayBy(DateTime.Now).AddDays(-7);
+                startDate = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+                vm.TextHeader = "Tuần " + Helpers.GetNumerWeek(startDate);
+                endDate = startDate.AddDays(7).AddTicks(-1);
+            }
+            else if (vm.Type == 11)
+            {
+                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0);
+                endDate = startDate.AddMonths(1).AddTicks(-1);
+                vm.TextHeader = "Tháng " + startDate.Month;
+            }
+            else if (vm.Type == 12)
+            {
+                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0).AddMonths(-1);
+                endDate = startDate.AddMonths(1).AddTicks(-1);
+                vm.TextHeader = "Tháng " + startDate.Month;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(strStartDate) || string.IsNullOrEmpty(strEndDate))
+                {
+                    endDate = DateTime.Now;
+                    startDate = new DateTime(endDate.Year, endDate.Month, endDate.Day, 0, 0, 0);
+                }
+                else
+                {
+                    startDate = DateTime.ParseExact(strStartDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+                    endDate = DateTime.ParseExact(strEndDate, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+                }
+                vm.StrStartDate = startDate.ToString("dd/MM/yyyy");
+                vm.StrEndDate = endDate.ToString("dd/MM/yyyy");
+                vm.TextHeader = "Thời gian ";
+            }
+            // nguoiDung
+            List<Guid> nguoiDungIds = new List<Guid>();
+            if (!string.IsNullOrEmpty(strNguoiDungId))
+            {
+                var col = strNguoiDungId.Split(',');
+                foreach (var item in col)
+                {
+                    nguoiDungIds.Add(Guid.Parse(item));
+                }
+            }
+            // Danh sách ngày 
+            vm.NgayLamCongViecs = model.GetToDosByV2(phongBanId, nguoiDungIds, startDate, endDate);
+            // Khởi tạo
+            PhongBanModel phongBanM = new PhongBanModel();
+            vm.PhongBans = phongBanM.GetAll();
+            DuAnModel duAnM = new DuAnModel();
+            vm.DuAns = duAnM.GetsByNguoiDungId(GetUserID());
+            vm.StrNguoiDungId = strNguoiDungId;
+            vm.NguoiDungAll = nguoiDungM.GetAll();
+            vm.TimeTypes = GetsTimes();
+            vm.UserId = nguoiDung.NguoiDungId;
+            vm.Quyen = nguoiDung.Quyen ?? 1;
+
+            return View(vm);
+        }
         public ActionResult Index(int? phongBanId, byte? type, string strNguoiDungId, string strStartDate, string strEndDate)
         {
 

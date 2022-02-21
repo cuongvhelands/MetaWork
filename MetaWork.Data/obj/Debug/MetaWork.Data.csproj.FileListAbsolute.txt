@@ -739,7 +739,7 @@ C:\Git\MetaWork\MetaWork.Data\bin\Debug\System.Text.Encodings.Web.xml
 C:\Git\MetaWork\MetaWork.Data\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Git\MetaWork\MetaWork.Data\bin\Debug\System.Web.Mvc.xml
 C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.csproj.CoreCompileInputs.cache
+C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.csproj.CopyComplete
 C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.dll
 C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.pdb
-C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.csproj.CopyComplete
 C:\Git\MetaWork\MetaWork.Data\obj\Debug\MetaWork.Data.csproj.AssemblyReference.cache

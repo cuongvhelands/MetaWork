@@ -16,6 +16,7 @@ namespace MetaWork.WorkTime.Controllers
         [Route("GetTimeBy")]
         public List<NguoiDungViewModel> GetsBy(ReportUserViewModel vm)
         {   
+            // test push
             ThoiGianLamViecModel model = new ThoiGianLamViecModel();
             return model.GetTimeOfUserBys(vm.Emails,vm.TimeFrom,vm.TimeTo);
         }

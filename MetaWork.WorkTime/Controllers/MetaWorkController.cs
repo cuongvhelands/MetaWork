@@ -51,7 +51,7 @@ namespace MetaWork.WorkTime.Controllers
                 browser.ScriptErrorsSuppressed = true;
                 browser.Navigate(_url);
 
-                // Wait for control to load page
+                // Wait for control to load page  
                 while (browser.ReadyState != WebBrowserReadyState.Complete)
                     Application.DoEvents();
 

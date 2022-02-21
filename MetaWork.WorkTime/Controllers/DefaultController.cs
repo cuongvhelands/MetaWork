@@ -96,15 +96,14 @@ namespace MetaWork.WorkTime.Controllers
         ////
         //// GET: /CalendarEvent/Delete?calendarId={calendarId}&eventId={eventId}
 
-        //public ActionResult Delete(string calendarId, string eventId)
-        //{
-        //    var authenticator = GetAuthenticator();
-        //    var service = new GoogleCalendarServiceProxy(authenticator);
-        //    service.DeleteEvent(calendarId, eventId);
+        public ActionResult Delete(string calendarId, string eventId)
+        {
+            //var authenticator = GetAuthenticator();
+            //var service = new GoogleCalendarServiceProxy(authenticator);
+            //service.DeleteEvent(calendarId, eventId);
 
-        //    return RedirectToAction("Index", "Home");
-        //}
-
+            return RedirectToAction("Index", "Home");
+        }
         //private GoogleAuthenticator GetAuthenticator()
         //{
         //    var authenticator = (GoogleAuthenticator)Session["authenticator"];
